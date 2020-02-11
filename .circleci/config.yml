@@ -1,0 +1,160 @@
+version: 2.1
+aliases:
+  - &release
+    name: Release
+    command: |
+      if [ "$(git log -1 --pretty=%B)" == "Start release" ]
+      then
+        echo "Start release"
+        git config --global user.email "circleci@entur.no"
+        git config --global user.name "circleci"
+        git checkout master
+        git pull --no-edit
+        git checkout develop
+        mvn gitflow:release-start gitflow:release-finish -Prelease -DpostReleaseGoals=deploy -DargLine=-Prelease -B
+      else
+        echo "Skipping release"
+      fi
+
+  - &import_gpg_key
+    name: Configure GPG private key for signing project artifacts in OSS Sonatype
+    command: |
+      echo $SONATYPE_GPG_KEY_BASE64 | base64 --decode | gpg --batch --no-tty --import --yes
+
+
+  - &maven-settings-file
+      "\"<settings xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd' xmlns='http://maven.apache.org/SETTINGS/1.1.0'
+              xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+            <servers>
+            <server>
+                   <username>$SONATYPE_USERNAME</username>
+                   <password>$SONATYPE_PASSWORD</password>
+                   <id>ossrh</id>
+                 </server>
+              <server>
+                <username>$entur_artifactory_user</username>
+                <password>$entur_artifactory_password</password>
+                <id>central</id>
+              </server>
+              <server>
+                <username>$entur_artifactory_user</username>
+                <password>$entur_artifactory_password</password>
+                <id>snapshots</id>
+              </server>
+            </servers>
+            <profiles>
+        <profile>
+          <repositories>
+            <repository>
+              <snapshots>
+                <enabled>false</enabled>
+              </snapshots>
+              <id>central</id>
+              <name>entur-team-kontobasert-billettering-release</name>
+              <url>https://entur2.jfrog.io/entur2/entur-team-kontobasert-billettering-release</url>
+            </repository>
+            <repository>
+              <snapshots />
+              <id>snapshots</id>
+              <name>entur-team-kontobasert-billettering-snapshot</name>
+              <url>https://entur2.jfrog.io/entur2/entur-team-kontobasert-billettering-snapshot</url>
+            </repository>
+          </repositories>
+          <pluginRepositories>
+            <pluginRepository>
+              <snapshots>
+                <enabled>false</enabled>
+              </snapshots>
+              <id>central</id>
+              <name>entur-team-kontobasert-billettering-release</name>
+              <url>https://entur2.jfrog.io/entur2/entur-team-kontobasert-billettering-release</url>
+            </pluginRepository>
+            <pluginRepository>
+              <snapshots />
+              <id>snapshots</id>
+              <name>entur-team-kontobasert-billettering-snapshot</name>
+              <url>https://entur2.jfrog.io/entur2/entur-team-kontobasert-billettering-snapshot</url>
+            </pluginRepository>
+          </pluginRepositories>
+          <id>artifactory</id>
+        </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>artifactory</activeProfile>
+            </activeProfiles>
+          </settings>\""
+
+
+  - &circleci-container-config
+      docker:
+        - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+          auth:
+            username: _json_key
+            password: $GCLOUD_SERVICE_KEY
+
+  - &java-container-config
+    docker:
+      - image: circleci/openjdk:8-jdk
+
+commands:
+  generate-maven-settings-file:
+    parameters:
+      settings-file:
+        type: string
+    steps:
+      - run:
+          name: Generate Maven Settings File
+          command: |
+            mkdir -p ~/.m2
+            echo -e << parameters.settings-file >> > ~/.m2/settings.xml
+
+jobs:
+  test:
+    <<: *java-container-config
+    environment:
+      MAVEN_OPTS: -Xmx1G -Xms128m
+    steps:
+      - checkout
+      - generate-maven-settings-file:
+          settings-file: *maven-settings-file
+      - run: mvn verify
+  deploy-artifactory:
+    <<: *java-container-config
+    environment:
+      MAVEN_OPTS: -Xmx1G -Xms128m
+    steps:
+      - checkout
+      - generate-maven-settings-file:
+          settings-file: *maven-settings-file
+      - run: mvn deploy -DskipTests
+  release:
+    <<: *java-container-config
+    environment:
+      MAVEN_OPTS: -Xmx1G -Xms128m
+    steps:
+      - checkout
+      - run: *import_gpg_key
+      - generate-maven-settings-file:
+          settings-file: *maven-settings-file
+      - run: *release
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - test:
+          context: org-default-build
+      - deploy-artifactory:
+          context: org-default-build
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
+      - release:
+          context: org-default-build
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
