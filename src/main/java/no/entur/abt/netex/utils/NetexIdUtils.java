@@ -52,9 +52,21 @@ public class NetexIdUtils {
 		try {
 			return id.split(NETEX_ID_SEPARATOR_CHAR)[index];
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Value '" + id + "' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)",
+			throw new IllegalNetexIDException(String.format(
+					"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id),
 					e);
 		}
+	}
+
+	/**
+	 * Create a new NeTEx id of same codespace and type but with new value part
+	 * 
+	 * @param id        original netex id
+	 * @param valuePart value part of id
+	 * @return the newly constructed id
+	 */
+	public static String createFrom(String id, String valuePart) {
+		return createId(getCodespace(id), getType(id), valuePart);
+
 	}
 }
