@@ -145,6 +145,7 @@ jobs:
       - checkout
       - generate-maven-settings-file:
           settings-file: *maven-settings-file
+      - run: mvn verify
       - run: *sonar-scan
 
 workflows:
