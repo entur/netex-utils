@@ -84,17 +84,19 @@ aliases:
             </activeProfiles>
           </settings>\""
 
-
-  - &circleci-container-config
-      docker:
-        - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
-          auth:
-            username: _json_key
-            password: $GCLOUD_SERVICE_KEY
-
   - &java-container-config
     docker:
       - image: circleci/openjdk:8-jdk
+
+  - &sonar-scan
+    name: Sonar
+    command: |
+      mvn sonar:sonar \
+        -Dsonar.projectKey=entur_${CIRCLE_PROJECT_REPONAME} \
+        -Dsonar.organization=${SONAR_ORG} \
+        -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME} \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${ENTUR_SONAR_PASSWORD}
 
 commands:
   generate-maven-settings-file:
@@ -137,6 +139,13 @@ jobs:
       - generate-maven-settings-file:
           settings-file: *maven-settings-file
       - run: *release
+  sonar:
+    <<: *java-container-config
+    steps:
+      - checkout
+      - generate-maven-settings-file:
+          settings-file: *maven-settings-file
+      - run: *sonar-scan
 
 workflows:
   version: 2
@@ -158,3 +167,7 @@ workflows:
           filters:
             branches:
               only: develop
+      - nightly-sonar-analysis:
+          jobs:
+            - sonar:
+                context: org-default-build
