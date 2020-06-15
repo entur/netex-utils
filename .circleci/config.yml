@@ -167,7 +167,7 @@ workflows:
           filters:
             branches:
               only: develop
-      - nightly-sonar-analysis:
-          jobs:
-            - sonar:
-                context: org-default-build
+  nightly-sonar-analysis:
+    jobs:
+      - sonar:
+          context: org-default-build
