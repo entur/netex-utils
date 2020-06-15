@@ -169,6 +169,12 @@ workflows:
             branches:
               only: develop
   nightly-sonar-analysis:
+    triggers:
+      - schedule:
+          cron: "0 2 * * *"
+          filters:
+            branches:
+              only: develop
     jobs:
       - sonar:
           context: org-default-build
