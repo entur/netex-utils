@@ -153,7 +153,7 @@ workflows:
   build_test_deploy:
     jobs:
       - test:
-          context: org-default-build
+          context: global
       - deploy-artifactory:
           context: global
           requires:
