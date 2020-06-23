@@ -101,6 +101,13 @@
         <name>Entur AS</name>
         <url>http://www.entur.org/</url>
     </organization>
+    <licenses>
+        <license>
+            <name>EUPL-1.2 with modifications</name>
+            <url>https://joinup.ec.europa.eu/software/page/eupl</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <developers>
         <developer>
             <name>Arne Seime</name>
@@ -118,6 +125,8 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/entur/netex-utils.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-utils.git</developerConnection>
+        <url>https://github.com/entur/netex-utils/tree/master</url>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
