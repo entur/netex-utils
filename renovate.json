@@ -1,6 +1,3 @@
 {
-  "baseBranch": "develop",
-  "extends": [
-    "config:base"
-  ]
+  "extends": ["github>entur/abt-renovate-config"]
 }
