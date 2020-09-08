@@ -70,7 +70,7 @@
                 <version>1.14.0</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
-                    <commitMessagePrefix>[ci skip] </commitMessagePrefix>
+                    <commitMessagePrefix>[ci skip]</commitMessagePrefix>
                 </configuration>
             </plugin>
             <plugin>
