@@ -10,7 +10,9 @@ aliases:
         git pull --no-edit
         git checkout develop
         mvn gitflow:release-start gitflow:release-finish -Prelease -DpostReleaseGoals=deploy -DargLine=-Prelease -B
-        mvn deploy -Pentur-maven-central-local
+        git checkout master
+        git pull --no-edit
+        mvn deploy -DskipTests -Pentur-maven-central-local
 
   - &import_gpg_key
     name: Configure GPG private key for signing project artifacts in OSS Sonatype
