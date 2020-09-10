@@ -41,6 +41,7 @@ aliases:
                 <username>$entur_artifactory_user</username>
                 <password>$entur_artifactory_password</password>
                 <id>entur-maven-central-local</id>
+                </server>
             </servers>
             <profiles>
         <profile>
