@@ -3,6 +3,10 @@ aliases:
   - &release
     name: Release
     command: |
+      if [ "$(git log -n 1 --pretty="%an")" == "Renovate Bot" ]
+      then
+        echo "Skipping release"
+      else
         echo "Start release"
         git config --global user.email "circleci@entur.no"
         git config --global user.name "circleci"
@@ -13,6 +17,7 @@ aliases:
         git checkout master
         git pull --no-edit
         mvn deploy -DskipTests -Pentur-maven-central-local
+      fi
 
   - &import_gpg_key
     name: Configure GPG private key for signing project artifacts in OSS Sonatype
