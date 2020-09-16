@@ -26,7 +26,7 @@ package no.entur.abt.netex.utils;
 public class NetexIdUtils {
 	private static final String NETEX_ID_SEPARATOR_CHAR = ":";
 
-	private static final String ID_PATTERN = "^([A-Z]{3}):([A-Za-z]*):([0-9A-Za-z_\\\\-]*)$";
+	private static final String ID_PATTERN = "^([A-Z]{3}):([A-Za-z]+):([0-9ÆØÅæøåA-Za-z_\\\\-]+)$";
 
 	public static String createId(String codespace, String datatype, String value) {
 		return String.join(NETEX_ID_SEPARATOR_CHAR, codespace, datatype, value);
