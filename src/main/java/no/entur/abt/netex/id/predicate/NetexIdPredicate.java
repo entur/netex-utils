@@ -1,4 +1,4 @@
-package no.entur.abt.netex.utils;
+package no.entur.abt.netex.id.predicate;
 
 /*-
  * #%L
@@ -9,12 +9,12 @@ package no.entur.abt.netex.utils;
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
  * EUPL (the "Licence");
- *
+ * 
  * You may not use this work except in compliance with the Licence.
  * You may obtain a copy of the Licence at:
- *
+ * 
  * http://ec.europa.eu/idabc/eupl5
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the Licence is distributed on an "AS IS" basis,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,16 +22,16 @@ package no.entur.abt.netex.utils;
  * limitations under the Licence.
  * #L%
  */
+import java.util.function.Predicate;
 
-public class IllegalNetexIDException extends RuntimeException {
+/**
+ * 
+ * Simple interface for filtering / testing of Netex ids for codespace, type and/or value. <br>
+ * <br>
+ * Implementations are not expected to validate input.
+ *
+ */
 
-	private static final long serialVersionUID = 1L;
+public interface NetexIdPredicate extends Predicate<CharSequence> {
 
-	public IllegalNetexIDException(String message) {
-		super(message);
-	}
-
-	public IllegalNetexIDException(String message, Throwable cause) {
-		super(message, cause);
-	}
 }
