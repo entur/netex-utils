@@ -130,6 +130,10 @@ jobs:
       - checkout
       - generate-maven-settings-file:
           settings-file: *maven-settings-file
+      - restore_cache:
+          keys:
+            - dep-cache-{{ checksum "pom.xml" }}
+            - dep-cache-base
       - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline
       - save_cache:
           paths:
