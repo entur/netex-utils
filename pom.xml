@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.11</version>
+    <version>1.12</version>
     <packaging>jar</packaging>
     <name>Netex utils</name>
     <description>Netex utility classes</description>
     <properties>
-        <junit-jupiter.version>5.7.0</junit-jupiter.version>
+        <junit-jupiter.version>5.7.1</junit-jupiter.version>
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
@@ -16,7 +16,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spotless.version>2.6.1</spotless.version>
+        <spotless.version>2.10.2</spotless.version>
     </properties>
     <dependencies>
         <dependency>
@@ -84,7 +84,7 @@
             <plugin>
                 <groupId>com.amashchenko.maven.plugin</groupId>
                 <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.15.0</version>
+                <version>1.16.0</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
                     <commitMessagePrefix>[ci skip]</commitMessagePrefix>
@@ -94,7 +94,7 @@
             <plugin>
                 <groupId>com.github.ekryd.sortpom</groupId>
                 <artifactId>sortpom-maven-plugin</artifactId>
-                <version>2.12.0</version>
+                <version>2.15.0</version>
                 <configuration>
                     <predefinedSortOrder>custom_1</predefinedSortOrder>
                     <nrOfIndentSpace>4</nrOfIndentSpace>
@@ -136,7 +136,7 @@
                     <dependency>
                         <groupId>no.entur</groupId>
                         <artifactId>abt-codestyle</artifactId>
-                        <version>0.8</version>
+                        <version>0.14</version>
                     </dependency>
                 </dependencies>
             </plugin>
