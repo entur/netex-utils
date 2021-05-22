@@ -9,7 +9,7 @@
     <description>Netex utility classes</description>
     <properties>
         <junit-jupiter.version>5.7.2</junit-jupiter.version>
-        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.compiler.source>8</maven.compiler.source>
