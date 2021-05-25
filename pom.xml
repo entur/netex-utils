@@ -3,20 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.13</version>
+    <version>1.14</version>
     <packaging>jar</packaging>
     <name>Netex utils</name>
     <description>Netex utility classes</description>
     <properties>
-        <junit-jupiter.version>5.7.1</junit-jupiter.version>
-        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <junit-jupiter.version>5.7.2</junit-jupiter.version>
+        <maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spotless.version>2.10.3</spotless.version>
+        <spotless.version>2.11.1</spotless.version>
     </properties>
     <dependencies>
         <dependency>
@@ -294,7 +294,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.8.6</version>
+                        <version>0.8.7</version>
                         <executions>
                             <execution>
                                 <goals>
