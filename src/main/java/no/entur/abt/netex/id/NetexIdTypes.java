@@ -67,6 +67,7 @@ public class NetexIdTypes {
 	public static final String SALES_PACKAGE_ELEMENT = "SalesPackageElement";
 	public static final String SALES_TRANSACTION = "SalesTransaction";
 	public static final String USAGE_DISCOUNT_RIGHT = "UsageDiscountRight";
+	public static final String CAPPED_DISCOUNT_RIGHT = "CappedDiscountRight";
 	public static final String USAGE_VALIDITY_PERIOD = "UsageValidityPeriod";
 	public static final String VALID_BETWEEN = "ValidBetween";
 	public static final String VALID_DURING = "ValidDuring";
