@@ -50,6 +50,7 @@ public class NetexIdTypes {
 	public static final String SUPPLEMENT_PRODUCT = "SupplementProduct";
 	public static final String LINE = "Line";
 	public static final String ROUTE = "Route";
+	public static final String ROUTE = "Route";
 	public static final String FLEXIBLE_LINE = "FlexibleLine";
 	public static final String USER_PROFILE = "UserProfile";
 	public static final String SERVICE_JOURNEY = "ServiceJourney";
@@ -68,6 +69,7 @@ public class NetexIdTypes {
 	public static final String SALES_TRANSACTION = "SalesTransaction";
 	public static final String USAGE_DISCOUNT_RIGHT = "UsageDiscountRight";
 	public static final String CAPPED_DISCOUNT_RIGHT = "CappedDiscountRight";
+	public static final String AMOUNT_OF_PRICE_UNIT_PRODUCT = "AmountOfPriceUnitProduct";
 	public static final String USAGE_VALIDITY_PERIOD = "UsageValidityPeriod";
 	public static final String VALID_BETWEEN = "ValidBetween";
 	public static final String VALID_DURING = "ValidDuring";
