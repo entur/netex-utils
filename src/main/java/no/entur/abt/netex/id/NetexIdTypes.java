@@ -50,7 +50,6 @@ public class NetexIdTypes {
 	public static final String SUPPLEMENT_PRODUCT = "SupplementProduct";
 	public static final String LINE = "Line";
 	public static final String ROUTE = "Route";
-	public static final String ROUTE = "Route";
 	public static final String FLEXIBLE_LINE = "FlexibleLine";
 	public static final String USER_PROFILE = "UserProfile";
 	public static final String SERVICE_JOURNEY = "ServiceJourney";
