@@ -4,7 +4,7 @@ package no.entur.abt.netex.id;
  * #%L
  * Netex utils
  * %%
- * Copyright (C) 2019 - 2020 Entur
+ * Copyright (C) 2019 - 2021 Entur
  * %%
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -28,44 +28,28 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-public class NetexIdNonvalidatingParserTest {
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 
-	private NetexIdNonvalidatingParser parser = new NetexIdNonvalidatingParser();
+public class NetexIdParserBuilderTest {
 
 	@Test
-	public void testCodespace() {
-		assertEquals("AAA", parser.getCodespace("AAA:BBB:CCC"));
+	public void testParserWithValidation() {
+		NetexIdParser parser = new NetexIdParserBuilder().withValidation(true).build();
 
-		// illegal
-		parser.getCodespace("AA:BBB:CCC");
-		parser.getCodespace("AAAA:BBB:CCC");
-		parser.getCodespace("AAAA:BBB:CCC");
+		assertEquals("B", parser.getType("AAA:B:CCC"));
+
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AA:DEF:CCC");
+		});
 	}
 
 	@Test
-	public void testType() {
-		assertEquals("BBB", parser.getType("AAA:BBB:CCC"));
+	public void testParserWithoutValidation() {
+		NetexIdParser parser = new NetexIdParserBuilder().withValidation(false).build();
+
 		assertEquals("B", parser.getType("AAA:B:CCC"));
 
 		// illegal
-		assertThrows(StringIndexOutOfBoundsException.class, () -> {
-			parser.getType("AAA::CCC");
-		});
-
-		parser.getType("AAA:ABC!!:CCC");
 		parser.getType("AA:DEF:CCC");
-		parser.getType("AAAA:DEF:CCC");
-	}
-
-	@Test
-	public void testValue() {
-		assertEquals("CCC", parser.getValue("AAA:BBB:CCC"));
-		assertEquals("C", parser.getValue("AAA:BBB:C"));
-
-		// illegal
-		parser.getValue("AAA:BBB:");
-		parser.getValue("AAA:BBB:CCC!");
-		parser.getValue("AA:DEF:CCC");
-		parser.getValue("AAAA:DEF:CCC");
 	}
 }

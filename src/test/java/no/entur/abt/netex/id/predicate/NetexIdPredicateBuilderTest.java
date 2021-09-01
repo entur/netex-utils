@@ -23,9 +23,11 @@ package no.entur.abt.netex.id.predicate;
  * #L%
  */
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -109,6 +111,18 @@ public class NetexIdPredicateBuilderTest {
 		assertThrows(IllegalStateException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withType("Network!").build();
 		});
+	}
+
+	@Test
+	public void testStream() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").build();
+
+		List<String> names = Arrays.asList("AAA:B:C", "BBB:B:C");
+
+		List<String> result = names.stream().filter(predicate).collect(Collectors.toList());
+
+		assertEquals(1, result.size());
+		assertTrue(result.contains("AAA:B:C"));
 	}
 
 }
