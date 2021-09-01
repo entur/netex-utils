@@ -23,8 +23,7 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,6 +58,6 @@ public class InterningNetexIdParserTest {
 	@Test
 	public void testValue() {
 		assertEquals("CCC", parser.getValue("AAA:BBB:CCC"));
-		assertSame("CCC", parser.getValue("AAA:BBB:CCC"));
+		assertNotSame("CCC", parser.getValue("AAA:BBB:CCC"));
 	}
 }

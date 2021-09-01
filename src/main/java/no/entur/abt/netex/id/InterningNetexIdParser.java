@@ -27,6 +27,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parser which returns codespace and type values from String.intern() with a local cache for improved performance. <br>
+ * <br>
+ * Intended for conservation of memory and/or improved comparison speed. See {@linkplain String#intern()}. <br>
+ * <br>
+ * Value is not interned. Thread safe.
+ */
+
 public class InterningNetexIdParser implements NetexIdParser {
 
 	// assume frequent read, seldom write
@@ -58,7 +66,7 @@ public class InterningNetexIdParser implements NetexIdParser {
 
 	@Override
 	public String getValue(CharSequence id) {
-		return intern(delegate.getValue(id));
+		return delegate.getValue(id);
 	}
 
 	private String intern(String codespace) {
