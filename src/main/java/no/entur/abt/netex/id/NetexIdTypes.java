@@ -92,6 +92,7 @@ public class NetexIdTypes {
 	public static final String NOTICE_ASSIGNMENT = "NoticeAssignment";
 	public static final String PRICE_UNIT = "PriceUnit";
 	public static final String REVERTING = "Reverting";
+	public static final String CODESPACE = "Codespace";
 
 	private NetexIdTypes() {
 	}
