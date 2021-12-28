@@ -45,6 +45,7 @@ public class NetexIdTypes {
 	public static final String FARE_DAY_TYPE = "FareDayType";
 	public static final String FARE_DEMAND_FACTOR = "FareDemandFactor";
 	public static final String FARE_PRODUCT = "FareProduct";
+	public static final String UIC_OPERATING_PERIOD = "UicOperatingPeriod";
 	public static final String FREQUENCY_OF_USE = "FrequencyOfUse";
 	public static final String PREASSIGNED_FARE_PRODUCT = "PreassignedFareProduct";
 	public static final String SUPPLEMENT_PRODUCT = "SupplementProduct";
@@ -80,6 +81,9 @@ public class NetexIdTypes {
 	public static final String TYPE_OF_ACCESS_RIGHT_ASSIGNMENT = "TypeOfAccessRightAssignment";
 	public static final String TYPE_OF_FARE_CONTRACT = "TypeOfFareContract";
 	public static final String TYPE_OF_CUSTOMER_ACCOUNT = "TypeOfCustomerAccount";
+	public static final String TYPE_OF_RESPONSIBILITY_ROLE = "TypeOfResponsibilityRole";
+	public static final String TYPE_OF_TRAVEL_DOCUMENT = "TypeOfTravelDocument";
+	public static final String TYPE_OF_VALUE = "TypeOfValue";
 	public static final String SALES_OFFER_PACKAGE = "SalesOfferPackage";
 	public static final String SALES_OFFER_PACKAGE_ELEMENT = "SalesOfferPackageElement";
 	public static final String SERVICE_LINK = "ServiceLink";
@@ -93,6 +97,9 @@ public class NetexIdTypes {
 	public static final String PRICE_UNIT = "PriceUnit";
 	public static final String REVERTING = "Reverting";
 	public static final String CODESPACE = "Codespace";
+	public static final String DISTRIBUTION_CHANNEL = "DistributionChannel";
+	public static final String FULFILMENT_METHOD = "FulfilmentMethod";
+	public static final String PASSENGER_SEAT = "PassengerSeat";
 
 	private NetexIdTypes() {
 	}
