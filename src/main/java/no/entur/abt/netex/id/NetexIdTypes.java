@@ -83,6 +83,9 @@ public class NetexIdTypes {
 	public static final String TYPE_OF_CUSTOMER_ACCOUNT = "TypeOfCustomerAccount";
 	public static final String TYPE_OF_RESPONSIBILITY_ROLE = "TypeOfResponsibilityRole";
 	public static final String TYPE_OF_TRAVEL_DOCUMENT = "TypeOfTravelDocument";
+	public static final String TYPE_OF_CONCESSION = "TypeOfConcession";
+	public static final String TYPE_OF_FARE_PRODUCT = "TypeOfFareProduct";
+	public static final String TYPE_OF_USAGE_PARAMETER = "TypeOfUsageParameter";
 	public static final String TYPE_OF_VALUE = "TypeOfValue";
 	public static final String SALES_OFFER_PACKAGE = "SalesOfferPackage";
 	public static final String SALES_OFFER_PACKAGE_ELEMENT = "SalesOfferPackageElement";
@@ -100,6 +103,22 @@ public class NetexIdTypes {
 	public static final String DISTRIBUTION_CHANNEL = "DistributionChannel";
 	public static final String FULFILMENT_METHOD = "FulfilmentMethod";
 	public static final String PASSENGER_SEAT = "PassengerSeat";
+	public static final String INTERCHANGING = "Interchanging";
+	public static final String GEOGRAPHICAL_INTERVAL = "GeographicalInterval";
+	public static final String FARE_STRUCTURE_ELEMENT = "FareStructureElement";
+	public static final String LUGGAGE_ALLOWANCE = "LuggageAllowance";
+	public static final String GEOGRAPHICAL_STRUCTURE_FACTOR = "GeographicalStructureFactor";
+	public static final String CHARGING_MOMENT = "ChargingMoment";
+	public static final String ENTITLEMENT_PRODUCT = "EntitlementProduct";
+	public static final String EXCHANGING = "Exchanging";
+	public static final String FARE_TABLE = "FareTable";
+	public static final String GENERIC_PARAMETER_ASSIGNMENT = "GenericParameterAssignment";
+	public static final String PENALTY_POLICY = "PenaltyPolicy";
+	public static final String PURCHASE_WINDOW = "PurchaseWindow";
+	public static final String REFUNDING = "Refunding";
+	public static final String RESERVING = "Reserving";
+	public static final String ROUND_TRIP = "RoundTrip";
+	public static final String TARIFF = "Tariff";
 
 	private NetexIdTypes() {
 	}

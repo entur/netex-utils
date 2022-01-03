@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.21</version>
+    <version>1.22</version>
     <packaging>jar</packaging>
     <name>Netex utils</name>
     <description>Netex utility classes</description>
@@ -94,7 +94,7 @@
             <plugin>
                 <groupId>com.github.ekryd.sortpom</groupId>
                 <artifactId>sortpom-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
                 <configuration>
                     <predefinedSortOrder>custom_1</predefinedSortOrder>
                     <nrOfIndentSpace>4</nrOfIndentSpace>
