@@ -110,6 +110,9 @@ public class NetexIdTypes {
 	public static final String GEOGRAPHICAL_STRUCTURE_FACTOR = "GeographicalStructureFactor";
 	public static final String CHARGING_MOMENT = "ChargingMoment";
 	public static final String ENTITLEMENT_PRODUCT = "EntitlementProduct";
+	public static final String ENTITLEMENT_REQUIRED = "EntitlementRequired";
+	public static final String CHARGING_POLICY = "ChargingPolicy";
+	public static final String ENTITLEMENT_GIVEN = "EntitlementGiven";
 	public static final String EXCHANGING = "Exchanging";
 	public static final String FARE_TABLE = "FareTable";
 	public static final String GENERIC_PARAMETER_ASSIGNMENT = "GenericParameterAssignment";
