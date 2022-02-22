@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.23</version>
+    <version>1.24</version>
     <packaging>jar</packaging>
     <name>Netex utils</name>
     <description>Netex utility classes</description>
@@ -16,7 +16,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spotless.version>2.20.2</spotless.version>
+        <spotless.version>2.21.0</spotless.version>
     </properties>
     <dependencies>
         <dependency>
@@ -84,7 +84,7 @@
             <plugin>
                 <groupId>com.amashchenko.maven.plugin</groupId>
                 <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.17.0</version>
+                <version>1.18.0</version>
                 <configuration>
                     <allowSnapshots>false</allowSnapshots>
                     <commitMessagePrefix>[ci skip]</commitMessagePrefix>
@@ -231,7 +231,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.9</version>
+                        <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
