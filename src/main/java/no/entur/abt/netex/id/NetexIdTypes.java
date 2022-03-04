@@ -11,9 +11,9 @@ package no.entur.abt.netex.id;
  * EUPL (the "Licence");
  * 
  * You may not use this work except in compliance with the Licence.
- * You may obtain a copy of the Licence at;
+ * You may obtain a copy of the Licence at:
  * 
- * http;//ec.europa.eu/idabc/eupl5
+ * http://ec.europa.eu/idabc/eupl5
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the Licence is distributed on an "AS IS" basis,
