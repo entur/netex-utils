@@ -11,9 +11,9 @@ package no.entur.abt.netex.id;
  * EUPL (the "Licence");
  * 
  * You may not use this work except in compliance with the Licence.
- * You may obtain a copy of the Licence at:
+ * You may obtain a copy of the Licence at;
  * 
- * http://ec.europa.eu/idabc/eupl5
+ * http;//ec.europa.eu/idabc/eupl5
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the Licence is distributed on an "AS IS" basis,
@@ -122,6 +122,18 @@ public class NetexIdTypes {
 	public static final String RESERVING = "Reserving";
 	public static final String ROUND_TRIP = "RoundTrip";
 	public static final String TARIFF = "Tariff";
+
+	public static final String CANCELLING = "Cancelling";
+	public static final String RESELLING = "Reselling";
+	public static final String REPLACING = "Replacing";
+	public static final String SUBSCRIBING = "Subscribing";
+	public static final String ELIGIBILITY_CHANGE_POLICY = "EligibilityChangePolicy";
+	public static final String ROUTING = "Routing";
+	public static final String STEP_LIMIT = "StepLimit";
+	public static final String SUSPENDING = "Suspending";
+	public static final String MINIMUM_STAY = "MinimumStay";
+	public static final String SALES_OFFER_PACKAGE_ENTITLEMENT_GIVEN = "SalesOfferPackageEntitlementGiven";
+	public static final String SALES_OFFER_PACKAGE_ENTITLEMENT_REQUIRED = "SalesOfferPackageEntitlementRequired";
 
 	private NetexIdTypes() {
 	}
