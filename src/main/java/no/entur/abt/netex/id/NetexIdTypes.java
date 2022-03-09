@@ -135,6 +135,10 @@ public class NetexIdTypes {
 	public static final String SALES_OFFER_PACKAGE_ENTITLEMENT_GIVEN = "SalesOfferPackageEntitlementGiven";
 	public static final String SALES_OFFER_PACKAGE_ENTITLEMENT_REQUIRED = "SalesOfferPackageEntitlementRequired";
 
+	public static final String FARE_SECTION = "FareSection";
+	public static final String VERSION = "Version";
+	public static final String SECURITY_POLICY = "SecurityPolicy";
+
 	private NetexIdTypes() {
 	}
 
