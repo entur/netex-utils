@@ -138,6 +138,7 @@ public class NetexIdTypes {
 	public static final String FARE_SECTION = "FareSection";
 	public static final String VERSION = "Version";
 	public static final String SECURITY_POLICY = "SecurityPolicy";
+	public static final String ONBOARD_VALIDITY = "OnboardValidity";
 
 	private NetexIdTypes() {
 	}
