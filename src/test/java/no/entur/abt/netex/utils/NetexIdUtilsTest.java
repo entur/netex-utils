@@ -23,7 +23,13 @@ package no.entur.abt.netex.utils;
  * #L%
  */
 
+import static no.entur.abt.netex.id.NetexIdTypes.CUSTOMER;
+import static no.entur.abt.netex.id.NetexIdTypes.CUSTOMER_ACCOUNT;
+import static no.entur.abt.netex.id.NetexIdTypes.FARE_CONTRACT;
+import static no.entur.abt.netex.id.NetexIdTypes.SECURITY_POLICY;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -49,6 +55,19 @@ public class NetexIdUtilsTest {
 		assertTrue(NetexIdUtils.isValid("XXX:Customer:1"));
 		assertTrue(NetexIdUtils.isValid("XXX:Customer:a"));
 		assertTrue(NetexIdUtils.isValid("XXX:Customer:æøåÆØÅ"));
+	}
+
+	@Test
+	public void assertValidOfType_whenValid_thenDoNotThrow() {
+		assertDoesNotThrow(() -> NetexIdUtils.assertValidOfType("XXX:Customer:1", CUSTOMER));
+		assertDoesNotThrow(() -> NetexIdUtils.assertValidOfType("XXX:FareContract:a", FARE_CONTRACT));
+		assertDoesNotThrow(() -> NetexIdUtils.assertValidOfType("XXX:SecurityPolicy:æøåÆØÅ", SECURITY_POLICY));
+	}
+
+	@Test
+	public void assertValidOfType_whenInvalid_thenThrowIllegalNetexIDException() {
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.assertValidOfType("XXX:Customer:1", CUSTOMER_ACCOUNT));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.assertValidOfType("XXX:CustomerAccount:", CUSTOMER_ACCOUNT));
 	}
 
 }
