@@ -23,6 +23,8 @@ package no.entur.abt.netex.utils;
  * #L%
  */
 
+import java.util.Objects;
+
 public class NetexIdUtils {
 	private static final String NETEX_ID_SEPARATOR_CHAR = ":";
 
@@ -46,6 +48,16 @@ public class NetexIdUtils {
 
 	public static boolean isValid(String id) {
 		return id != null && id.matches(ID_PATTERN);
+	}
+
+	public static void assertValidOfType(String id, String expectedType) {
+		if (!isValid(id)) {
+			throw new IllegalNetexIDException(String.format(
+					"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id));
+		}
+		if (!Objects.equals(getType(id), expectedType)) {
+			throw new IllegalNetexIDException(String.format("Value '%s' is not of expected type :'%s'", id, expectedType));
+		}
 	}
 
 	private static String getField(String id, int index) {
