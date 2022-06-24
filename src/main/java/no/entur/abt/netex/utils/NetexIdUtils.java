@@ -56,7 +56,7 @@ public class NetexIdUtils {
 					"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id));
 		}
 		if (!Objects.equals(getType(id), expectedType)) {
-			throw new IllegalNetexIDException(String.format("Value '%s' is not of expected type :'%s'", id, expectedType));
+			throw new IllegalNetexIDException(String.format("Value '%s' is not of expected type '%s'", id, expectedType));
 		}
 	}
 
