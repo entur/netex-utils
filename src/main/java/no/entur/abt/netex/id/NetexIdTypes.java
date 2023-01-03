@@ -94,6 +94,7 @@ public class NetexIdTypes {
 	public static final String LINK_SEQUENCE_PROJECTION = "LinkSequenceProjection";
 	public static final String VALIDABLE_ELEMENT = "ValidableElement";
 	public static final String NOD_STOP_PLACE_MAPPING = "NodStopPlaceMapping";
+	public static final String FARE_ZONE_MAPPING = "FareZoneMapping";
 	public static final String TARIFF_CODE_MAPPING = "TariffCodeMapping";
 	public static final String FARE_PRICE = "FarePrice";
 	public static final String NOTICE_ASSIGNMENT = "NoticeAssignment";
