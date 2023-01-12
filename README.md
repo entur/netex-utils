@@ -128,4 +128,4 @@ if(!validator.validateValue("123")) {
 
 ## NetexIdUtils
 
-Legacy utility for getting id type, value and codespace. Always validates (using regexp).  
+Legacy utility for getting id type, value and codespace. Always validates (using regexp).
