@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.39</version>
+    <version>1.40</version>
     <packaging>jar</packaging>
     <name>Netex utils</name>
     <description>Netex utility classes</description>
     <properties>
-        <junit-jupiter.version>5.9.1</junit-jupiter.version>
+        <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
