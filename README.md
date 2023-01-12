@@ -14,7 +14,6 @@ String id = NetexIdBuilder.newInstance()
     .withType("FareZone")
     .withValue("123")
     .build();
-
 ```
 
 for id `AAA:FareZone:123`.
