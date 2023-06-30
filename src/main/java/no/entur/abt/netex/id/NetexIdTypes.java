@@ -76,6 +76,7 @@ public class NetexIdTypes {
 	public static final String DAY_TYPE = "DayType";
 	public static final String THIRD_PARTY_PRODUCT = "ThirdPartyProduct";
 	public static final String TIME_INTERVAL = "TimeInterval";
+	public static final String TIMEBAND = "Timeband";
 	public static final String TOPOGRAPHIC_PLACE = "TopographicPlace";
 	public static final String TRANSFERABILITY = "Transferability";
 	public static final String TYPE_OF_ACCESS_RIGHT_ASSIGNMENT = "TypeOfAccessRightAssignment";
@@ -140,6 +141,7 @@ public class NetexIdTypes {
 	public static final String VERSION = "Version";
 	public static final String SECURITY_POLICY = "SecurityPolicy";
 	public static final String ONBOARD_VALIDITY = "OnboardValidity";
+	public static final String VALIDITY_CONDITION = "ValidityCondition";
 
 	private NetexIdTypes() {
 	}
