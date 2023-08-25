@@ -35,14 +35,17 @@ public class NetexIdUtils {
 	}
 
 	public static String getCodespace(String id) {
+		assertValid(id);
 		return getField(id, 0);
 	}
 
 	public static String getType(String id) {
+		assertValid(id);
 		return getField(id, 1);
 	}
 
 	public static String getValue(String id) {
+		assertValid(id);
 		return getField(id, 2);
 	}
 
@@ -51,12 +54,16 @@ public class NetexIdUtils {
 	}
 
 	public static void assertValidOfType(String id, String expectedType) {
+		assertValid(id);
+		if (!Objects.equals(getType(id), expectedType)) {
+			throw new IllegalNetexIDException(String.format("Value '%s' is not of expected type '%s'", id, expectedType));
+		}
+	}
+
+	public static void assertValid(String id) {
 		if (!isValid(id)) {
 			throw new IllegalNetexIDException(String.format(
 					"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id));
-		}
-		if (!Objects.equals(getType(id), expectedType)) {
-			throw new IllegalNetexIDException(String.format("Value '%s' is not of expected type '%s'", id, expectedType));
 		}
 	}
 

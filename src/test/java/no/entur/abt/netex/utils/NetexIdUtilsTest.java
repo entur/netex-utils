@@ -70,4 +70,31 @@ public class NetexIdUtilsTest {
 		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.assertValidOfType("XXX:CustomerAccount:", CUSTOMER_ACCOUNT));
 	}
 
+	@Test
+	public void getCodespace_whenInvalidThenThrowIllegalNetexIDException() {
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getCodespace(null));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getCodespace(""));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getCodespace("TST"));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getCodespace("TST:Type"));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getCodespace("TST:Type:"));
+	}
+
+	@Test
+	public void getType_whenInvalidThenThrowIllegalNetexIDException() {
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getType(null));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getType(""));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getType("TST"));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getType("TST:Type"));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getType("TST:Type:"));
+	}
+
+	@Test
+	public void getValue_whenInvalidThenThrowIllegalNetexIDException() {
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getValue(null));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getValue(""));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getValue("TST"));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getValue("TST:Type"));
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getValue("TST:Type:"));
+	}
+
 }
