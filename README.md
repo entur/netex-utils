@@ -1,3 +1,4 @@
+[![Maven Central](https://img.shields.io/maven-central/v/no.entur.abt/netex-utils.svg)](https://mvnrepository.com/artifact/no.entur.abt/netex-utils)
 # Netex utils
 
 Netex utility classes.
