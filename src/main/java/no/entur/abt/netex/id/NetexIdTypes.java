@@ -34,6 +34,7 @@ public class NetexIdTypes {
 	public static final String COMMERCIAL_PROFILE = "CommercialProfile";
 	public static final String AUTHORITY = "Authority";
 	public static final String OPERATOR = "Operator";
+	public static final String GENERAL_ORGANISATION = "GeneralOrganisation";
 	public static final String CLASS_OF_USE = "ClassOfUse";
 	public static final String CUSTOMER = "Customer";
 	public static final String CUSTOMER_ACCOUNT = "CustomerAccount";
