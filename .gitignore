@@ -1,0 +1,9 @@
+.README.md.html
+logs/
+/config/
+.idea/
+.terraform/
+target/
+
+jmh-result.json
+.terraform.lock.hcl
