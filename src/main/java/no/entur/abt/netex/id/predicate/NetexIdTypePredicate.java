@@ -34,7 +34,7 @@ import no.entur.abt.netex.id.DefaultNetexIdValidator;
 public class NetexIdTypePredicate implements NetexIdPredicate {
 
 	// type, padded with 4 chars
-	protected final char[] type;
+	protected final char[] type; // XXX:TYPE
 
 	public NetexIdTypePredicate(CharSequence type) {
 		// add 4 padding so that we can directly compare

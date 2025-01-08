@@ -135,24 +135,3 @@ Legacy utility for getting id type, value and codespace. Always validates (using
 Includes a few JMH benchmarks. Run
 
 > mvn package && java -jar target/netex-utils-*-perf-tests.jar IdBenchmark -rf json
-
-Results indicate use of regexp in `NetexIdUtils` is considerably (20x) slower than manually typed equivalent. Non-validating is 4-5x times faster than validating.
-
-<details>
-  <summary>Result details</summary>
-
-```
-Benchmark                                Mode  Cnt    Score    Error   Units
-IdBenchmark.codespaceClassic            thrpt    5    1,786 ±  0,300  ops/us
-IdBenchmark.codespaceModernNonValidate  thrpt    5  248,182 ± 33,158  ops/us
-IdBenchmark.codespaceModernValidate     thrpt    5   48,716 ±  4,590  ops/us
-IdBenchmark.typeClassic                 thrpt    5    1,834 ±  0,227  ops/us
-IdBenchmark.typeModernNonValidate       thrpt    5  192,897 ± 14,495  ops/us
-IdBenchmark.typeModernValidate          thrpt    5   42,474 ±  2,951  ops/us
-IdBenchmark.validateClassic             thrpt    5    2,273 ±  0,197  ops/us
-IdBenchmark.validateModern              thrpt    5  101,749 ± 13,740  ops/us
-IdBenchmark.valueClassic                thrpt    5    1,796 ±  0,222  ops/us
-IdBenchmark.valueModernNonValidate      thrpt    5  230,751 ±  7,537  ops/us
-IdBenchmark.valueModernValidate         thrpt    5   41,830 ±  3,041  ops/us
-```
-</details>

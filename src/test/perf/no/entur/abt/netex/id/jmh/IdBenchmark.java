@@ -29,6 +29,7 @@ import no.entur.abt.netex.id.DefaultNetexIdValidator;
 import no.entur.abt.netex.id.NetexIdNonvalidatingParser;
 import no.entur.abt.netex.id.NetexIdValidatingParser;
 import no.entur.abt.netex.id.NetexIdValidator;
+import no.entur.abt.netex.id.predicate.NetexIdCodespaceTypePredicate;
 import no.entur.abt.netex.utils.NetexIdUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -43,67 +44,114 @@ import org.openjdk.jmh.annotations.Warmup;
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @BenchmarkMode(Mode.Throughput)
-@Warmup(time=5, timeUnit=TimeUnit.SECONDS, iterations=1)
-@Measurement(time=5, timeUnit=TimeUnit.SECONDS, iterations=1)
+@Warmup(time=3, timeUnit=TimeUnit.SECONDS, iterations=1)
+@Measurement(time=3, timeUnit=TimeUnit.SECONDS, iterations=1)
 @Timeout(timeUnit=TimeUnit.SECONDS, time=10)
 public class IdBenchmark {
 
   private static final NetexIdValidator validator = new DefaultNetexIdValidator();
   private static final NetexIdValidatingParser validatingParser = new NetexIdValidatingParser();
   private static final NetexIdNonvalidatingParser nonvalidatingParser = new NetexIdNonvalidatingParser();
+  private static final NetexIdCodespaceTypePredicate predicate = new NetexIdCodespaceTypePredicate("ABC", "FareZone");
+
   @Benchmark
-  public boolean validateClassic() {
+  public boolean validateNetexUtils() {
     return NetexIdUtils.isValid("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public boolean validateModern() {
+  public boolean validateNetexUtilsLegacy() {
+    return LegacyNetexIdUtils.isValid("XXX:SecurityPolicy:æøåÆØÅ");
+  }
+
+  @Benchmark
+  public boolean validate() {
     return validator.validate("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String typeClassic() {
+  public String typeNetexIdUtils() {
     return NetexIdUtils.getType("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String typeModernValidate() {
+  public String typeNetexIdUtilsLegacy() {
+    return LegacyNetexIdUtils.getType("XXX:SecurityPolicy:æøåÆØÅ");
+  }
+
+  @Benchmark
+  public String typeValidate() {
     return validatingParser.getType("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String typeModernNonValidate() {
+  public String typeNonValidate() {
     return nonvalidatingParser.getType("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String codespaceClassic() {
+  public String codespaceNetexIdUtils() {
     return NetexIdUtils.getCodespace("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String codespaceModernValidate() {
+  public String codespaceNetexIdUtilsLegacy() {
+    return LegacyNetexIdUtils.getCodespace("XXX:SecurityPolicy:æøåÆØÅ");
+  }
+
+  @Benchmark
+  public String codespaceValidate() {
     return validatingParser.getCodespace("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String codespaceModernNonValidate() {
+  public String codespaceNonValidate() {
     return nonvalidatingParser.getCodespace("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String valueClassic() {
+  public String valueNetexIdUtils() {
     return NetexIdUtils.getValue("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String valueModernValidate() {
+  public String valueNetexIdUtilsLegacy() {
+    return LegacyNetexIdUtils.getValue("XXX:SecurityPolicy:æøåÆØÅ");
+  }
+
+  @Benchmark
+  public String valueValidate() {
     return validatingParser.getValue("XXX:SecurityPolicy:æøåÆØÅ");
   }
 
   @Benchmark
-  public String valueModernNonValidate() {
+  public String valueNonValidate() {
     return nonvalidatingParser.getValue("XXX:SecurityPolicy:æøåÆØÅ");
+  }
+
+  @Benchmark
+  public String createFromNetexUtils() {
+    return NetexIdUtils.createFrom("XXX:SecurityPolicy:æøåÆØÅ", "abc");
+  }
+
+  @Benchmark
+  public String createFromNetexUtilsLegacy() {
+    return LegacyNetexIdUtils.createFrom("XXX:SecurityPolicy:æøåÆØÅ", "abc");
+  }
+
+  @Benchmark
+  public String createIdNetexUtils() {
+    return NetexIdUtils.createId("XXX", "SecurityPolicy", "æøåÆØÅ");
+  }
+
+  @Benchmark
+  public String createIdNetexUtilsLegacy() {
+    return LegacyNetexIdUtils.createId("XXX", "SecurityPolicy", "æøåÆØÅ");
+  }
+
+  @Benchmark
+  public boolean codespaceTypePredicate() {
+    return predicate.test("ABC:FareZone:123");
   }
 
 }

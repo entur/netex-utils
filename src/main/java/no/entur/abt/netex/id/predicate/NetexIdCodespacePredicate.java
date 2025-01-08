@@ -27,7 +27,7 @@ import no.entur.abt.netex.id.DefaultNetexIdValidator;
 
 public class NetexIdCodespacePredicate implements NetexIdPredicate {
 
-	private final char[] prefix;
+	private final char[] prefix; // XXX:
 
 	public NetexIdCodespacePredicate(CharSequence codespace) {
 		prefix = new char[] { codespace.charAt(0), codespace.charAt(1), codespace.charAt(2), DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR };

@@ -1,10 +1,10 @@
-package no.entur.abt.netex.utils;
+package no.entur.abt.netex.id.jmh;
 
 /*-
  * #%L
- * netex-utils
+ * Netex utils
  * %%
- * Copyright (C) 2019 - 2020 Entur
+ * Copyright (C) 2019 - 2025 Entur
  * %%
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -23,41 +23,41 @@ package no.entur.abt.netex.utils;
  * #L%
  */
 
+import no.entur.abt.netex.utils.IllegalNetexIDException;
+
 import java.util.Objects;
 
-import no.entur.abt.netex.id.DefaultNetexIdValidator;
-import no.entur.abt.netex.id.NetexIdNonValidatingBuilder;
-import no.entur.abt.netex.id.NetexIdNonvalidatingParser;
-import no.entur.abt.netex.id.NetexIdValidatingParser;
+public class LegacyNetexIdUtils {
+	private static final String NETEX_ID_SEPARATOR_CHAR = ":";
 
-public class NetexIdUtils {
+	private static final String ID_PATTERN = "^([A-Z]{3}):([A-Za-z]+):([0-9ÆØÅæøåA-Za-z_\\\\-]+)$";
 
-	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
-	private static final NetexIdValidatingParser VALIDATING_PARSER = new NetexIdValidatingParser();
-	private static final NetexIdNonvalidatingParser NONVALIDATING_PARSER = new NetexIdNonvalidatingParser();
-
-	public static String createId(String codespace, String type, String value) {
-		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+	public static String createId(String codespace, String datatype, String value) {
+		return String.join(NETEX_ID_SEPARATOR_CHAR, codespace, datatype, value);
 	}
 
 	public static String getCodespace(String id) {
-		return VALIDATING_PARSER.getCodespace(id);
+		assertValid(id);
+		return getField(id, 0);
 	}
 
 	public static String getType(String id) {
-		return VALIDATING_PARSER.getType(id);
+		assertValid(id);
+		return getField(id, 1);
 	}
 
 	public static String getValue(String id) {
-		return VALIDATING_PARSER.getValue(id);
+		assertValid(id);
+		return getField(id, 2);
 	}
 
 	public static boolean isValid(String id) {
-		return VALIDATOR.validate(id);
+		return id != null && id.matches(ID_PATTERN);
 	}
 
 	public static void assertValidOfType(String id, String expectedType) {
-		if (!Objects.equals(VALIDATING_PARSER.getType(id), expectedType)) {
+		assertValid(id);
+		if (!Objects.equals(getType(id), expectedType)) {
 			throw new IllegalNetexIDException(String.format("Value '%s' is not of expected type '%s'", id, expectedType));
 		}
 	}
@@ -69,6 +69,16 @@ public class NetexIdUtils {
 		}
 	}
 
+	private static String getField(String id, int index) {
+		try {
+			return id.split(NETEX_ID_SEPARATOR_CHAR)[index];
+		} catch (Exception e) {
+			throw new IllegalNetexIDException(String.format(
+					"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id),
+					e);
+		}
+	}
+
 	/**
 	 * Create a new NeTEx id of same codespace and type but with new value part
 	 * 
@@ -77,15 +87,7 @@ public class NetexIdUtils {
 	 * @return the newly constructed id
 	 */
 	public static String createFrom(String id, String valuePart) {
-		assertValid(id);
+		return createId(getCodespace(id), getType(id), valuePart);
 
-		if (!VALIDATOR.validateValue(valuePart)) {
-			throw new IllegalNetexIDException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -), found " + valuePart);
-		}
-
-		String codespace = NONVALIDATING_PARSER.getCodespace(id);
-		String datatype = NONVALIDATING_PARSER.getType(id);
-
-		return NetexIdNonValidatingBuilder.newInstance().withCodespace(codespace).withType(datatype).withValue(valuePart).build();
 	}
 }

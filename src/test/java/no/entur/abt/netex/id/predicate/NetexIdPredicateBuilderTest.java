@@ -38,6 +38,8 @@ public class NetexIdPredicateBuilderTest {
 		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").build();
 
 		assertTrue(predicate.test("AAA:Network:123"));
+		assertTrue(predicate.test(charSequence("AAA:Network:123")));
+
 		assertFalse(predicate.test("BBB:Network:123"));
 		assertTrue(predicate.test("AAA:xyz:123"));
 		assertFalse(predicate.test("CCC:z:123"));
@@ -50,6 +52,8 @@ public class NetexIdPredicateBuilderTest {
 		assertFalse(predicate.test("AAB:Network:123"));
 		assertFalse(predicate.test("ABA:Network:123"));
 		assertFalse(predicate.test("BAA:Network:123"));
+
+		assertFalse(predicate.test(charSequence("BAA:Network:123")));
 	}
 
 	@Test
@@ -57,10 +61,13 @@ public class NetexIdPredicateBuilderTest {
 		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withType("Network").build();
 
 		assertTrue(predicate.test("AAA:Network:123"));
+		assertTrue(predicate.test(charSequence("AAA:Network:123")));
+
 		assertTrue(predicate.test("BBB:Network:123"));
 		assertFalse(predicate.test("BBB:Netzork:123"));
 		assertFalse(predicate.test("AAA:xyz:1234567"));
 		assertFalse(predicate.test("CCC:z:123"));
+		assertFalse(predicate.test(charSequence("CCC:z:123")));
 
 		// partical validation
 		assertFalse(predicate.test("AA:Network:123"));
@@ -72,7 +79,9 @@ public class NetexIdPredicateBuilderTest {
 		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withType("Network").build();
 
 		assertTrue(predicate.test("AAA:Network:123"));
+		assertTrue(predicate.test(charSequence("AAA:Network:123")));
 		assertFalse(predicate.test("BBB:Network:123"));
+		assertFalse(predicate.test(charSequence("BBB:Network:123")));
 		assertFalse(predicate.test("AAA:xyz:123"));
 		assertFalse(predicate.test("CCC:z:123"));
 
@@ -125,4 +134,9 @@ public class NetexIdPredicateBuilderTest {
 		assertTrue(result.contains("AAA:B:C"));
 	}
 
+	private StringBuilder charSequence(String str) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(str);
+		return builder;
+	}
 }
