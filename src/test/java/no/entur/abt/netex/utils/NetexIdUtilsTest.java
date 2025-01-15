@@ -28,6 +28,7 @@ import static no.entur.abt.netex.id.NetexIdTypes.CUSTOMER_ACCOUNT;
 import static no.entur.abt.netex.id.NetexIdTypes.FARE_CONTRACT;
 import static no.entur.abt.netex.id.NetexIdTypes.SECURITY_POLICY;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -97,4 +98,13 @@ public class NetexIdUtilsTest {
 		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.getValue("TST:Type:"));
 	}
 
+	@Test
+	public void createFrom_whenValid() {
+		assertEquals(NetexIdUtils.createFrom("XXX:FareContract:a", "abc"), "XXX:FareContract:abc");
+	}
+
+	@Test
+	public void createFrom_whenInvalidThenThrowIllegalNetexIDException() {
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.createFrom("XXX:FareContract", "abc"));
+	}
 }

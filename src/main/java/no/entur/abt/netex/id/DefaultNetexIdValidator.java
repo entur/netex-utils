@@ -28,13 +28,72 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	public static final int NETEX_ID_CODESPACE_LENGTH = 3;
 	public static final int NETEX_ID_MINIMUM_LENGTH = 6;
 
-	protected static final DefaultNetexIdValidator instance = new DefaultNetexIdValidator();
+	protected static boolean[] TYPE_CHARACTERS;
+	protected static boolean[] VALUE_CHARACTERS;
+
+	static {
+		// create lookup-table
+		int uppercaseStart = 'A';
+		int uppercaseEnd = 'Z';
+
+		int lowercaseStart = 'a';
+		int lowercaseEnd = 'z';
+
+		// from regexp [A-Za-z]
+		boolean[] types = new boolean[lowercaseEnd + 1];
+
+		for (int i = uppercaseStart; i <= uppercaseEnd; i++) {
+			types[i] = true;
+		}
+		for (int i = lowercaseStart; i <= lowercaseEnd; i++) {
+			types[i] = true;
+		}
+
+		TYPE_CHARACTERS = types;
+
+		int digitStart = '0';
+		int digitEnd = '9';
+
+		// from chars [0-9ÆØÅæøåA-Za-z_\\-]
+		boolean[] values = new boolean[248 + 1];
+
+		for (int i = uppercaseStart; i <= uppercaseEnd; i++) {
+			values[i] = true;
+		}
+		for (int i = lowercaseStart; i <= lowercaseEnd; i++) {
+			values[i] = true;
+		}
+		for (int i = digitStart; i <= digitEnd; i++) {
+			values[i] = true;
+		}
+
+		// norwegian chars
+		values['Æ'] = true;
+		values['æ'] = true;
+		values['Å'] = true;
+		values['å'] = true;
+		values['Ø'] = true;
+		values['ø'] = true;
+
+		// special chars
+		values['_'] = true;
+		values['\\'] = true;
+		values['-'] = true;
+
+		VALUE_CHARACTERS = values;
+	}
+
+	protected static final DefaultNetexIdValidator INSTANCE = new DefaultNetexIdValidator();
 
 	public static DefaultNetexIdValidator getInstance() {
-		return instance;
+		return INSTANCE;
 	}
 
 	public boolean validate(CharSequence string, int offset, int length) {
+		if (string == null) {
+			return false;
+		}
+
 		// minimum size is XXX:X:X
 		if (length < NETEX_ID_MINIMUM_LENGTH) {
 			return false;
@@ -60,6 +119,10 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	}
 
 	public boolean validateCodespace(CharSequence codespace, int startIndex, int endIndex) {
+		if (codespace == null) {
+			return false;
+		}
+
 		// length 3
 		// A-Z
 		if (endIndex - startIndex == NETEX_ID_CODESPACE_LENGTH) {
@@ -75,13 +138,21 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	}
 
 	public boolean validateType(CharSequence type, int startIndex, int endIndex) {
+		if (type == null) {
+			return false;
+		}
+
 		// not empty string
 		// A-Z
 		// a-z
 		if (endIndex > startIndex) {
 			for (int i = startIndex; i < endIndex; i++) {
-				char c = type.charAt(i);
-				if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))) {
+				int c = type.charAt(i);
+
+				if (c >= TYPE_CHARACTERS.length) {
+					return false;
+				}
+				if (!TYPE_CHARACTERS[c]) {
 					return false;
 				}
 			}
@@ -91,10 +162,16 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	}
 
 	public boolean validateValue(CharSequence value, int startIndex, int endIndex) {
+		if (value == null) {
+			return false;
+		}
 		if (endIndex > startIndex) {
 			for (int i = startIndex; i < endIndex; i++) {
-				char c = value.charAt(i);
-				if (!isValueCharacter(c)) {
+				int c = value.charAt(i);
+				if (c >= VALUE_CHARACTERS.length) {
+					return false;
+				}
+				if (!VALUE_CHARACTERS[c]) {
 					return false;
 				}
 			}
@@ -103,24 +180,4 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		return false;
 	}
 
-	protected static boolean isValueCharacter(char c) {
-		if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9')) {
-			return true;
-		}
-
-		switch (c) {
-		case 'Æ':
-		case 'Ø':
-		case 'Å':
-		case 'æ':
-		case 'ø':
-		case 'å':
-		case '_':
-		case '\\':
-		case '-':
-			return true;
-		default:
-			return false;
-		}
-	}
 }
