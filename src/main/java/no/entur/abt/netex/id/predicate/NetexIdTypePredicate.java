@@ -54,7 +54,7 @@ public class NetexIdTypePredicate implements NetexIdPredicate {
 			return false;
 		}
 
-		// XXX:TYPE:
+		// AAA:TYPE:
 		if (t.charAt(type.length) != DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR) {
 			return false;
 		}

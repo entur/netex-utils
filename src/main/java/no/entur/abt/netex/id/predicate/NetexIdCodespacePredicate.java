@@ -25,9 +25,15 @@ package no.entur.abt.netex.id.predicate;
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
 
+/**
+ *
+ * Predicate for namespace (ignores type and value).. Does not validate input codespace.
+ *
+ */
+
 public class NetexIdCodespacePredicate implements NetexIdPredicate {
 
-	private final char[] prefix; // XXX:
+	private final char[] prefix;
 
 	public NetexIdCodespacePredicate(CharSequence codespace) {
 		prefix = new char[] { codespace.charAt(0), codespace.charAt(1), codespace.charAt(2), DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR };

@@ -26,7 +26,6 @@ package no.entur.abt.netex.utils;
 import java.util.Objects;
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
-import no.entur.abt.netex.id.NetexIdNonValidatingBuilder;
 import no.entur.abt.netex.id.NetexIdNonvalidatingParser;
 import no.entur.abt.netex.id.NetexIdValidatingParser;
 
@@ -86,6 +85,6 @@ public class NetexIdUtils {
 		String codespace = NONVALIDATING_PARSER.getCodespace(id);
 		String datatype = NONVALIDATING_PARSER.getType(id);
 
-		return NetexIdNonValidatingBuilder.newInstance().withCodespace(codespace).withType(datatype).withValue(valuePart).build();
+		return createId(codespace, datatype, valuePart);
 	}
 }
