@@ -113,33 +113,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.diffplug.spotless</groupId>
-                <artifactId>spotless-maven-plugin</artifactId>
-                <version>${spotless.version}</version>
-                <configuration>
-                    <java>
-                        <eclipse>
-                            <file>eclipsecodestyle/abt_codestyle.xml</file>
-                            <version>4.26</version>
-                            <!-- Eclipse JDT version of the formatter implementation -->
-                        </eclipse>
-                        <removeUnusedImports></removeUnusedImports>
-                        <importOrder>
-                            <file>eclipsecodestyle/abt.importorder</file>
-                        </importOrder>
-                        <endWithNewline></endWithNewline>
-                    </java>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>no.entur</groupId>
-                        <artifactId>abt-codestyle</artifactId>
-                        <version>0.36</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
         </plugins>
     </build>
     <url>https://github.com/entur/netex-utils</url>
@@ -168,24 +141,6 @@
             <organizationUrl>http://www.entur.org</organizationUrl>
         </developer>
     </developers>
-    <scm>
-        <connection>scm:git:ssh://git@github.com/entur/netex-utils.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/entur/netex-utils.git</developerConnection>
-        <url>https://github.com/entur/netex-utils/tree/master</url>
-        <tag>HEAD</tag>
-    </scm>
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <name>Sonatype release</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <name>Sonatype snapshot</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
     <profiles>
         <profile>
             <id>entur-maven-central-local</id>
