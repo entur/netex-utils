@@ -28,8 +28,8 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	public static final int NETEX_ID_CODESPACE_LENGTH = 3;
 	public static final int NETEX_ID_MINIMUM_LENGTH = 6;
 
-	protected static boolean[] TYPE_CHARACTERS;
-	protected static boolean[] VALUE_CHARACTERS;
+	protected static final boolean[] TYPE_CHARACTERS;
+	protected static final boolean[] VALUE_CHARACTERS;
 
 	static {
 		// create lookup-table
