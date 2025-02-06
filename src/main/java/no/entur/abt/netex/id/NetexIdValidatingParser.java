@@ -29,27 +29,28 @@ public class NetexIdValidatingParser implements NetexIdParser {
 	private final DefaultNetexIdValidator validator = DefaultNetexIdValidator.getInstance();
 
 	public String getCodespace(CharSequence id) {
-		if (!validator.validate(id)) {
-			throw new IllegalNetexIDException("Invalid id " + id);
-		}
+		assertValid(id);
 		CharSequence result = id.subSequence(0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH);
 		return result.toString();
 	}
 
 	public String getType(CharSequence id) {
-		if (!validator.validate(id)) {
-			throw new IllegalNetexIDException("Invalid id " + id);
-		}
+		assertValid(id);
 
 		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, id.length());
 		return id.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
 	}
 
 	public String getValue(CharSequence id) {
-		if (!validator.validate(id)) {
-			throw new IllegalNetexIDException("Invalid id " + id);
-		}
+		assertValid(id);
 		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, id.length());
 		return id.subSequence(last + 1, id.length()).toString();
+	}
+
+	private void assertValid(CharSequence id) {
+		if (!validator.validate(id)) {
+			throw new IllegalNetexIDException(String.format(
+					"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id));
+		}
 	}
 }
