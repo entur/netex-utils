@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.48-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Netex utils</name>
     <description>Netex utility classes</description>
@@ -82,16 +82,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.amashchenko.maven.plugin</groupId>
-                <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.21.0</version>
-                <configuration>
-                    <allowSnapshots>false</allowSnapshots>
-                    <commitMessagePrefix>[ci skip]</commitMessagePrefix>
-                    <verbose>true</verbose>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>com.github.ekryd.sortpom</groupId>
                 <artifactId>sortpom-maven-plugin</artifactId>
                 <version>4.0.0</version>
@@ -141,7 +131,13 @@
             <organizationUrl>http://www.entur.org</organizationUrl>
         </developer>
     </developers>
-    <profiles>
+    <scm>
+        <connection>scm:git:ssh://git@github.com/entur/netex-utils.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/entur/netex-utils.git</developerConnection>
+        <url>https://github.com/entur/netex-utils/tree/main</url>
+        <tag>HEAD</tag>
+      </scm>
+      <profiles>
         <profile>
             <id>entur-maven-central-local</id>
             <activation>
