@@ -6,9 +6,7 @@ on:
       - opened
 
 jobs:
-  validate-maven-build:
-    uses: entur/abt-gha-public/.github/workflows/validate-jar-maven-sona.yml@main
-    secrets: inherit
+  pr-verify-maven:
+    uses: entur/abt-gha-public/.github/workflows/maven-open-source-verify.yml@vx.x.x
     with:
-      server-id: entur-partner
       java-version: 17
