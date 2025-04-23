@@ -136,8 +136,8 @@
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-utils.git</developerConnection>
         <url>https://github.com/entur/netex-utils/tree/main</url>
         <tag>HEAD</tag>
-      </scm>
-      <profiles>
+    </scm>
+    <profiles>
         <profile>
             <id>entur-maven-central-local</id>
             <activation>
