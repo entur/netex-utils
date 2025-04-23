@@ -5,10 +5,10 @@ on:
       - main
 
 jobs:
-  maven-build-and-release:
-    uses: entur/abt-gha-public/.github/workflows/maven-release-sona.yml@main
+  maven-build-and-releas:
+    if: "!contains(github.event.head_commit.message, '[skip-release]')"
+    uses: entur/abt-gha-public/.github/workflows/maven-open-source-increment-version-and-release-to-maven-central.yml@main
     secrets: inherit
     with:
-      server-id: ossrh
-      channel-id: ${{ vars.CHANNEL_ID }}
       java-version: 17
+
