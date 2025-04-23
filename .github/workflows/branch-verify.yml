@@ -6,7 +6,7 @@ on:
       - opened
 
 jobs:
-  pr-verify-maven:
+  validate-maven-build:
     uses: entur/abt-gha-public/.github/workflows/maven-open-source-verify.yml@main
     with:
       java-version: 17
