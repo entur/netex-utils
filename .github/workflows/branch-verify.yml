@@ -7,6 +7,6 @@ on:
 
 jobs:
   pr-verify-maven:
-    uses: entur/abt-gha-public/.github/workflows/maven-open-source-verify.yml@vx.x.x
+    uses: entur/abt-gha-public/.github/workflows/maven-open-source-verify.yml@main
     with:
       java-version: 17
