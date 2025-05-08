@@ -28,51 +28,41 @@ package no.entur.abt.netex.id;
  *
  */
 
-public class NetexIdBuilder {
+public class NetexIdNonValidatingBuilder {
 
-	public static NetexIdBuilder newInstance() {
-		return new NetexIdBuilder();
+	public static NetexIdNonValidatingBuilder newInstance() {
+		return new NetexIdNonValidatingBuilder();
 	}
-
-	private final NetexIdValidator validator;
 
 	protected String codespace;
 	protected String type;
 	protected String value;
 
-	public NetexIdBuilder() {
-		this(DefaultNetexIdValidator.getInstance());
-	}
-
-	public NetexIdBuilder(NetexIdValidator validator) {
-		this.validator = validator;
-	}
-
-	public NetexIdBuilder withCodespace(String codespace) {
+	public NetexIdNonValidatingBuilder withCodespace(String codespace) {
 		this.codespace = codespace;
 		return this;
 	}
 
-	public NetexIdBuilder withType(String type) {
+	public NetexIdNonValidatingBuilder withType(String type) {
 		this.type = type;
 		return this;
 	}
 
-	public NetexIdBuilder withValue(String value) {
+	public NetexIdNonValidatingBuilder withValue(String value) {
 		this.value = value;
 
 		return this;
 	}
 
 	public String build() {
-		if (codespace == null || !validator.validateCodespace(codespace)) {
-			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z), found " + codespace);
+		if (codespace == null) {
+			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z)");
 		}
-		if (type == null || !validator.validateType(type)) {
-			throw new IllegalStateException("Expected type (nonempty with characters A-Z or a-z), found " + type);
+		if (type == null) {
+			throw new IllegalStateException("Expected type (nonempty with characters A-Z or a-z)");
 		}
-		if (value == null || !validator.validateValue(value)) {
-			throw new IllegalStateException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -), found " + value);
+		if (value == null) {
+			throw new IllegalStateException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -)");
 		}
 		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
