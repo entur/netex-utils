@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.48-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Netex utils</name>
     <description>Netex utility classes</description>
@@ -20,7 +20,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spotless.version>2.44.0</spotless.version>
+        <spotless.version>2.44.2</spotless.version>
     </properties>
     <dependencies>
         <dependency>
@@ -86,16 +86,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.amashchenko.maven.plugin</groupId>
-                <artifactId>gitflow-maven-plugin</artifactId>
-                <version>1.21.0</version>
-                <configuration>
-                    <allowSnapshots>false</allowSnapshots>
-                    <commitMessagePrefix>[ci skip]</commitMessagePrefix>
-                    <verbose>true</verbose>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>com.github.ekryd.sortpom</groupId>
                 <artifactId>sortpom-maven-plugin</artifactId>
                 <version>4.0.0</version>
@@ -116,33 +106,6 @@
                         <phase>initialize</phase>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.diffplug.spotless</groupId>
-                <artifactId>spotless-maven-plugin</artifactId>
-                <version>${spotless.version}</version>
-                <configuration>
-                    <java>
-                        <eclipse>
-                            <file>eclipsecodestyle/abt_codestyle.xml</file>
-                            <version>4.26</version>
-                            <!-- Eclipse JDT version of the formatter implementation -->
-                        </eclipse>
-                        <removeUnusedImports></removeUnusedImports>
-                        <importOrder>
-                            <file>eclipsecodestyle/abt.importorder</file>
-                        </importOrder>
-                        <endWithNewline></endWithNewline>
-                    </java>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>no.entur</groupId>
-                        <artifactId>abt-codestyle</artifactId>
-                        <version>0.36</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -175,35 +138,20 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/entur/netex-utils.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-utils.git</developerConnection>
-        <url>https://github.com/entur/netex-utils/tree/master</url>
+        <url>https://github.com/entur/netex-utils/tree/main</url>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <repository>
             <id>ossrh</id>
-            <name>Sonatype release</name>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
             <id>ossrh</id>
-            <name>Sonatype snapshot</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <profiles>
-        <profile>
-            <id>entur-maven-central-local</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <distributionManagement>
-                <repository>
-                    <id>entur-maven-central-local</id>
-                    <name>Entur maven central local</name>
-                    <url>https://entur2.jfrog.io/entur2/entur-maven-central-release-local</url>
-                </repository>
-            </distributionManagement>
-        </profile>
         <profile>
             <id>release</id>
             <activation>
@@ -235,7 +183,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.13</version>
+                        <version>1.7.0</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
