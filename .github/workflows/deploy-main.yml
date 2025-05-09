@@ -1,4 +1,4 @@
-name: Validate, build and deploy
+name: Validate, build and deploy to Maven Central
 on:
   push:
     branches:
