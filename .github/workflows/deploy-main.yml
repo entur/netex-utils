@@ -11,4 +11,5 @@ jobs:
     secrets: inherit
     with:
       java-version: 17
+      version-increment: minor
 
