@@ -5,5 +5,5 @@ logs/
 .terraform/
 target/
 
-jmh-result.json
+jmh-result*.json
 .terraform.lock.hcl
