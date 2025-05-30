@@ -134,4 +134,4 @@ Legacy utility for getting id type, value and codespace. Always validates (using
 ## Performance
 Includes a few JMH benchmarks. Run
 
-> mvn package && java -jar target/netex-utils-*-perf-tests.jar IdBenchmark -rf json
+> mvn package && java -jar target/netex-utils-*-perf-tests.jar

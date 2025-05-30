@@ -315,7 +315,7 @@
                                     <shadeTestJar>true</shadeTestJar>
                                     <transformers>
                                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                            <mainClass>org.openjdk.jmh.Main</mainClass>
+                                            <mainClass>no.entur.abt.netex.id.jmh.BenchmarkMain</mainClass>
                                         </transformer>
                                     </transformers>
                                 </configuration>
@@ -339,7 +339,7 @@
                                     <attach>true</attach>
                                     <archive>
                                         <manifest>
-                                            <mainClass>org.openjdk.jmh.Main</mainClass>
+                                            <mainClass>no.entur.abt.netex.id.jmh.BenchmarkMain</mainClass>
                                         </manifest>
                                     </archive>
                                 </configuration>
