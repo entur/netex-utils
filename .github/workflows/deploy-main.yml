@@ -7,9 +7,9 @@ on:
 jobs:
   maven-build-and-releas:
     if: "!contains(github.event.head_commit.message, '[skip-release]')"
-    uses: entur/abt-gha-public/.github/workflows/maven-open-source-increment-version-and-release-to-maven-central.yml@main
+    uses: entur/gha-maven-central/.github/workflows/maven-publish.yml@main
     secrets: inherit
     with:
-      java-version: 17
-      version-increment: minor
-
+      next_version: ${{ inputs.version-increment }}
+      version_strategy: tag
+      version_tag_prefix: release-
