@@ -10,6 +10,6 @@ jobs:
     uses: entur/gha-maven-central/.github/workflows/maven-publish.yml@main
     secrets: inherit
     with:
-      next_version: ${{ inputs.version-increment }}
+      next_version: minor
       version_strategy: tag
       version_tag_prefix: release-
