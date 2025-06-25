@@ -40,7 +40,7 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 /**
  *
- * Put the new parsers through the same tests as the legacy netex utils.
+ * Put the new validators/parsers through the same tests as the legacy netex utils.
  *
  */
 
