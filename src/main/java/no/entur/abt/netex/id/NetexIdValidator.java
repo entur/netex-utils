@@ -43,12 +43,18 @@ public interface NetexIdValidator {
 	boolean validateCodespace(CharSequence codespace, int offset, int length);
 
 	default boolean validateType(CharSequence type) {
+		if (type == null) {
+			return false;
+		}
 		return validateType(type, 0, type.length());
 	}
 
 	boolean validateType(CharSequence type, int offset, int length);
 
 	default boolean validateValue(CharSequence value) {
+		if (value == null) {
+			return false;
+		}
 		return validateValue(value, 0, value.length());
 	}
 

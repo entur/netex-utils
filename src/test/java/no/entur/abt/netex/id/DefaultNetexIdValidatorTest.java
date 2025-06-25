@@ -47,8 +47,33 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
-	public void testIllegalValueCharacters() {
+	public void testIllegalValueCharactersLow() {
 		assertFalse(defaultNetexIdValidator.validate("AAA:BBB:!()"));
+	}
+
+	@Test
+	public void testIllegalValueCharactersHigh() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:BBB:Cÿ"));
+	}
+
+	@Test
+	public void testIllegalTypeCharactersLow() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:!():BBB"));
+	}
+
+	@Test
+	public void testIllegalTypeCharactersHigh() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:Cÿ:BBB"));
+	}
+
+	@Test
+	public void testIllegalCodespaceCharactersLow() {
+		assertFalse(defaultNetexIdValidator.validate("!():AAA:BBB"));
+	}
+
+	@Test
+	public void testIllegalCodespaceCharactersHigh() {
+		assertFalse(defaultNetexIdValidator.validate("CÿC:AAA:BBB"));
 	}
 
 	@Test
@@ -58,6 +83,17 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
+	public void testTypeCharactersLow() {
+		assertFalse(defaultNetexIdValidator.validateType("!()"));
+	}
+
+	@Test
+	public void testTypeCharactersHigh() {
+		assertFalse(defaultNetexIdValidator.validateType("CÿC"));
+	}
+
+
+	@Test
 	public void testIllegalTypeCharacters() {
 		assertFalse(defaultNetexIdValidator.validate("AAA:ØKS:CCC"));
 	}
@@ -65,6 +101,19 @@ public class DefaultNetexIdValidatorTest {
 	@Test
 	public void testIllegalCodespaceCharacters() {
 		assertFalse(defaultNetexIdValidator.validate("AAA!:BBB:CCC"));
+	}
+
+	@Test
+	public void testNull() {
+		assertFalse(defaultNetexIdValidator.validate(null));
+		assertFalse(defaultNetexIdValidator.validateType(null));
+		assertFalse(defaultNetexIdValidator.validateCodespace(null));
+		assertFalse(defaultNetexIdValidator.validateValue(null));
+
+		assertFalse(defaultNetexIdValidator.validate(null, 0, 3));
+		assertFalse(defaultNetexIdValidator.validateType(null, 0, 3));
+		assertFalse(defaultNetexIdValidator.validateCodespace(null, 0, 3));
+		assertFalse(defaultNetexIdValidator.validateValue(null, 0, 3));
 	}
 
 }
