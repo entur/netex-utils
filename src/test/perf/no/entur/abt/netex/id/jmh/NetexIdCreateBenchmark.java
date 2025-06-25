@@ -23,6 +23,8 @@ package no.entur.abt.netex.id.jmh;
  * #L%
  */
 
+import no.entur.abt.netex.utils.NetexIdUtils;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -30,19 +32,43 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
-public class BenchmarkMain {
+@State(Scope.Benchmark)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@BenchmarkMode(Mode.Throughput)
+@Warmup(time = 3, timeUnit = TimeUnit.SECONDS, iterations = 1)
+@Measurement(time = 3, timeUnit = TimeUnit.SECONDS, iterations = 1)
+@Timeout(timeUnit = TimeUnit.SECONDS, time = 10)
+public class NetexIdCreateBenchmark {
+
+    @Benchmark
+    public String createFromExistingIdNetexUtils() {
+        return NetexIdUtils.createFrom("XXX:SecurityPolicy:æøåÆØÅ", "abc");
+    }
+
+    @Benchmark
+    public String createFromExistingIdNetexUtilsLegacy() {
+        return LegacyNetexIdUtils.createFrom("XXX:SecurityPolicy:æøåÆØÅ", "abc");
+    }
+
+    @Benchmark
+    public String createIdNetexUtils() {
+        return NetexIdUtils.createId("XXX", "SecurityPolicy", "æøåÆØÅ");
+    }
+
+    @Benchmark
+    public String createIdNetexUtilsLegacy() {
+        return LegacyNetexIdUtils.createId("XXX", "SecurityPolicy", "æøåÆØÅ");
+    }
+
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(NetexIdValidatorBenchmark.class.getSimpleName())
                 .include(NetexIdCreateBenchmark.class.getSimpleName())
-                .include(NetexIdPredicateBenchmark.class.getSimpleName())
-                .include(NetexIdParserBenchmark.class.getSimpleName())
                 .result("jmh-result-" + Instant.now().toString() + ".json")
                 .resultFormat(ResultFormatType.JSON)
                 .build();
         new Runner(opt).run();
     }
-
 }
