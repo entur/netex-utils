@@ -9,10 +9,10 @@
     <description>Netex utility classes</description>
     <properties>
         <jmh.version>1.37</jmh.version>
-        <maven-build-helper-plugin.version>1.12</maven-build-helper-plugin.version>
-        <maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
         <jreleaser-maven-plugin.version>1.18.0</jreleaser-maven-plugin.version>
         <junit-jupiter.version>5.11.4</junit-jupiter.version>
+        <maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
+        <maven-build-helper-plugin.version>1.12</maven-build-helper-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>

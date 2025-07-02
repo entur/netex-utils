@@ -32,23 +32,8 @@ public class NetexIdValidatingParser extends DefaultNetexIdValidator implements 
 		return result.toString();
 	}
 
+
 	public String getType(CharSequence string) {
-		// inline validation
-		if (string == null || string.length() < NETEX_ID_MINIMUM_LENGTH || string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
-			throw getException(string);
-		}
-
-		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		if(last != -1 && string.charAt(last) == ':' && last > NETEX_ID_CODESPACE_LENGTH + 1
-				&& validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
-				&& validateValue(string, last + 1, string.length())
-		) {
-			return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
-		}
-		throw getException(string);
-	}
-
-	public String getValue(CharSequence string) {
 		int last = validateToIndex(string);
 		return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
 	}
@@ -63,7 +48,6 @@ public class NetexIdValidatingParser extends DefaultNetexIdValidator implements 
 		if (string == null || string.length() < NETEX_ID_MINIMUM_LENGTH || string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
 			throw getException(string);
 		}
-
 		int index = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
 		if(index == -1 || string.charAt(index) != ':' || index <= NETEX_ID_CODESPACE_LENGTH + 1
 				|| !validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
