@@ -31,6 +31,8 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 public class NetexIdValidatingParserTest {
 
+	private static final String SURROGATE_PAIRS = "\uD83D\uDE00";
+
 	private NetexIdValidatingParser parser = new NetexIdValidatingParser();
 
 	@Test
@@ -54,6 +56,9 @@ public class NetexIdValidatingParserTest {
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getCodespace("AAA::");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getCodespace(SURROGATE_PAIRS + "A:CC:BB");
 		});
 	}
 
@@ -94,6 +99,9 @@ public class NetexIdValidatingParserTest {
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getType("AAA:B!:CCC");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:B" + SURROGATE_PAIRS + ":CCC");
 		});
 
 	}
@@ -138,6 +146,12 @@ public class NetexIdValidatingParserTest {
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getValue("AAA:B!:CCC");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:B!:CCC");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:B:CCC" + SURROGATE_PAIRS);
 		});
 	}
 }

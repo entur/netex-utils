@@ -26,14 +26,11 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
  */
 public class NetexIdValidatingParser extends DefaultNetexIdValidator implements NetexIdParser {
 
-	private final DefaultNetexIdValidator validator = DefaultNetexIdValidator.getInstance();
-
 	public String getCodespace(CharSequence id) {
 		assertValid(id);
 		CharSequence result = id.subSequence(0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH);
 		return result.toString();
 	}
-
 
 	public String getType(CharSequence string) {
 		// inline validation
@@ -52,22 +49,33 @@ public class NetexIdValidatingParser extends DefaultNetexIdValidator implements 
 	}
 
 	public String getValue(CharSequence string) {
+		int last = validateToIndex(string);
+		return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
+	}
+
+	public String getValue(CharSequence string) {
+		int last = validateToIndex(string);
+		return string.subSequence(last + 1, string.length()).toString();
+	}
+
+	private int validateToIndex(CharSequence string) {
 		// inline validation
 		if (string == null || string.length() < NETEX_ID_MINIMUM_LENGTH || string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
 			throw getException(string);
 		}
-		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		if(last != -1 && string.charAt(last) == ':' && last > NETEX_ID_CODESPACE_LENGTH + 1
-				&& validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
-				&& validateValue(string, last + 1, string.length())
+
+		int index = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
+		if(index == -1 || string.charAt(index) != ':' || index <= NETEX_ID_CODESPACE_LENGTH + 1
+				|| !validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
+				|| !validateValue(string, index + 1, string.length())
 		) {
-			return string.subSequence(last + 1, string.length()).toString();
+			throw getException(string);
 		}
-		throw getException(string);
+		return index;
 	}
 
 	private void assertValid(CharSequence id) {
-		if (!validator.validate(id)) {
+		if (!validate(id)) {
 			throw getException(id);
 		}
 	}
