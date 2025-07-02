@@ -31,6 +31,8 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 public class NetexIdValidatingParserTest {
 
+	private static final String SURROGATE_PAIRS = "\uD83D\uDE00";
+
 	private NetexIdValidatingParser parser = new NetexIdValidatingParser();
 
 	@Test
@@ -45,6 +47,18 @@ public class NetexIdValidatingParserTest {
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getCodespace("AAAA:BBB:CCC");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getCodespace("AAA:ABC:CCC!!");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getCodespace("AAA:ABC:");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getCodespace("AAA::");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getCodespace(SURROGATE_PAIRS + "A:CC:BB");
 		});
 	}
 
@@ -65,6 +79,31 @@ public class NetexIdValidatingParserTest {
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getType("AAAA:DEF:CCC");
 		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:ABC:CCC!!");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:ABC:");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA::");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:B");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:B!");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:B!:CCC");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AAA:B" + SURROGATE_PAIRS + ":CCC");
+		});
+
 	}
 
 	@Test
@@ -84,5 +123,36 @@ public class NetexIdValidatingParserTest {
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getValue("AAAA:DEF:CCC");
 		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:DEF:CCC:DDD");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:ABC:CCC!!");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:ABC:");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA::");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:B");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:B!");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:B!:CCC");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:B!:CCC");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getValue("AAA:B:CCC" + SURROGATE_PAIRS);
+		});
+
 	}
 }

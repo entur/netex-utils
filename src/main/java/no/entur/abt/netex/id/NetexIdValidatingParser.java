@@ -24,9 +24,7 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
  * limitations under the Licence.
  * #L%
  */
-public class NetexIdValidatingParser implements NetexIdParser {
-
-	private final DefaultNetexIdValidator validator = DefaultNetexIdValidator.getInstance();
+public class NetexIdValidatingParser extends DefaultNetexIdValidator implements NetexIdParser {
 
 	public String getCodespace(CharSequence id) {
 		assertValid(id);
@@ -34,23 +32,40 @@ public class NetexIdValidatingParser implements NetexIdParser {
 		return result.toString();
 	}
 
-	public String getType(CharSequence id) {
-		assertValid(id);
 
-		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, id.length());
-		return id.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
+	public String getType(CharSequence string) {
+		int last = validateToIndex(string);
+		return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
 	}
 
-	public String getValue(CharSequence id) {
-		assertValid(id);
-		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, id.length());
-		return id.subSequence(last + 1, id.length()).toString();
+	public String getValue(CharSequence string) {
+		int last = validateToIndex(string);
+		return string.subSequence(last + 1, string.length()).toString();
+	}
+
+	private int validateToIndex(CharSequence string) {
+		// inline validation
+		if (string == null || string.length() < NETEX_ID_MINIMUM_LENGTH || string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
+			throw getException(string);
+		}
+		int index = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
+		if(index == -1 || string.charAt(index) != ':' || index <= NETEX_ID_CODESPACE_LENGTH + 1
+				|| !validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
+				|| !validateValue(string, index + 1, string.length())
+		) {
+			throw getException(string);
+		}
+		return index;
 	}
 
 	private void assertValid(CharSequence id) {
-		if (!validator.validate(id)) {
-			throw new IllegalNetexIDException(String.format(
-					"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id));
+		if (!validate(id)) {
+			throw getException(id);
 		}
+	}
+
+	public static IllegalNetexIDException getException(CharSequence id) {
+		return new IllegalNetexIDException(String.format(
+				"Value '%s' is not a valid NeTEx id according to profile. ID should be in the format Codespace:Type:Val (ie XYZ:FareContract:1231)", id));
 	}
 }

@@ -34,7 +34,7 @@ public class NetexIdParserBuilderTest {
 
 	@Test
 	public void testParserWithValidation() {
-		NetexIdParser parser = new NetexIdParserBuilder().withValidation(true).build();
+		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(true).build();
 
 		assertEquals("B", parser.getType("AAA:B:CCC"));
 
@@ -45,7 +45,28 @@ public class NetexIdParserBuilderTest {
 
 	@Test
 	public void testParserWithoutValidation() {
-		NetexIdParser parser = new NetexIdParserBuilder().withValidation(false).build();
+		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(false).build();
+
+		assertEquals("B", parser.getType("AAA:B:CCC"));
+
+		// illegal
+		parser.getType("AA:DEF:CCC");
+	}
+
+	@Test
+	public void testParserWithValidationIntern() {
+		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(true).withStringInterning(true).build();
+
+		assertEquals("B", parser.getType("AAA:B:CCC"));
+
+		assertThrows(IllegalNetexIDException.class, () -> {
+			parser.getType("AA:DEF:CCC");
+		});
+	}
+
+	@Test
+	public void testParserWithoutValidationIntern() {
+		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(false).withStringInterning(true).build();
 
 		assertEquals("B", parser.getType("AAA:B:CCC"));
 

@@ -42,6 +42,7 @@ public class NetexIdPredicateBuilder {
 
 	protected String codespace;
 	protected String type;
+	protected boolean validate = false;
 
 	public NetexIdPredicateBuilder withCodespace(String codespace) {
 		this.codespace = codespace;
@@ -53,6 +54,11 @@ public class NetexIdPredicateBuilder {
 		return this;
 	}
 
+	public NetexIdPredicateBuilder withValidate(boolean validate) {
+		this.validate = validate;
+		return this;
+	}
+
 	public NetexIdPredicate build() {
 		if (codespace != null && !validator.validateCodespace(codespace)) {
 			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z), found " + codespace);
@@ -60,6 +66,19 @@ public class NetexIdPredicateBuilder {
 		if (type != null && !validator.validateType(type)) {
 			throw new IllegalStateException("Expected type (nonempty with characters A-Z), found " + type);
 		}
+
+		if(validate) {
+			if (codespace != null && type != null) {
+				return new NetexIdCodespaceTypeValidatingPredicate(codespace, type);
+			} else if (codespace != null) {
+				return new NetexIdCodespaceValidatingPredicate(codespace);
+			} else if (type != null) {
+				return new NetexIdTypeValidatingPredicate(type);
+			} else {
+				throw new IllegalStateException("Expected codespace and/or type");
+			}
+		}
+
 		if (codespace != null && type != null) {
 			return new NetexIdCodespaceTypePredicate(codespace, type);
 		} else if (codespace != null) {

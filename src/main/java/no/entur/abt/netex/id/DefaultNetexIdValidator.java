@@ -89,6 +89,32 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		return INSTANCE;
 	}
 
+
+	/**
+	 * Validate netex id type part, return index of first non-valid character
+	 *
+	 * @param type netex id
+	 * @param startIndex start index
+	 * @return index of first non-valid character, otherwise -1
+	 */
+
+	public static int validateTypeToIndex(CharSequence type, int startIndex) {
+		// not empty string
+		// A-Z
+		// a-z
+		for (int i = startIndex; i < type.length(); i++) {
+			int c = type.charAt(i);
+
+			if (c >= TYPE_CHARACTERS.length) {
+				return i;
+			}
+			if (!TYPE_CHARACTERS[c]) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	public boolean validate(CharSequence string, int offset, int length) {
 		if (string == null) {
 			return false;
@@ -101,11 +127,9 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		if (string.charAt(offset + NETEX_ID_CODESPACE_LENGTH) != ':') {
 			return false;
 		}
-		int last = getLastSeperatorIndex(string, NETEX_ID_CODESPACE_LENGTH + 1, length);
-		if (last == -1) {
-			return false;
-		}
-		return validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH) && validateType(string, NETEX_ID_CODESPACE_LENGTH + 1, last)
+
+		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
+		return last != -1 && string.charAt(last) == ':' && last > NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
 				&& validateValue(string, last + 1, string.length());
 	}
 
@@ -138,46 +162,40 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	}
 
 	public boolean validateType(CharSequence type, int startIndex, int endIndex) {
-		if (type == null) {
+		if (type == null || endIndex <= startIndex) {
 			return false;
 		}
 
 		// not empty string
 		// A-Z
 		// a-z
-		if (endIndex > startIndex) {
-			for (int i = startIndex; i < endIndex; i++) {
-				int c = type.charAt(i);
+		for (int i = startIndex; i < endIndex; i++) {
+			int c = type.charAt(i);
 
-				if (c >= TYPE_CHARACTERS.length) {
-					return false;
-				}
-				if (!TYPE_CHARACTERS[c]) {
-					return false;
-				}
+			if (c >= TYPE_CHARACTERS.length) {
+				return false;
 			}
-			return true;
+			if (!TYPE_CHARACTERS[c]) {
+				return false;
+			}
 		}
-		return false;
+		return true;
 	}
 
 	public boolean validateValue(CharSequence value, int startIndex, int endIndex) {
-		if (value == null) {
+		if (value == null || endIndex <= startIndex) {
 			return false;
 		}
-		if (endIndex > startIndex) {
-			for (int i = startIndex; i < endIndex; i++) {
-				int c = value.charAt(i);
-				if (c >= VALUE_CHARACTERS.length) {
-					return false;
-				}
-				if (!VALUE_CHARACTERS[c]) {
-					return false;
-				}
+		for (int i = startIndex; i < endIndex; i++) {
+			int c = value.charAt(i);
+			if (c >= VALUE_CHARACTERS.length) {
+				return false;
 			}
-			return true;
+			if (!VALUE_CHARACTERS[c]) {
+				return false;
+			}
 		}
-		return false;
+		return true;
 	}
 
 }
