@@ -61,7 +61,6 @@ public class NetexIdParserBenchmark {
     };
 
     private static final NetexIdValidatingParser validatingParser = new NetexIdValidatingParser();
-    private static final NetexIdValidatingParserWithoutInlineValidation validatingParserNonInline = new NetexIdValidatingParserWithoutInlineValidation();
     private static final NetexIdNonvalidatingParser nonvalidatingParser = new NetexIdNonvalidatingParser();
 
     @Benchmark
@@ -87,15 +86,6 @@ public class NetexIdParserBenchmark {
         long count = 0;
         for (String id : IDS) {
             count += validatingParser.getType(id).length();
-        }
-        return count;
-    }
-
-    @Benchmark
-    public long typeValidateNoInlineValidation() {
-        long count = 0;
-        for (String id : IDS) {
-            count += validatingParserNonInline.getType(id).length();
         }
         return count;
     }
@@ -168,15 +158,6 @@ public class NetexIdParserBenchmark {
         long count = 0;
         for (String id : IDS) {
             count += validatingParser.getValue(id).length();
-        }
-        return count;
-    }
-
-    @Benchmark
-    public long valueValidateNoInlineValidation() {
-        long count = 0;
-        for (String id : IDS) {
-            count += validatingParserNonInline.getValue(id).length();
         }
         return count;
     }

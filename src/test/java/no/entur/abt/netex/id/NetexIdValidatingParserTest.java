@@ -153,5 +153,6 @@ public class NetexIdValidatingParserTest {
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getValue("AAA:B:CCC" + SURROGATE_PAIRS);
 		});
+
 	}
 }
