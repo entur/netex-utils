@@ -14,6 +14,10 @@ on:
 
 jobs:
   code-scan:
-    name: CodeQL Scan
-    uses: entur/gha-security/.github/workflows/code-scan.yml@v2
+    name: Code Scan
+    uses: entur/gha-security/.github/workflows/code-scan.yml@feature/SIK-1611
     secrets: inherit
+    with:
+      use_setup_java: true
+      java_version: "17"
+      java_distribution: "temurin"
