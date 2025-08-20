@@ -130,3 +130,8 @@ if(!validator.validateValue("123")) {
 ## NetexIdUtils
 
 Legacy utility for getting id type, value and codespace. Always validates (using regexp).
+
+## Performance
+Includes a few JMH benchmarks. Run
+
+> mvn package && java -jar target/netex-utils-*-perf-tests.jar
