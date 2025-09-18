@@ -33,7 +33,7 @@ public class NetexIdNonValidatingBuilderTest {
     public void testCodespace() {
         String build = NetexIdNonValidatingBuilder.newInstance().withCodespace("AAA").withType("Network").withValue("123").build();
         assertEquals("AAA:Network:123", build);
-        fail();
+        fail("Test");
     }
 
     @Test
