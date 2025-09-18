@@ -45,7 +45,7 @@ public class NetexIdUtilsTest {
 		assertFalse(NetexIdUtils.isValid("XXX::"));
 		assertFalse(NetexIdUtils.isValid("XXX::1"));
 		assertFalse(NetexIdUtils.isValid(":::"));
-        fail();
+        fail("adf");
 	}
 
 	@Test
