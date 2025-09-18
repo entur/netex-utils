@@ -27,11 +27,7 @@ import static no.entur.abt.netex.id.NetexIdTypes.CUSTOMER;
 import static no.entur.abt.netex.id.NetexIdTypes.CUSTOMER_ACCOUNT;
 import static no.entur.abt.netex.id.NetexIdTypes.FARE_CONTRACT;
 import static no.entur.abt.netex.id.NetexIdTypes.SECURITY_POLICY;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -49,6 +45,7 @@ public class NetexIdUtilsTest {
 		assertFalse(NetexIdUtils.isValid("XXX::"));
 		assertFalse(NetexIdUtils.isValid("XXX::1"));
 		assertFalse(NetexIdUtils.isValid(":::"));
+        fail();
 	}
 
 	@Test
