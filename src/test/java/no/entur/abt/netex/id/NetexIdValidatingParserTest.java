@@ -38,7 +38,7 @@ public class NetexIdValidatingParserTest {
 	@Test
 	public void testCodespace() {
 		assertEquals("AAA", parser.getCodespace("AAA:BBB:CCC"));
-
+        fail("Tesdddtdf");
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getCodespace("AA:BBB:CCC");
 		});

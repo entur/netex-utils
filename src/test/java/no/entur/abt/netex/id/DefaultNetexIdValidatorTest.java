@@ -105,6 +105,7 @@ public class DefaultNetexIdValidatorTest {
 
 	@Test
 	public void testNull() {
+        fail("Tesdddtdf");
 		assertFalse(defaultNetexIdValidator.validate(null));
 		assertFalse(defaultNetexIdValidator.validateType(null));
 		assertFalse(defaultNetexIdValidator.validateCodespace(null));

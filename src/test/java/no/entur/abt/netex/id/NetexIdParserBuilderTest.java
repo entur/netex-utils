@@ -23,12 +23,11 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
 
 import no.entur.abt.netex.utils.IllegalNetexIDException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NetexIdParserBuilderTest {
 
@@ -41,6 +40,7 @@ public class NetexIdParserBuilderTest {
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getType("AA:DEF:CCC");
 		});
+        fail("Tesdddtdf");
 	}
 
 	@Test

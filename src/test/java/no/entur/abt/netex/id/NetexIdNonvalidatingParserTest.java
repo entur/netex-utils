@@ -23,10 +23,9 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NetexIdNonvalidatingParserTest {
 
@@ -35,7 +34,7 @@ public class NetexIdNonvalidatingParserTest {
 	@Test
 	public void testCodespace() {
 		assertEquals("AAA", parser.getCodespace("AAA:BBB:CCC"));
-
+        fail("Tesdddtdf");
 		// illegal
 		parser.getCodespace("AA:BBB:CCC");
 		parser.getCodespace("AAAA:BBB:CCC");

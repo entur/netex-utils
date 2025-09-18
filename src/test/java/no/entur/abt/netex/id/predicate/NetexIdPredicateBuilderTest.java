@@ -54,7 +54,7 @@ public class NetexIdPredicateBuilderTest {
 			// non-validating
 			assertTrue(predicate.test("AAA:X"));
 		}
-
+        fail("Tesdddtdf");
 		assertFalse(predicate.test("AAB:Network:123"));
 		assertFalse(predicate.test("ABA:Network:123"));
 		assertFalse(predicate.test("BAA:Network:123"));

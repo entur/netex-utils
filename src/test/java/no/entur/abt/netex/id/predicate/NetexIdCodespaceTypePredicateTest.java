@@ -24,6 +24,7 @@ package no.entur.abt.netex.id.predicate;
  */
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -37,5 +38,6 @@ public class NetexIdCodespaceTypePredicateTest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			new NetexIdCodespaceTypePredicate("ABC", "");
 		});
+        fail("Tesdddtdf");
 	}
 }

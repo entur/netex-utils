@@ -37,7 +37,7 @@ public class InterningNetexIdParserTest {
 	@Test
 	public void testConstructor() {
 		Collection<String> seed = Arrays.asList("AAA", "BBB", "CCC");
-
+        fail("Tesdddtdf");
 		InterningNetexIdParser p = new InterningNetexIdParser(new NetexIdNonvalidatingParser(), seed);
 		assertEquals("AAA", p.getCodespace("AAA:BBB:CCC"));
 		assertSame("AAA", p.getCodespace("AAA:BBB:CCC"));
