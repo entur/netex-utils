@@ -25,8 +25,7 @@ package no.entur.abt.netex.id;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NetexIdNonValidatingBuilderTest {
 
@@ -34,6 +33,7 @@ public class NetexIdNonValidatingBuilderTest {
     public void testCodespace() {
         String build = NetexIdNonValidatingBuilder.newInstance().withCodespace("AAA").withType("Network").withValue("123").build();
         assertEquals("AAA:Network:123", build);
+        fail();
     }
 
     @Test
@@ -47,6 +47,7 @@ public class NetexIdNonValidatingBuilderTest {
         assertThrows(IllegalStateException.class, () -> {
             NetexIdNonValidatingBuilder.newInstance().withCodespace("AAA").withType("Network").build();
         });
+        fail();
     }
 
 }
