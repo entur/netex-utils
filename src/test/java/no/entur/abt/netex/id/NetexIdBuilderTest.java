@@ -23,10 +23,9 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class NetexIdBuilderTest {
 
@@ -62,6 +61,7 @@ public class NetexIdBuilderTest {
 		assertThrows(IllegalStateException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withType("Network!").build();
 		});
+        fail();
 	}
 
 }
