@@ -68,4 +68,9 @@ public class NetexIdBuilderTest {
     public void testBuilderFromExistingId() {
         assertEquals("AAA:Network:123", NetexIdBuilder.newInstance("AAA:Network:123").build());
     }
+
+    @Test
+    public void testBuilderFromExistingIdValue() {
+        assertEquals("AAA:Network:456", NetexIdBuilder.newInstance("AAA:Network:123").withValue("456").build());
+    }
 }

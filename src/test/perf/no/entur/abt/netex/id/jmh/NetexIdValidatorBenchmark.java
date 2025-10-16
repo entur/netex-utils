@@ -26,7 +26,7 @@ package no.entur.abt.netex.id.jmh;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
-import no.entur.abt.netex.id.*;
+import no.entur.abt.netex.id.DefaultNetexIdValidator;
 import no.entur.abt.netex.utils.NetexIdUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
