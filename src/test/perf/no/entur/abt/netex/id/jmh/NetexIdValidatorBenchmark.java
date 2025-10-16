@@ -71,7 +71,7 @@ public class NetexIdValidatorBenchmark {
     private static final DefaultNetexIdValidator validator = new DefaultNetexIdValidator();
 
     @Benchmark
-    public long validateNetexUtils() {
+    public long validateNetexIdUtils() {
         long count = 0;
         for (String id : IDS) {
             if (NetexIdUtils.isValid(id)) {

@@ -52,12 +52,12 @@ import java.util.concurrent.TimeUnit;
 public class NetexIdCreateBenchmark {
 
     @Benchmark
-    public String createFromExistingIdNetexUtils() {
+    public String createFromExistingIdNetexIdUtils() {
         return NetexIdUtils.createFrom("XXX:SecurityPolicy:æøåÆØÅ", "abc");
     }
 
     @Benchmark
-    public String createIdNetexUtils() {
+    public String createIdNetexIdUtils() {
         return NetexIdUtils.createId("XXX", "SecurityPolicy", "æøåÆØÅ");
     }
 
