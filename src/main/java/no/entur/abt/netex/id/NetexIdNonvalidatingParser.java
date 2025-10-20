@@ -24,7 +24,13 @@ package no.entur.abt.netex.id;
  */
 public class NetexIdNonvalidatingParser implements NetexIdParser {
 
-	public String getCodespace(CharSequence id) {
+    private final static NetexIdNonvalidatingParser INSTANCE = new NetexIdNonvalidatingParser();
+
+    public static NetexIdNonvalidatingParser getInstance() {
+        return INSTANCE;
+    }
+
+    public String getCodespace(CharSequence id) {
 		return id.subSequence(0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH).toString();
 	}
 

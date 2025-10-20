@@ -34,7 +34,19 @@ public class NetexIdBuilder {
 		return new NetexIdBuilder();
 	}
 
-	private final NetexIdValidator validator;
+    /**
+     *
+     * Build from existing Netex id.
+     *
+     * @param id existing id
+     * @return new builder
+     */
+
+    public static NetexIdBuilder newInstance(String id) {
+        return new NetexIdBuilder(id);
+    }
+
+    private final NetexIdValidator validator;
 
 	protected String codespace;
 	protected String type;
@@ -47,6 +59,24 @@ public class NetexIdBuilder {
 	public NetexIdBuilder(NetexIdValidator validator) {
 		this.validator = validator;
 	}
+
+    public NetexIdBuilder(String id) {
+        this(DefaultNetexIdValidator.getInstance(), id);
+    }
+
+    public NetexIdBuilder(NetexIdValidator validator, String id) {
+        this.validator = validator;
+
+        if(!validator.validate(id)) {
+            throw NetexIdValidatingParser.getException(id);
+        }
+
+        // use id as template
+        NetexIdNonvalidatingParser parser = NetexIdNonvalidatingParser.getInstance();
+        codespace = parser.getCodespace(id);
+        type = parser.getType(id);
+        value = parser.getValue(id);
+    }
 
 	public NetexIdBuilder withCodespace(String codespace) {
 		this.codespace = codespace;
