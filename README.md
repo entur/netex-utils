@@ -43,7 +43,7 @@ if (!validator.validate(id)) {
 }
 
 // Parse
-NetexIdParser parser = new NetexIdParserBuilder().build();
+NetexIdParser parser = NetexIdParserBuilder().newInstance();
 String codespace = parser.getCodespace(id); // AAA
 String type      = parser.getType(id);      // FareZone
 String value     = parser.getValue(id);     // 123
