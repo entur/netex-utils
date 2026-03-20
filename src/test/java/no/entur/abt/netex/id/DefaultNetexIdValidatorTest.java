@@ -137,10 +137,16 @@ public class DefaultNetexIdValidatorTest {
 	@Test
 	public void testValidateWithOffset_whenValidSubsequence_thenReturnTrue() {
 		String withPrefix = "XXAAA:BBB:CCC";
-		assertTrue(defaultNetexIdValidator.validate(withPrefix, 2, withPrefix.length()));
+		assertTrue(defaultNetexIdValidator.validate(withPrefix, 2, withPrefix.length() - 2));
 
 		String withSuffix = "AAA:BBB:CCCZZ";
 		assertTrue(defaultNetexIdValidator.validate(withSuffix, 0, withSuffix.length()));
+	}
+
+	@Test
+	public void testValidateWithOffset_whenTrailingCharactersOutsideEndIndex_thenIgnoreThem() {
+		String bounded = "XXAAA:BBB:CCC!!";
+		assertTrue(defaultNetexIdValidator.validate(bounded, 2, bounded.length() - 4));
 	}
 
 	@Test
