@@ -141,13 +141,13 @@ public class DefaultNetexIdValidatorTest {
 	@Test
 	public void testValidateWithOffset_whenMissingTypeSeparator_thenReturnFalse() {
 		String invalid = "XXXAABBB:CCC";
-		assertFalse(defaultNetexIdValidator.validate(invalid, 2, invalid.length()));
+		assertFalse(defaultNetexIdValidator.validate(invalid, 2, invalid.length() - 2));
 	}
 
 	@Test
 	public void testValidateWithOffset_whenCodespaceInvalid_thenReturnFalse() {
 		String invalidCodespace = "XXA1A:BBB:CCC";
-		assertFalse(defaultNetexIdValidator.validate(invalidCodespace, 2, invalidCodespace.length()));
+		assertFalse(defaultNetexIdValidator.validate(invalidCodespace, 2, invalidCodespace.length() - 2));
 	}
 
 	@Test
