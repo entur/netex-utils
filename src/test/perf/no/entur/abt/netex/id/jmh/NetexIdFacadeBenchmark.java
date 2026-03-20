@@ -50,75 +50,75 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @Timeout(timeUnit = TimeUnit.SECONDS, time = 10)
 public class NetexIdFacadeBenchmark {
 
-	private static final String ID = "XXX:SecurityPolicy:aeoAEO";
+    private static final String ID = "XXX:SecurityPolicy:aeoAEO";
 
-	@Benchmark
-	public String modernCreateId() {
-		return NetexId.createId("XXX", "SecurityPolicy", "aeoAEO");
-	}
+    @Benchmark
+    public String modernCreateId() {
+        return NetexId.createId("XXX", "SecurityPolicy", "aeoAEO");
+    }
 
-	@Benchmark
-	public String legacyCreateId() {
-		return no.entur.abt.netex.utils.NetexIdUtils.createId("XXX", "SecurityPolicy", "aeoAEO");
-	}
+    @Benchmark
+    public String legacyCreateId() {
+        return no.entur.abt.netex.utils.NetexIdUtils.createId("XXX", "SecurityPolicy", "aeoAEO");
+    }
 
-	@Benchmark
-	public String modernCreateFrom() {
-		return NetexId.createFrom(ID, "abc");
-	}
+    @Benchmark
+    public String modernCreateFrom() {
+        return NetexId.createFrom(ID, "abc");
+    }
 
-	@Benchmark
-	public String legacyCreateFrom() {
-		return no.entur.abt.netex.utils.NetexIdUtils.createFrom(ID, "abc");
-	}
+    @Benchmark
+    public String legacyCreateFrom() {
+        return no.entur.abt.netex.utils.NetexIdUtils.createFrom(ID, "abc");
+    }
 
-	@Benchmark
-	public String modernGetCodespace() {
-		return NetexId.getCodespace(ID);
-	}
+    @Benchmark
+    public String modernGetCodespace() {
+        return NetexId.getCodespace(ID);
+    }
 
-	@Benchmark
-	public String legacyGetCodespace() {
-		return no.entur.abt.netex.utils.NetexIdUtils.getCodespace(ID);
-	}
+    @Benchmark
+    public String legacyGetCodespace() {
+        return no.entur.abt.netex.utils.NetexIdUtils.getCodespace(ID);
+    }
 
-	@Benchmark
-	public String modernGetType() {
-		return NetexId.getType(ID);
-	}
+    @Benchmark
+    public String modernGetType() {
+        return NetexId.getType(ID);
+    }
 
-	@Benchmark
-	public String legacyGetType() {
-		return no.entur.abt.netex.utils.NetexIdUtils.getType(ID);
-	}
+    @Benchmark
+    public String legacyGetType() {
+        return no.entur.abt.netex.utils.NetexIdUtils.getType(ID);
+    }
 
-	@Benchmark
-	public String modernGetValue() {
-		return NetexId.getValue(ID);
-	}
+    @Benchmark
+    public String modernGetValue() {
+        return NetexId.getValue(ID);
+    }
 
-	@Benchmark
-	public String legacyGetValue() {
-		return no.entur.abt.netex.utils.NetexIdUtils.getValue(ID);
-	}
+    @Benchmark
+    public String legacyGetValue() {
+        return no.entur.abt.netex.utils.NetexIdUtils.getValue(ID);
+    }
 
-	@Benchmark
-	public boolean modernIsValid() {
-		return NetexId.isValid(ID);
-	}
+    @Benchmark
+    public boolean modernIsValid() {
+        return NetexId.isValid(ID);
+    }
 
-	@Benchmark
-	public boolean legacyIsValid() {
-		return no.entur.abt.netex.utils.NetexIdUtils.isValid(ID);
-	}
+    @Benchmark
+    public boolean legacyIsValid() {
+        return no.entur.abt.netex.utils.NetexIdUtils.isValid(ID);
+    }
 
-	public static void main(String[] args) throws RunnerException {
-		Options opt = new OptionsBuilder()
-				.include(NetexIdFacadeBenchmark.class.getSimpleName())
-				.result("jmh-result-" + Instant.now().toString() + ".json")
-				.resultFormat(ResultFormatType.JSON)
-				.build();
-		new Runner(opt).run();
-	}
+    public static void main(String[] args) throws RunnerException {
+        Options opt = new OptionsBuilder()
+                .include(NetexIdFacadeBenchmark.class.getSimpleName())
+                .result("jmh-result-" + Instant.now().toString() + ".json")
+                .resultFormat(ResultFormatType.JSON)
+                .build();
+        new Runner(opt).run();
+    }
 }
 
