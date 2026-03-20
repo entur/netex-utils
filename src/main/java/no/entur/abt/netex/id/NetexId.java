@@ -40,18 +40,6 @@ public final class NetexId {
 	}
 
 	public static String createId(String codespace, String datatype, String value) {
-		if (!VALIDATOR.validateCodespace(codespace)) {
-			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z), found " + codespace);
-		}
-		if (!VALIDATOR.validateType(datatype)) {
-			throw new IllegalStateException("Expected type (nonempty with characters A-Z or a-z), found " + datatype);
-		}
-		if (!VALIDATOR.validateValue(value)) {
-			throw new IllegalStateException(
-					"Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -), found "
-							+ value);
-		}
-
 		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + datatype + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
 

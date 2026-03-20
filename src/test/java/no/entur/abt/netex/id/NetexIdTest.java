@@ -131,13 +131,6 @@ public class NetexIdTest {
 	}
 
 	@Test
-	public void createId_whenInvalid_thenThrowIllegalStateException() {
-		assertThrows(IllegalStateException.class, () -> NetexId.createId("XX", "FareContract", "abc"));
-		assertThrows(IllegalStateException.class, () -> NetexId.createId("XXX", "", "abc"));
-		assertThrows(IllegalStateException.class, () -> NetexId.createId("XXX", "FareContract", "@"));
-	}
-
-	@Test
 	public void createFrom_whenValid_thenReturnId() {
 		assertEquals("XXX:FareContract:abc", NetexId.createFrom("XXX:FareContract:a", "abc"));
 	}
@@ -145,11 +138,6 @@ public class NetexIdTest {
 	@Test
 	public void createFrom_whenInvalid_thenThrowIllegalNetexIDException() {
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.createFrom("XXX:FareContract", "abc"));
-	}
-
-	@Test
-	public void createFrom_whenInvalidValuePart_thenThrowIllegalStateException() {
-		assertThrows(IllegalStateException.class, () -> NetexId.createFrom("XXX:FareContract:a", "@"));
 	}
 
 }
