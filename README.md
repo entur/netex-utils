@@ -10,7 +10,7 @@ Utility classes for working with [NeTEx](https://netex-cen.eu/) IDs on the forma
 <dependency>
     <groupId>no.entur.abt</groupId>
     <artifactId>netex-utils</artifactId>
-    <version>1.53.0</version>
+    <version>x.x.x</version>
 </dependency>
 ```
 
