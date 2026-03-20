@@ -150,4 +150,11 @@ public class DefaultNetexIdValidatorTest {
 		assertFalse(defaultNetexIdValidator.validate(invalidCodespace, 2, invalidCodespace.length()));
 	}
 
+	@Test
+	public void testValidateWithOffset_whenTypeSeparatorOnlyBeyondEndIndex_thenReturnFalse() {
+		// The type/value separator ':' exists only outside the bounded window; should be treated as invalid
+		String s = "XXAAA:BBBCCC:VAL";
+		assertFalse(defaultNetexIdValidator.validate(s, 2, 8)); // window is "AAA:BBBC" - missing type/value separator ':'
+	}
+
 }
