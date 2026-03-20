@@ -35,6 +35,7 @@ public class BenchmarkMain {
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
+                .include(NetexIdFacadeBenchmark.class.getSimpleName())
                 .include(NetexIdValidatorBenchmark.class.getSimpleName())
                 .include(NetexIdCreateBenchmark.class.getSimpleName())
                 .include(NetexIdPredicateBenchmark.class.getSimpleName())

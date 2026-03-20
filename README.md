@@ -24,6 +24,7 @@ Create, parse, validate, and filter NeTEx IDs. All utilities (excluding builders
 | Extract codespace / type / value | `NetexIdParser` + `NetexIdParserBuilder` |
 | Filter a stream of IDs | `NetexIdPredicate` + `NetexIdPredicateBuilder` |
 | Validate an ID or its parts | `NetexIdValidator` / `DefaultNetexIdValidator` |
+| Modern one-liner helpers | `no.entur.abt.netex.id.NetexId` |
 | Legacy one-liner helpers | `NetexIdUtils` _(slower, see below)_ |
 
 ### Quick example
@@ -173,9 +174,28 @@ validator.validateType("FareZone");        // true
 validator.validateValue("123");            // true
 ```
 
+## NetexId (modern facade)
+
+For a static, one-liner API that mirrors the legacy utility shape while using modern parser/validator internals, use `no.entur.abt.netex.id.NetexId`.
+
+```java
+import no.entur.abt.netex.id.NetexId;
+
+String id = NetexId.createId("AAA", "FareZone", "123");
+String derived = NetexId.createFrom(id, "456");
+
+String codespace = NetexId.getCodespace(id); // AAA
+String type      = NetexId.getType(id);      // FareZone
+String value     = NetexId.getValue(id);     // 123
+
+if (NetexId.isValid(id)) {
+    NetexId.assertValidOfType(id, "FareZone");
+}
+```
+
 ## NetexIdUtils (legacy)
 
-> ⚠️ **`NetexIdUtils` is considerably slower than the modern APIs** — benchmarks show parsing and validation to be ~25–33× slower due to regexp-based validation. Prefer `NetexIdParser`, `NetexIdValidator`, and `NetexIdBuilder` for any performance-sensitive code.
+> ⚠️ **`no.entur.abt.netex.utils.NetexIdUtils` is considerably slower than the modern APIs** — benchmarks show parsing and validation to be ~25–33× slower due to regexp-based validation. Prefer `NetexIdParser`, `NetexIdValidator`, `NetexIdBuilder`, or the modern facade `no.entur.abt.netex.id.NetexId` for performance-sensitive code.
 
 ```java
 String id = NetexIdUtils.createId("AAA", "FareZone", "123");
@@ -200,15 +220,15 @@ JMH benchmarks are included. Run them with:
 mvn package && java -jar target/netex-utils-*-perf-tests.jar
 ```
 
-Results from the included benchmark runs (ops/ms, higher is better):
+Results from recent Java 25 runs of `NetexIdFacadeBenchmark` and `NetexIdValidatorBenchmark` (ops/ms, higher is better):
 
-| Operation | Modern API | `NetexIdUtils` | Ratio |
+| Operation | `NetexId` (modern facade) | `NetexIdUtils` (legacy) | Ratio |
 |---|---|---|---|
-| Get codespace | 6 005 | 236 | ~25× |
-| Get type | 7 615 | 228 | ~33× |
-| Get value | 5 797 | 226 | ~26× |
-| Validate ID | 7 707 | 247 | ~31× |
-| Create ID from existing | 27 496 | 1 575 | ~17× |
-| Create ID from parts | 63 906 | 51 561 | ~1.2× |
+| Get codespace | 132 779.83 | 3 226.79 | ~41.1× |
+| Get type | 113 903.69 | 3 269.12 | ~34.8× |
+| Get value | 133 235.53 | 3 141.69 | ~42.4× |
+| Validate ID | 7 568.93 | 250.41 | ~30.2× |
+| Create ID from existing | 83 665.05 | 1 584.61 | ~52.8× |
+| Create ID from parts | 265 794.53 | 50 961.92 | ~5.2× |
 
-Measured on a single machine; results will vary by JVM and hardware.
+Measured on a single machine (JDK 25, JMH 1.37); results will vary by JVM, CPU, and benchmark settings.
