@@ -83,6 +83,11 @@ public class NetexIdTest {
 	}
 
 	@Test
+	public void getCodespace_whenValid_thenReturnCodespace() {
+		assertEquals("TST", NetexId.getCodespace("TST:FareContract:abc"));
+	}
+
+	@Test
 	public void getType_whenInvalidThenThrowIllegalNetexIDException() {
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getType(null));
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getType(""));
@@ -92,12 +97,32 @@ public class NetexIdTest {
 	}
 
 	@Test
+	public void getType_whenValid_thenReturnType() {
+		assertEquals("FareContract", NetexId.getType("TST:FareContract:abc"));
+	}
+
+	@Test
 	public void getValue_whenInvalidThenThrowIllegalNetexIDException() {
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getValue(null));
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getValue(""));
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getValue("TST"));
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getValue("TST:Type"));
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getValue("TST:Type:"));
+	}
+
+	@Test
+	public void getValue_whenValid_thenReturnValue() {
+		assertEquals("abc", NetexId.getValue("TST:FareContract:abc"));
+	}
+
+	@Test
+	public void assertValid_whenValid_thenDoNotThrow() {
+		assertDoesNotThrow(() -> NetexId.assertValid("TST:FareContract:abc"));
+	}
+
+	@Test
+	public void assertValid_whenInvalid_thenThrowIllegalNetexIDException() {
+		assertThrows(IllegalNetexIDException.class, () -> NetexId.assertValid("TST:FareContract"));
 	}
 
 	@Test
@@ -120,6 +145,11 @@ public class NetexIdTest {
 	@Test
 	public void createFrom_whenInvalid_thenThrowIllegalNetexIDException() {
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.createFrom("XXX:FareContract", "abc"));
+	}
+
+	@Test
+	public void createFrom_whenInvalidValuePart_thenThrowIllegalStateException() {
+		assertThrows(IllegalStateException.class, () -> NetexId.createFrom("XXX:FareContract:a", "@"));
 	}
 
 }
