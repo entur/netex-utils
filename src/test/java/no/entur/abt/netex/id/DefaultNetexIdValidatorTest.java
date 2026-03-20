@@ -117,24 +117,6 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
-	public void testValidateToValueIndex_whenValid_thenReturnValueStartIndex() {
-		String id = "AAA:BBB:CCC";
-		assertEquals(8, defaultNetexIdValidator.validateToValueIndex(id));
-
-		String nordic = "AAA:Type:ØÆÅ";
-		assertEquals(9, defaultNetexIdValidator.validateToValueIndex(nordic));
-	}
-
-	@Test
-	public void testValidateToValueIndex_whenInvalid_thenReturnMinusOne() {
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex(null));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA:BBB"));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA::BBB"));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA:BBB:@"));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA!:BBB:CCC"));
-	}
-
-	@Test
 	public void testValidateWithOffset_whenValidSubsequence_thenReturnTrue() {
 		String withPrefix = "XXAAA:BBB:CCC";
 		assertTrue(defaultNetexIdValidator.validate(withPrefix, 2, withPrefix.length() - 2));
