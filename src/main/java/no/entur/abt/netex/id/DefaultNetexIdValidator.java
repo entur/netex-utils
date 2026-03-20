@@ -147,6 +147,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 				&& validateValue(string, last + 1, string.length());
 	}
 
+	@Override
 	public boolean validate(CharSequence string, int offset, int length) {
 		if (string == null) {
 			return false;
