@@ -99,11 +99,23 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	 */
 
 	public static int validateTypeToIndex(CharSequence type, int startIndex) {
+		return validateTypeToIndex(type, startIndex, type.length());
+	}
+
+	/**
+	 * Validate netex id type part within a bounded window, return index of first non-valid character
+	 *
+	 * @param type netex id
+	 * @param startIndex start index (inclusive)
+	 * @param endIndex end index (exclusive)
+	 * @return index of first non-valid character, otherwise -1
+	 */
+
+	public static int validateTypeToIndex(CharSequence type, int startIndex, int endIndex) {
 		// not empty string
 		// A-Z
 		// a-z
-		int length = type.length();
-		for (int i = startIndex; i < length; i++) {
+		for (int i = startIndex; i < endIndex; i++) {
 			int c = type.charAt(i);
 
 			if (c >= TYPE_CHARACTERS.length) {
@@ -148,7 +160,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 			return false;
 		}
 
-		int last = validateTypeToIndex(string, offset + NETEX_ID_CODESPACE_LENGTH + 1);
+		int last = validateTypeToIndex(string, offset + NETEX_ID_CODESPACE_LENGTH + 1, offset + length);
 		return last != -1 && string.charAt(last) == ':' && last > offset + NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, offset, offset + NETEX_ID_CODESPACE_LENGTH)
 				&& validateValue(string, last + 1, offset + length);
 	}
