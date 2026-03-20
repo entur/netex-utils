@@ -74,7 +74,7 @@ public class NetexIdTest {
 	}
 
 	@Test
-	public void getCodespace_whenInvalidThenThrowIllegalNetexIDException() {
+	public void getCodespace_whenInvalid_thenThrowIllegalNetexIDException() {
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getCodespace(null));
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getCodespace(""));
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.getCodespace("TST"));
