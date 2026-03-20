@@ -229,6 +229,6 @@ Results from a recent Java 25 run of `NetexIdFacadeBenchmark` (ops/ms, higher is
 | Get value | 133 378 | 3 129 | ~43× |
 | Validate ID | 213 979 | 3 881 | ~55× |
 | Create ID from existing | 40 732 | 1 629 | ~25× |
-| Create ID from parts | 69 831 | 50 834 | ~1.4× |
+| Create ID from parts | 260 408 | 49 765 | ~5.2× |
 
 Measured on a single machine (JDK 25, JMH 1.37); results will vary by JVM, CPU, and benchmark settings.
