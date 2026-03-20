@@ -147,14 +147,14 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		}
 
 		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		if(last == -1 || string.charAt(last) != ':' || last <= NETEX_ID_CODESPACE_LENGTH + 1) {
+		if (last == -1 || string.charAt(last) != ':' || last <= NETEX_ID_CODESPACE_LENGTH + 1) {
 			return -1;
 		}
-		if(!validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)) {
+		if (!validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)) {
 			return -1;
 		}
 		last++;
-		if(!validateValue(string, last, string.length())) {
+		if (!validateValue(string, last, string.length())) {
 			return -1;
 		}
 		return last;
