@@ -89,12 +89,12 @@ Create a validating or non-validating parser with `NetexIdParserBuilder`:
 
 ```java
 // Validating (default) — throws IllegalNetexIDException for malformed IDs
-NetexIdParser parser = new NetexIdParserBuilder()
+NetexIdParser parser = NetexIdParserBuilder.newInstance()
     .withValidation(true)
     .build();
 
 // Non-validating — fastest, no input checks
-NetexIdParser lenient = new NetexIdParserBuilder()
+NetexIdParser lenient = NetexIdParserBuilder.newInstance()
     .withValidation(false)
     .build();
 ```
@@ -114,7 +114,7 @@ When parsing large volumes of IDs with repeated codespace/type values, enable in
 ```java
 Set<String> seed = Set.of("AAA", "BBB", "FareZone", "Network");
 
-NetexIdParser parser = new NetexIdParserBuilder()
+NetexIdParser parser = NetexIdParserBuilder.newInstance()
     .withValidation(false)
     .withStringInterning(true)
     .withStringInterningInitialValues(seed) // pre-warms the intern cache
