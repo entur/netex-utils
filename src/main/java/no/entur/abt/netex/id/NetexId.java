@@ -47,6 +47,7 @@ public final class NetexId {
 	}
 
 	public static String createFrom(String id, String valuePart) {
+		Objects.requireNonNull(valuePart, "valuePart");
 		int index = VALIDATOR.validateToValueIndex(id);
 		if(index == -1) {
 			throw NetexIdValidatingParser.getException(id);

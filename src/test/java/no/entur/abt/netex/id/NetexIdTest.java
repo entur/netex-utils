@@ -136,6 +136,11 @@ public class NetexIdTest {
 	}
 
 	@Test
+	public void createFrom_whenNullValuePart_thenThrowNullPointerException() {
+		assertThrows(NullPointerException.class, () -> NetexId.createFrom("XXX:FareContract:a", null));
+	}
+
+	@Test
 	public void createFrom_whenInvalid_thenThrowIllegalNetexIDException() {
 		assertThrows(IllegalNetexIDException.class, () -> NetexId.createFrom("XXX:FareContract", "abc"));
 	}
