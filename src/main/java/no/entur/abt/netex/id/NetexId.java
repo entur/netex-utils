@@ -40,6 +40,9 @@ public final class NetexId {
 	}
 
 	public static String createId(String codespace, String datatype, String value) {
+		Objects.requireNonNull(codespace, "codespace must not be null");
+		Objects.requireNonNull(datatype, "datatype must not be null");
+		Objects.requireNonNull(value, "value must not be null");
 		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + datatype + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
 
