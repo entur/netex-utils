@@ -220,15 +220,15 @@ JMH benchmarks are included. Run them with:
 mvn package && java -jar target/netex-utils-*-perf-tests.jar
 ```
 
-Results from a recent Java 25 run of `NetexIdFacadeBenchmark` (ops/ms, higher is better):
+Results from recent Java 25 runs of `NetexIdFacadeBenchmark` and `NetexIdValidatorBenchmark` (ops/ms, higher is better):
 
 | Operation | `NetexId` (modern facade) | `NetexIdUtils` (legacy) | Ratio |
 |---|---|---|---|
-| Get codespace | 133 098 | 3 209 | ~41× |
-| Get type | 114 048 | 3 174 | ~36× |
-| Get value | 133 378 | 3 129 | ~43× |
-| Validate ID | 213 979 | 3 881 | ~55× |
-| Create ID from existing | 40 732 | 1 629 | ~25× |
-| Create ID from parts | 260 408 | 49 765 | ~5.2× |
+| Get codespace | 132 779.83 | 3 226.79 | ~41.1× |
+| Get type | 113 903.69 | 3 269.12 | ~34.8× |
+| Get value | 133 235.53 | 3 141.69 | ~42.4× |
+| Validate ID | 7 568.93 | 250.41 | ~30.2× |
+| Create ID from existing | 83 665.05 | 1 584.61 | ~52.8× |
+| Create ID from parts | 265 794.53 | 50 961.92 | ~5.2× |
 
 Measured on a single machine (JDK 25, JMH 1.37); results will vary by JVM, CPU, and benchmark settings.

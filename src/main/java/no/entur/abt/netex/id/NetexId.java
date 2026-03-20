@@ -32,8 +32,8 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
  */
 public final class NetexId {
 
-	private static final NetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
-	private static final NetexIdParser NON_VALIDATING_PARSER = NetexIdNonvalidatingParser.getInstance();
+	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+	private static final NetexIdNonvalidatingParser NON_VALIDATING_PARSER = NetexIdNonvalidatingParser.getInstance();
 
 	private NetexId() {
 		// utility class
@@ -44,8 +44,11 @@ public final class NetexId {
 	}
 
 	public static String createFrom(String id, String valuePart) {
-		assertValid(id);
-		return createId(NON_VALIDATING_PARSER.getCodespace(id), NON_VALIDATING_PARSER.getType(id), valuePart);
+		int index = VALIDATOR.validateToValueIndex(id);
+		if(index == -1) {
+			throw NetexIdValidatingParser.getException(id);
+		}
+		return id.substring(0, index) + valuePart;
 	}
 
 	public static String getCodespace(String id) {

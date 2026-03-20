@@ -115,22 +115,68 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		return -1;
 	}
 
-	public boolean validate(CharSequence string, int offset, int length) {
+	@Override
+	public boolean validate(CharSequence string) {
 		if (string == null) {
 			return false;
 		}
 
 		// minimum size is XXX:X:X
-		if (length < NETEX_ID_MINIMUM_LENGTH) {
+		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
 			return false;
 		}
-		if (string.charAt(offset + NETEX_ID_CODESPACE_LENGTH) != ':') {
+		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
 			return false;
 		}
 
 		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
 		return last != -1 && string.charAt(last) == ':' && last > NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
 				&& validateValue(string, last + 1, string.length());
+	}
+
+	public boolean validate(CharSequence string, int offset, int length) {
+		if (string == null) {
+			return false;
+		}
+
+		// minimum size is XXX:X:X
+		if (length - offset < NETEX_ID_MINIMUM_LENGTH) {
+			return false;
+		}
+		if (string.charAt(offset + NETEX_ID_CODESPACE_LENGTH) != ':') {
+			return false;
+		}
+
+		int last = validateTypeToIndex(string, offset + NETEX_ID_CODESPACE_LENGTH + 1);
+		return last != -1 && string.charAt(last) == ':' && last > offset + NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, offset, offset + NETEX_ID_CODESPACE_LENGTH)
+				&& validateValue(string, last + 1, string.length());
+	}
+
+	public int validateToValueIndex(CharSequence string) {
+		if (string == null) {
+			return -1;
+		}
+
+		// minimum size is XXX:X:X
+		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
+			return -1;
+		}
+		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
+			return -1;
+		}
+
+		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
+		if(last == -1 || string.charAt(last) != ':' || last <= NETEX_ID_CODESPACE_LENGTH + 1) {
+			return -1;
+		}
+		if(!validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)) {
+			return -1;
+		}
+		last++;
+		if(!validateValue(string, last, string.length())) {
+			return -1;
+		}
+		return last;
 	}
 
 	protected static int getLastSeperatorIndex(CharSequence string, int startIndex, int endIndex) {
