@@ -135,24 +135,6 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 				&& validateValue(string, last + 1, string.length());
 	}
 
-	public boolean validate(CharSequence string, int offset, int length) {
-		if (string == null) {
-			return false;
-		}
-
-		// minimum size is XXX:X:X
-		if (length < NETEX_ID_MINIMUM_LENGTH) {
-			return false;
-		}
-		if (string.charAt(offset + NETEX_ID_CODESPACE_LENGTH) != ':') {
-			return false;
-		}
-
-		int last = validateTypeToIndex(string, offset + NETEX_ID_CODESPACE_LENGTH + 1);
-		return last != -1 && string.charAt(last) == ':' && last > offset + NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, offset, offset + NETEX_ID_CODESPACE_LENGTH)
-				&& validateValue(string, last + 1, offset + length);
-	}
-
 	protected static int getLastSeperatorIndex(CharSequence string, int startIndex, int endIndex) {
 		for (int i = endIndex - 1; i >= startIndex; i--) {
 			if (string.charAt(i) == NETEX_ID_SEPARATOR_CHAR) {

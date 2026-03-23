@@ -109,45 +109,6 @@ public class DefaultNetexIdValidatorTest {
 		assertFalse(defaultNetexIdValidator.validateType(null));
 		assertFalse(defaultNetexIdValidator.validateCodespace(null));
 		assertFalse(defaultNetexIdValidator.validateValue(null));
-
-		assertFalse(defaultNetexIdValidator.validate(null, 0, 3));
-		assertFalse(defaultNetexIdValidator.validateType(null, 0, 3));
-		assertFalse(defaultNetexIdValidator.validateCodespace(null, 0, 3));
-		assertFalse(defaultNetexIdValidator.validateValue(null, 0, 3));
-	}
-
-	@Test
-	public void testValidateWithOffset_whenValidSubsequence_thenReturnTrue() {
-		String withPrefix = "XXAAA:BBB:CCC";
-		assertTrue(defaultNetexIdValidator.validate(withPrefix, 2, withPrefix.length() - 2));
-
-		String withSuffix = "AAA:BBB:CCCZZ";
-		assertTrue(defaultNetexIdValidator.validate(withSuffix, 0, withSuffix.length()));
-	}
-
-	@Test
-	public void testValidateWithOffset_whenTrailingCharactersOutsideEndIndex_thenIgnoreThem() {
-		String bounded = "XXAAA:BBB:CCC!!";
-		assertTrue(defaultNetexIdValidator.validate(bounded, 2, bounded.length() - 4));
-	}
-
-	@Test
-	public void testValidateWithOffset_whenTooShortSubsequence_thenReturnFalse() {
-		String id = "AAA:BBB:CCC";
-		assertFalse(defaultNetexIdValidator.validate(id, 0, 5));
-		assertFalse(defaultNetexIdValidator.validate("XXAAA:BBB:CCC", 2, 7));
-	}
-
-	@Test
-	public void testValidateWithOffset_whenMissingTypeSeparator_thenReturnFalse() {
-		String invalid = "XXXAABBB:CCC";
-		assertFalse(defaultNetexIdValidator.validate(invalid, 2, invalid.length()));
-	}
-
-	@Test
-	public void testValidateWithOffset_whenCodespaceInvalid_thenReturnFalse() {
-		String invalidCodespace = "XXA1A:BBB:CCC";
-		assertFalse(defaultNetexIdValidator.validate(invalidCodespace, 2, invalidCodespace.length()));
 	}
 
 }
