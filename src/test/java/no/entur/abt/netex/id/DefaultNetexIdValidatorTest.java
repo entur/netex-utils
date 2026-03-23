@@ -109,6 +109,11 @@ public class DefaultNetexIdValidatorTest {
 		assertFalse(defaultNetexIdValidator.validateType(null));
 		assertFalse(defaultNetexIdValidator.validateCodespace(null));
 		assertFalse(defaultNetexIdValidator.validateValue(null));
+
+		assertFalse(defaultNetexIdValidator.validate(null, 0, 3));
+		assertFalse(defaultNetexIdValidator.validateType(null, 0, 3));
+		assertFalse(defaultNetexIdValidator.validateCodespace(null, 0, 3));
+		assertFalse(defaultNetexIdValidator.validateValue(null, 0, 3));
 	}
 
 }

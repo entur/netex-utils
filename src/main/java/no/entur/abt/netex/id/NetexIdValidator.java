@@ -26,6 +26,14 @@ public interface NetexIdValidator {
 
 	boolean validate(CharSequence id);
 
+	@Deprecated
+	default boolean validate(CharSequence id, int offset, int length) {
+		if (id == null) {
+			return false;
+		}
+		return validate(id.subSequence(offset, offset + length));
+	}
+
 	default boolean validateCodespace(CharSequence codespace) {
 		if (codespace == null) {
 			return false;
