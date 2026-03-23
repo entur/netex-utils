@@ -32,6 +32,7 @@ public class NetexIdValidatingParser extends DefaultNetexIdValidator implements 
 		return result.toString();
 	}
 
+
 	public String getType(CharSequence string) {
 		int last = validateToIndex(string);
 		return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
