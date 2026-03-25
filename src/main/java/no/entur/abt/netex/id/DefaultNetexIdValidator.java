@@ -125,12 +125,12 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
 			return false;
 		}
-		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
+		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != NETEX_ID_SEPARATOR_CHAR) {
 			return false;
 		}
 
 		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		return last != -1 && string.charAt(last) == ':' && last > NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
+		return last != -1 && string.charAt(last) == NETEX_ID_SEPARATOR_CHAR && last > NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
 				&& validateValue(string, last + 1, string.length());
 	}
 
