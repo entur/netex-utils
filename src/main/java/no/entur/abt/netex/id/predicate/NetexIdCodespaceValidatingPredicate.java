@@ -4,7 +4,7 @@ package no.entur.abt.netex.id.predicate;
  * #%L
  * Netex utils
  * %%
- * Copyright (C) 2019 - 2020 Entur
+ * Copyright (C) 2019 - 2025 Entur
  * %%
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -24,22 +24,27 @@ package no.entur.abt.netex.id.predicate;
  */
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
+import no.entur.abt.netex.id.NetexIdValidatingParser;
 
-/**
- *
- * Predicate for namespace (ignores type and value).. Does not validate input codespace.
- *
- */
+public class NetexIdCodespaceValidatingPredicate extends NetexIdCodespacePredicate {
 
-public class NetexIdCodespacePredicate implements NetexIdPredicate {
+    private final static DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
 
-	private final char[] prefix;
+    public NetexIdCodespaceValidatingPredicate(CharSequence codespace) {
+        super(codespace);
+    }
 
-	public NetexIdCodespacePredicate(CharSequence codespace) {
-		prefix = new char[] { codespace.charAt(0), codespace.charAt(1), codespace.charAt(2), DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR };
-	}
+    @Override
+    public boolean test(CharSequence t) {
+        if(!VALIDATOR.validate(t, 0, t.length())) {
+            throwException(t);
+        }
+        return super.test(t);
+    }
 
-	public boolean test(CharSequence t) {
-		return t.length() > 4 && t.charAt(0) == prefix[0] && t.charAt(1) == prefix[1] && t.charAt(2) == prefix[2] && t.charAt(3) == prefix[3];
-	}
+    // protected so that override in a subclass is possible
+    protected void throwException(CharSequence t) {
+        throw NetexIdValidatingParser.getException(t);
+    }
+
 }

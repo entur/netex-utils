@@ -27,7 +27,7 @@ import java.util.Set;
 
 public class NetexIdParserBuilder {
 
-	public NetexIdParserBuilder newInstance() {
+	public static NetexIdParserBuilder newInstance() {
 		return new NetexIdParserBuilder();
 	}
 

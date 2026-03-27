@@ -34,23 +34,49 @@ public class NetexIdBuilder {
 		return new NetexIdBuilder();
 	}
 
-	protected static final String NETEX_ID_SEPARATOR_CHAR = ":";
+    /**
+     *
+     * Build from existing Netex id.
+     *
+     * @param id existing id
+     * @return new builder
+     */
 
-	private static final NetexIdValidator defaultValidator = DefaultNetexIdValidator.getInstance();
+    public static NetexIdBuilder newInstance(String id) {
+        return new NetexIdBuilder(id);
+    }
 
-	private final NetexIdValidator validator;
+    private final NetexIdValidator validator;
 
 	protected String codespace;
 	protected String type;
 	protected String value;
 
 	public NetexIdBuilder() {
-		this(defaultValidator);
+		this(DefaultNetexIdValidator.getInstance());
 	}
 
 	public NetexIdBuilder(NetexIdValidator validator) {
 		this.validator = validator;
 	}
+
+    public NetexIdBuilder(String id) {
+        this(DefaultNetexIdValidator.getInstance(), id);
+    }
+
+    public NetexIdBuilder(NetexIdValidator validator, String id) {
+        this.validator = validator;
+
+        if(!validator.validate(id)) {
+            throw NetexIdValidatingParser.getException(id);
+        }
+
+        // use id as template
+        NetexIdNonvalidatingParser parser = NetexIdNonvalidatingParser.getInstance();
+        codespace = parser.getCodespace(id);
+        type = parser.getType(id);
+        value = parser.getValue(id);
+    }
 
 	public NetexIdBuilder withCodespace(String codespace) {
 		this.codespace = codespace;
@@ -73,12 +99,12 @@ public class NetexIdBuilder {
 			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z), found " + codespace);
 		}
 		if (type == null || !validator.validateType(type)) {
-			throw new IllegalStateException("Expected type (nonempty with characters A-Z), found " + type);
+			throw new IllegalStateException("Expected type (nonempty with characters A-Z or a-z), found " + type);
 		}
 		if (value == null || !validator.validateValue(value)) {
 			throw new IllegalStateException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -), found " + value);
 		}
-		return String.join(NETEX_ID_SEPARATOR_CHAR, codespace, type, value);
+		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
 
 }

@@ -25,24 +25,36 @@ package no.entur.abt.netex.id;
 public interface NetexIdValidator {
 
 	default boolean validate(CharSequence id) {
+		if (id == null) {
+			return false;
+		}
 		return validate(id, 0, id.length());
 	}
 
 	boolean validate(CharSequence id, int offset, int length);
 
 	default boolean validateCodespace(CharSequence codespace) {
+		if (codespace == null) {
+			return false;
+		}
 		return validateCodespace(codespace, 0, codespace.length());
 	}
 
 	boolean validateCodespace(CharSequence codespace, int offset, int length);
 
 	default boolean validateType(CharSequence type) {
+		if (type == null) {
+			return false;
+		}
 		return validateType(type, 0, type.length());
 	}
 
 	boolean validateType(CharSequence type, int offset, int length);
 
 	default boolean validateValue(CharSequence value) {
+		if (value == null) {
+			return false;
+		}
 		return validateValue(value, 0, value.length());
 	}
 

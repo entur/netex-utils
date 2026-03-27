@@ -24,9 +24,17 @@ import no.entur.abt.netex.id.DefaultNetexIdValidator;
  * limitations under the Licence.
  * #L%
  */
+
+/**
+ *
+ * Predicate for codespace + type (ignores value).
+ *
+ * Does not validate input codespace.
+ *
+ */
 public class NetexIdCodespaceTypePredicate implements NetexIdPredicate {
 
-	protected final char[] codespaceColonType;
+	protected final char[] codespaceColonType; // ABC:DEFGH
 
 	public NetexIdCodespaceTypePredicate(CharSequence codespace, CharSequence type) {
 		if (codespace.length() != DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) {
