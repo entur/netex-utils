@@ -24,14 +24,15 @@ package no.entur.abt.netex.id;
  */
 public interface NetexIdValidator {
 
-	default boolean validate(CharSequence id) {
+	boolean validate(CharSequence id);
+
+	@Deprecated
+	default boolean validate(CharSequence id, int offset, int length) {
 		if (id == null) {
 			return false;
 		}
-		return validate(id, 0, id.length());
+		return validate(id.subSequence(offset, offset + length));
 	}
-
-	boolean validate(CharSequence id, int offset, int length);
 
 	default boolean validateCodespace(CharSequence codespace) {
 		if (codespace == null) {

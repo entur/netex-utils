@@ -36,7 +36,7 @@ public class NetexIdCodespaceValidatingPredicate extends NetexIdCodespacePredica
 
     @Override
     public boolean test(CharSequence t) {
-        if(!VALIDATOR.validate(t, 0, t.length())) {
+        if(!VALIDATOR.validate(t)) {
             throwException(t);
         }
         return super.test(t);

@@ -24,7 +24,8 @@ package no.entur.abt.netex.id;
 
 /**
  * 
- * Build a Netex id. Includes validation.
+ * Build a Netex id. Does not validate inputs; the caller is responsible for ensuring that
+ * the codespace, type and value parts are valid before calling {@link #build()}.
  *
  */
 
