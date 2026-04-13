@@ -104,6 +104,18 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
+	public void testMinimumLengthValid() {
+		// minimum valid NeTEx ID is XXX:X:X (length 7)
+		assertTrue(defaultNetexIdValidator.validate("AAA:B:C"));
+	}
+
+	@Test
+	public void testMinimumLengthInvalid() {
+		// length 6 (one short of minimum) should be invalid
+		assertFalse(defaultNetexIdValidator.validate("AA:B:C"));
+	}
+
+	@Test
 	public void testNull() {
 		assertFalse(defaultNetexIdValidator.validate(null));
 		assertFalse(defaultNetexIdValidator.validateType(null));
