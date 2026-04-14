@@ -128,4 +128,22 @@ public class DefaultNetexIdValidatorTest {
 		assertFalse(defaultNetexIdValidator.validateValue(null, 0, 3));
 	}
 
+	@Test
+	public void testValidateToValueIndex_whenValid_thenReturnValueStartIndex() {
+		String id = "AAA:BBB:CCC";
+		assertEquals(8, defaultNetexIdValidator.validateToValueIndex(id));
+
+		String nordic = "AAA:Type:ØÆÅ";
+		assertEquals(9, defaultNetexIdValidator.validateToValueIndex(nordic));
+	}
+
+	@Test
+	public void testValidateToValueIndex_whenInvalid_thenReturnMinusOne() {
+		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex(null));
+		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA:BBB"));
+		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA::BBB"));
+		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA:BBB:@"));
+		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA!:BBB:CCC"));
+	}
+
 }
