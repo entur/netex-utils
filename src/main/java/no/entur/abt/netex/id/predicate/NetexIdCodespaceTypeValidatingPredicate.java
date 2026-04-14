@@ -54,7 +54,7 @@ public class NetexIdCodespaceTypeValidatingPredicate extends NetexIdCodespaceTyp
 		}
 
 		// validate whole id since we do not get at match on the above test
-		if(!VALIDATOR.validate(t, 0, t.length())) {
+		if(!VALIDATOR.validate(t)) {
 			throwException(t);
 		}
 		return false;

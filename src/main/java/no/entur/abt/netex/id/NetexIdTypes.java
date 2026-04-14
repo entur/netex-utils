@@ -143,6 +143,9 @@ public class NetexIdTypes {
 	public static final String SECURITY_POLICY = "SecurityPolicy";
 	public static final String ONBOARD_VALIDITY = "OnboardValidity";
 	public static final String VALIDITY_CONDITION = "ValidityCondition";
+	public static final String OPERATING_DAY = "OperatingDay";
+	public static final String RESPONSIBILITY_SET = "ResponsibilitySet";
+	public static final String RESPONSIBILITY_ROLE_ASSIGNMENT = "ResponsibilityRoleAssignment";
 
 	private NetexIdTypes() {
 	}

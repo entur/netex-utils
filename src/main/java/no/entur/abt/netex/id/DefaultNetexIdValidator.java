@@ -26,7 +26,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 
 	public static final char NETEX_ID_SEPARATOR_CHAR = ':';
 	public static final int NETEX_ID_CODESPACE_LENGTH = 3;
-	public static final int NETEX_ID_MINIMUM_LENGTH = 6;
+	public static final int NETEX_ID_MINIMUM_LENGTH = 7;
 
 	protected static final boolean[] TYPE_CHARACTERS;
 	protected static final boolean[] VALUE_CHARACTERS;
@@ -94,7 +94,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	 * Validate netex id type part, return index of first non-valid character
 	 *
 	 * @param type netex id
-	 * @param startIndex start index
+	 * @param startIndex start index (inclusive)
 	 * @return index of first non-valid character, otherwise -1
 	 */
 
@@ -115,21 +115,22 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		return -1;
 	}
 
-	public boolean validate(CharSequence string, int offset, int length) {
+	@Override
+	public boolean validate(CharSequence string) {
 		if (string == null) {
 			return false;
 		}
 
 		// minimum size is XXX:X:X
-		if (length < NETEX_ID_MINIMUM_LENGTH) {
+		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
 			return false;
 		}
-		if (string.charAt(offset + NETEX_ID_CODESPACE_LENGTH) != ':') {
+		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != NETEX_ID_SEPARATOR_CHAR) {
 			return false;
 		}
 
 		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		return last != -1 && string.charAt(last) == ':' && last > NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
+		return last != -1 && string.charAt(last) == NETEX_ID_SEPARATOR_CHAR && last > NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
 				&& validateValue(string, last + 1, string.length());
 	}
 
