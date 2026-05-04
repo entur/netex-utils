@@ -47,6 +47,9 @@ public class NetexIdTypePredicate implements NetexIdPredicate {
 	}
 
 	public boolean test(CharSequence t) {
+		if(t == null) {
+			return false;
+		}
 		if (t.length() < type.length + 1) {
 			return false;
 		}

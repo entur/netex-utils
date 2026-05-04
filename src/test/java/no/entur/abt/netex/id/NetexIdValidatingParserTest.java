@@ -155,4 +155,11 @@ public class NetexIdValidatingParserTest {
 		});
 
 	}
+
+	@Test
+	public void testGetType_invalidCodespace_throwsException() {
+		// lowercase codespace passes the first check (charAt(3)==':') but fails validateCodespace,
+		// covering the !validateCodespace branch in the compound if at line 53
+		assertThrows(IllegalNetexIDException.class, () -> parser.getType("aaa:Network:123"));
+	}
 }

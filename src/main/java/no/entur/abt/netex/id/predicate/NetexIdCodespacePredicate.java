@@ -27,7 +27,7 @@ import no.entur.abt.netex.id.DefaultNetexIdValidator;
 
 /**
  *
- * Predicate for namespace (ignores type and value).. Does not validate input codespace.
+ * Predicate for codespace (ignores type and value). Does not validate input codespace.
  *
  */
 

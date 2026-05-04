@@ -26,6 +26,7 @@ package no.entur.abt.netex.id;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Parser which returns codespace and type values from String.intern() with a local cache for improved performance. <br>
@@ -38,7 +39,7 @@ import java.util.Map;
 public class InterningNetexIdParser implements NetexIdParser {
 
 	// assume frequent read, seldom write
-	private final Map<String, String> intern = new HashMap<>(1024);
+	private final Map<String, String> intern = new ConcurrentHashMap<>(1024);
 
 	private final NetexIdParser delegate;
 
@@ -72,17 +73,10 @@ public class InterningNetexIdParser implements NetexIdParser {
 	private String intern(String codespace) {
 		String interned = intern.get(codespace);
 		if (interned == null) {
-			// compete for lock
-			synchronized (intern) {
-				// now that have lock, check again
-				interned = intern.get(codespace);
-				if (interned == null) {
-					codespace = codespace.intern();
+			codespace = codespace.intern();
 
-					intern.put(codespace, codespace);
-					interned = codespace;
-				}
-			}
+			intern.put(codespace, codespace);
+			interned = codespace;
 		}
 		return interned;
 	}

@@ -73,4 +73,12 @@ public class NetexIdParserBuilderTest {
 		// illegal
 		parser.getType("AA:DEF:CCC");
 	}
+
+	@Test
+	public void testParserWithValidationInternAndSeed() {
+		var seed = java.util.List.of("AAA", "ENT");
+		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(true).withStringInterning(true).withStringInterningInitialValues(seed).build();
+
+		assertEquals("B", parser.getType("AAA:B:CCC"));
+	}
 }

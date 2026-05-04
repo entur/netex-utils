@@ -3,6 +3,7 @@ package no.entur.abt.netex.id.predicate;
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
 import no.entur.abt.netex.id.NetexIdValidatingParser;
 import no.entur.abt.netex.id.NetexIdValidator;
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 /*-
  * #%L
@@ -48,20 +49,20 @@ public class NetexIdCodespaceTypeValidatingPredicate extends NetexIdCodespaceTyp
 			// codespace + type is assumed valid
 			// also validate value
 			if(!VALIDATOR.validateValue(t, codespaceColonType.length + 1, t.length())) {
-				throwException(t);
+				throw throwException(t);
 			}
 			return true;
 		}
 
 		// validate whole id since we do not get at match on the above test
 		if(!VALIDATOR.validate(t)) {
-			throwException(t);
+			throw throwException(t);
 		}
 		return false;
 	}
 
 	// protected so that override in a subclass is possible
-	protected void throwException(CharSequence t) {
-		throw NetexIdValidatingParser.getException(t);
+	protected IllegalNetexIDException throwException(CharSequence t) {
+		return NetexIdValidatingParser.getException(t);
 	}
 }

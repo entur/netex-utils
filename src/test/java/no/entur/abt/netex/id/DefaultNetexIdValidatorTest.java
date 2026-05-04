@@ -116,8 +116,19 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
+	public void testDigitInType() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:B1B:CCC"));
+		assertFalse(defaultNetexIdValidator.validateType("B1B"));
+	}
+
+	@Test
+	public void testLowercaseCodespace() {
+		assertFalse(defaultNetexIdValidator.validate("aaa:Type:Val"));
+		assertFalse(defaultNetexIdValidator.validateCodespace("aaa"));
+	}
+
+	@Test
 	public void testNull() {
-		assertFalse(defaultNetexIdValidator.validate(null));
 		assertFalse(defaultNetexIdValidator.validateType(null));
 		assertFalse(defaultNetexIdValidator.validateCodespace(null));
 		assertFalse(defaultNetexIdValidator.validateValue(null));
@@ -126,6 +137,25 @@ public class DefaultNetexIdValidatorTest {
 		assertFalse(defaultNetexIdValidator.validateType(null, 0, 3));
 		assertFalse(defaultNetexIdValidator.validateCodespace(null, 0, 3));
 		assertFalse(defaultNetexIdValidator.validateValue(null, 0, 3));
+	}
+
+	@Test
+	public void testDeprecatedValidateWithOffset() {
+		// non-null path: extracts subsequence and validates it
+		assertTrue(defaultNetexIdValidator.validate("XAAA:BBB:CCCY", 1, 11));
+		assertFalse(defaultNetexIdValidator.validate("XAAA:BBB:CCC!Y", 1, 12));
+	}
+
+	@Test
+	public void testTypeWithNoSecondSeparator() {
+		// type scan reaches end of string without finding ':', so last == -1 (condition 1 in line 133)
+		assertFalse(defaultNetexIdValidator.validate("AAA:BBBxCCC"));
+	}
+
+	@Test
+	public void testEmptyType() {
+		// empty type: validateTypeToIndex returns 4 with charAt(4)==':'; last > NETEX_ID_CODESPACE_LENGTH+1 is false (condition 3 in line 133)
+		assertFalse(defaultNetexIdValidator.validate("AAA::XXXXX"));
 	}
 
 }

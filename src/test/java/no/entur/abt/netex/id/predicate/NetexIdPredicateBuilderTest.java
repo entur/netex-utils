@@ -185,6 +185,34 @@ public class NetexIdPredicateBuilderTest {
 	}
 
 	@Test
+	public void testNullOnValidatingCodespacePredicate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withValidate(true).build();
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test(null));
+	}
+
+	@Test
+	public void testNullOnValidatingTypePredicate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withType("Network").withValidate(true).build();
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test(null));
+	}
+
+	@Test
+	public void testNullOnValidatingCodespaceTypePredicate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withType("Network").withValidate(true).build();
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test(null));
+	}
+
+	@Test
+	public void testBuildWithoutCodespaceOrType() {
+		assertThrows(IllegalStateException.class, () -> NetexIdPredicateBuilder.newInstance().build());
+	}
+
+	@Test
+	public void testBuildWithValidateWithoutCodespaceOrType() {
+		assertThrows(IllegalStateException.class, () -> NetexIdPredicateBuilder.newInstance().withValidate(true).build());
+	}
+
+	@Test
 	public void testStream() {
 		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").build();
 

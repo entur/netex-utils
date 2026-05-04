@@ -23,8 +23,10 @@ package no.entur.abt.netex.id.predicate;
  * #L%
  */
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 import org.junit.jupiter.api.Test;
 
 public class NetexIdCodespaceTypePredicateTest {
@@ -37,5 +39,47 @@ public class NetexIdCodespaceTypePredicateTest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			new NetexIdCodespaceTypePredicate("ABC", "");
 		});
+	}
+
+	// NetexIdCodespaceTypeValidatingPredicate — matching codespace+type, invalid value (line 51)
+	@Test
+	public void testCodespaceTypeValidating_matchingPrefixInvalidValue_throwsException() {
+		NetexIdCodespaceTypeValidatingPredicate predicate = new NetexIdCodespaceTypeValidatingPredicate("AAA", "Network");
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test("AAA:Network:12!3"));
+	}
+
+	// NetexIdCodespaceTypeValidatingPredicate — non-matching codespace, invalid id (line 58)
+	@Test
+	public void testCodespaceTypeValidating_nonMatchingCodespaceInvalidId_throwsException() {
+		NetexIdCodespaceTypeValidatingPredicate predicate = new NetexIdCodespaceTypeValidatingPredicate("AAA", "Network");
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test("BBB:Network:12!3"));
+	}
+
+	// NetexIdTypeValidatingPredicate — matching type, invalid codespace (line 43)
+	@Test
+	public void testTypeValidating_matchingTypeInvalidCodespace_throwsException() {
+		NetexIdTypeValidatingPredicate predicate = new NetexIdTypeValidatingPredicate("Network");
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test("aa!:Network:123"));
+	}
+
+	// NetexIdTypeValidatingPredicate — non-matching type, invalid id (line 50)
+	@Test
+	public void testTypeValidating_nonMatchingTypeInvalidId_throwsException() {
+		NetexIdTypeValidatingPredicate predicate = new NetexIdTypeValidatingPredicate("Network");
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test("AAA:OtherType:12!3"));
+	}
+
+	// NetexIdCodespaceValidatingPredicate — invalid id (line 40)
+	@Test
+	public void testCodespaceValidating_invalidId_throwsException() {
+		NetexIdCodespaceValidatingPredicate predicate = new NetexIdCodespaceValidatingPredicate("AAA");
+		assertThrows(IllegalNetexIDException.class, () -> predicate.test("AAA:Network:12!3"));
+	}
+
+	// NetexIdCodespacePredicate — t.length() <= 4 covers the false branch of the first condition (line 43)
+	@Test
+	public void testCodespacePredicate_shortInput_returnsFalse() {
+		NetexIdCodespacePredicate predicate = new NetexIdCodespacePredicate("AAA");
+		assertFalse(predicate.test("AAA"));
 	}
 }

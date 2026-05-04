@@ -26,6 +26,16 @@ public interface NetexIdValidator {
 
 	boolean validate(CharSequence id);
 
+	/**
+	 * Validate an id.
+	 *
+	 * @param id id
+	 * @param offset offset
+	 * @param length length
+	 * @return true if valid
+	 * @deprecated Rather validate a full CharSequence.
+	 */
+
 	@Deprecated
 	default boolean validate(CharSequence id, int offset, int length) {
 		if (id == null) {

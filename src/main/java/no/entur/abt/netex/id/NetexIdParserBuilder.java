@@ -23,6 +23,7 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
+import java.util.Collection;
 import java.util.Set;
 
 public class NetexIdParserBuilder {
@@ -33,7 +34,7 @@ public class NetexIdParserBuilder {
 
 	private boolean validation = true;
 	private boolean intern = false;
-	private Set<String> internSeed;
+	private Collection<String> internSeed;
 
 	public NetexIdParserBuilder withValidation(boolean validation) {
 		this.validation = validation;
@@ -42,9 +43,7 @@ public class NetexIdParserBuilder {
 	}
 
 	/**
-	 * Return values as from {@linkplain String#intern()}. <br>
-	 * <br>
-	 * Please also use a seed to prepare the parser during init; the underlying implementation uses synchronization to populate its internal cache (one by one).
+	 * Return values as from {@linkplain String#intern()}.
 	 *
 	 * @param intern true to enable
 	 * @return this builder
@@ -62,7 +61,7 @@ public class NetexIdParserBuilder {
 	 * @return this builder
 	 */
 
-	public NetexIdParserBuilder withStringInterningInitialValues(Set<String> values) {
+	public NetexIdParserBuilder withStringInterningInitialValues(Collection<String> values) {
 		this.internSeed = values;
 		return this;
 	}
