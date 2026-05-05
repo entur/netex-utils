@@ -30,9 +30,10 @@ public interface NetexIdValidator {
 	 * Validate an id.
 	 *
 	 * @param id id
-	 * @param offset offset
-	 * @param length length
+	 * @param offset offset of the subsequence to validate
+	 * @param length length of the subsequence to validate
 	 * @return true if valid
+	 * @throws IndexOutOfBoundsException if {@code offset} or {@code length} do not define a valid subsequence of {@code id}
 	 * @deprecated Rather validate a full CharSequence.
 	 */
 
