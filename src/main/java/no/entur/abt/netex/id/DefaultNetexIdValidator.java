@@ -201,7 +201,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 
 	/**
 	 *
-	 * Validate codespace and type.
+	 * Validate codespace and type, return index useful for creating an id with the same codespace and type and another value.
 	 *
 	 * @param string netex id
 	 * @return -1 if the id is invalid, otherwise the index of the value part within the id (the character index after the second colon).
@@ -216,21 +216,32 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
 			return -1;
 		}
-		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
+		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != NETEX_ID_SEPARATOR_CHAR) {
 			return -1;
 		}
 
-		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		if (last == -1 || string.charAt(last) != ':' || last <= NETEX_ID_CODESPACE_LENGTH + 1) {
+		// XXX:AB:CDE
+		// 0123456789
+		//
+		// scan from A at index 4.
+		// Outcomes:
+		// Valid id: For a valid id the first non-valid char should be the second colon (at index 6 in example), with at least one char between it and the colon at index 3.
+		// Invalid id: No non-valid char found, or a non-valid char that is not colon.
+		int typeFirstNonValidCharIndex = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
+		if (typeFirstNonValidCharIndex == -1 || string.charAt(typeFirstNonValidCharIndex) != NETEX_ID_SEPARATOR_CHAR || typeFirstNonValidCharIndex <= NETEX_ID_CODESPACE_LENGTH + 1) {
 			return -1;
 		}
+
 		if (!validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)) {
 			return -1;
 		}
-		last++;
-		if (!validateValue(string, last, string.length())) {
+
+		// skip the colon. index is now the first char of the value part.
+		typeFirstNonValidCharIndex++;
+		if (!validateValue(string, typeFirstNonValidCharIndex, string.length())) {
 			return -1;
 		}
-		return last;
+
+		return typeFirstNonValidCharIndex;
 	}
 }

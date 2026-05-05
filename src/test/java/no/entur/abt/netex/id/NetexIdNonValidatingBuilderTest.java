@@ -23,6 +23,7 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -91,4 +92,16 @@ public class NetexIdNonValidatingBuilderTest {
         assertEquals("AAA:Network:456", NetexIdNonValidatingBuilder.createIdFrom("AAA:Network:123", "456"));
     }
 
+    @Test
+    public void testCreateFromExistingIdNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            NetexIdNonValidatingBuilder.createIdFrom(null,"123");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            NetexIdNonValidatingBuilder.createIdFrom("AAA:Network:123",null);
+        });
+        assertThrows(IllegalNetexIDException.class, () -> {
+            NetexIdNonValidatingBuilder.createIdFrom("AAANetwork123","12345");
+        });
+    }
 }

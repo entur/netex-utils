@@ -139,4 +139,13 @@ public class NetexIdBuilderTest {
         assertThrows(IllegalNetexIDException.class, () -> NetexIdBuilder.createIdFrom("AA:B", "12345"));
     }
 
+    @Test
+    public void testCreateFromInvalidValue() {
+        assertThrows(IllegalArgumentException.class, () -> NetexIdBuilder.createIdFrom("AAA:Network:123", ".."));
+    }
+
+    public void testCreateFromInvalidIdPart() {
+        assertThrows(IllegalNetexIDException.class, () -> NetexIdBuilder.createIdFrom("AAA:Network:..", "12345"));
+    }
+
 }

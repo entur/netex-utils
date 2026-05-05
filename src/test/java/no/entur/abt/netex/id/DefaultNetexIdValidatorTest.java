@@ -155,4 +155,19 @@ public class DefaultNetexIdValidatorTest {
 		assertFalse(defaultNetexIdValidator.validate("AAA::XXXXX"));
 	}
 
+	@Test
+	public void testValidateToValueIndex() {
+		assertEquals(defaultNetexIdValidator.validateToValueIndex(null), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:GH"), 8);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF!GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC!DEF:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABCD:DEF:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABCD:123:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("123:DEF:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:..."), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC::GH"), -1);
+	}
 }
