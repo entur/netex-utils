@@ -60,6 +60,9 @@ public class NetexIdBuilder {
 		if(id == null) {
 			throw new IllegalArgumentException("Expected id");
 		}
+		if(valuePart == null) {
+			throw new IllegalArgumentException("Expected value");
+		}
 		if(!VALIDATOR.validateValue(valuePart)) {
 			throw new IllegalArgumentException("'" + valuePart + "' is not a valid value");
 		}
