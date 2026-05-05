@@ -16,15 +16,6 @@ Your goal is to help develop high-quality Java code in the `netex-utils` library
 - Java version: 17
 - License: EUPL v1.1 (headers are enforced by the license Maven plugin)
 
-## Java 17 Best Practices
-
-- Prefer **records** for immutable data carriers instead of hand-rolled POJOs with getters/equals/hashCode.
-- Use **sealed classes and interfaces** to model closed type hierarchies (e.g., parse results, variants of NeTEx IDs).
-- Apply **pattern matching** for `instanceof` checks (`if (obj instanceof MyType t) { ... }`).
-- Use **text blocks** for multi-line string literals in tests and documentation.
-- Prefer `var` for local variables when the type is obvious from the right-hand side.
-- Use `Optional` for return values that may be absent; never return `null` from a public method unless the contract explicitly documents it.
-
 ## Code Style
 
 - Code formatting is enforced by **Spotless** — run `mvn spotless:apply` to auto-format before committing.
@@ -45,6 +36,7 @@ Your goal is to help develop high-quality Java code in the `netex-utils` library
 - Test class names should end with `Test` (picked up by Surefire) or `IT` for integration tests (Failsafe).
 - Write tests that assert behaviour through the public API; avoid testing internal implementation details.
 - Keep tests fast; this is a utility library with no I/O dependencies.
+- Test coverage of new code should be at least 95%.
 
 ## Benchmarking
 
