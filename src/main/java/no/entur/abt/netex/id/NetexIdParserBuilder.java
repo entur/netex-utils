@@ -23,7 +23,6 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
-import java.util.Collection;
 import java.util.Set;
 
 public class NetexIdParserBuilder {
