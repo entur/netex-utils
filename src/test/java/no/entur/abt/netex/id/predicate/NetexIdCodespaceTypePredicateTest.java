@@ -82,4 +82,18 @@ public class NetexIdCodespaceTypePredicateTest {
 		NetexIdCodespacePredicate predicate = new NetexIdCodespacePredicate("AAA");
 		assertFalse(predicate.test("AAA"));
 	}
+
+	// NetexIdCodespaceTypePredicate — null input returns false (not NPE)
+	@Test
+	public void testCodespaceTypePredicate_null_returnsFalse() {
+		NetexIdCodespaceTypePredicate predicate = new NetexIdCodespaceTypePredicate("AAA", "Network");
+		assertFalse(predicate.test(null));
+	}
+
+	// NetexIdTypePredicate — null input returns false (not NPE)
+	@Test
+	public void testTypePredicate_null_returnsFalse() {
+		NetexIdTypePredicate predicate = new NetexIdTypePredicate("Network");
+		assertFalse(predicate.test(null));
+	}
 }

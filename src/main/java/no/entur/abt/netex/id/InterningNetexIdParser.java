@@ -24,7 +24,6 @@ package no.entur.abt.netex.id;
  */
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -71,14 +70,7 @@ public class InterningNetexIdParser implements NetexIdParser {
 	}
 
 	private String intern(String codespace) {
-		String interned = intern.get(codespace);
-		if (interned == null) {
-			codespace = codespace.intern();
-
-			intern.put(codespace, codespace);
-			interned = codespace;
-		}
-		return interned;
+		return intern.computeIfAbsent(codespace, String::intern);
 	}
 
 }
