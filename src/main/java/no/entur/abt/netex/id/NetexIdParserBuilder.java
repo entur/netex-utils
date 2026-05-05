@@ -34,7 +34,7 @@ public class NetexIdParserBuilder {
 
 	private boolean validation = true;
 	private boolean intern = false;
-	private Collection<String> internSeed;
+	private Set<String> internSeed;
 
 	public NetexIdParserBuilder withValidation(boolean validation) {
 		this.validation = validation;
@@ -62,10 +62,6 @@ public class NetexIdParserBuilder {
 	 */
 
 	public NetexIdParserBuilder withStringInterningInitialValues(Set<String> values) {
-		return withStringInterningInitialValues((Collection<String>) values);
-	}
-
-	public NetexIdParserBuilder withStringInterningInitialValues(Collection<String> values) {
 		this.internSeed = values;
 		return this;
 	}

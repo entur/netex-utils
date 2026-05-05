@@ -78,15 +78,6 @@ public class NetexIdParserBuilderTest {
 	}
 
 	@Test
-	public void testParserWithValidationInternAndSeed() {
-		Collection<String> seed = java.util.List.of("AAA", "ENT");
-		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(true).withStringInterning(true).withStringInterningInitialValues(seed).build();
-
-		assertEquals("B", parser.getType("AAA:B:CCC"));
-	}
-
-
-	@Test
 	public void testParserWithValidationInternAndSeedSet() {
 		Set<String> seed = java.util.Set.of("AAA", "ENT");
 		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(true).withStringInterning(true).withStringInterningInitialValues(seed).build();
