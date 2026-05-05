@@ -36,7 +36,7 @@ Your goal is to help develop high-quality Java code in the `netex-utils` library
 - Test class names should end with `Test` (picked up by Surefire) or `IT` for integration tests (Failsafe).
 - Write tests that assert behaviour through the public API; avoid testing internal implementation details.
 - Keep tests fast; this is a utility library with no I/O dependencies.
-- Test coverage of new code should be at least 95%.
+- Test coverage should be at least 98% to satisfy the JaCoCo minimum enforced by the build.
 
 ## Benchmarking
 
