@@ -22,8 +22,6 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
-import no.entur.abt.netex.utils.IllegalNetexIDException;
-
 /**
  * 
  * Build a Netex id. Does not validate inputs; the caller is responsible for ensuring that
@@ -37,27 +35,9 @@ public class NetexIdNonValidatingBuilder {
 		return new NetexIdNonValidatingBuilder();
 	}
 
-	public static NetexIdNonValidatingBuilder newInstance(String id) {
-		return new NetexIdNonValidatingBuilder(id);
-	}
-
 	protected String codespace;
 	protected String type;
 	protected String value;
-
-	public NetexIdNonValidatingBuilder(String id) {
-		if(id == null) {
-			throw new IllegalArgumentException("Expected id");
-		}
-		// use id as template
-		NetexIdNonvalidatingParser parser = NetexIdNonvalidatingParser.getInstance();
-		codespace = parser.getCodespace(id);
-		type = parser.getType(id);
-		value = parser.getValue(id);
-	}
-
-	public NetexIdNonValidatingBuilder() {
-	}
 
 	public NetexIdNonValidatingBuilder withCodespace(String codespace) {
 		this.codespace = codespace;

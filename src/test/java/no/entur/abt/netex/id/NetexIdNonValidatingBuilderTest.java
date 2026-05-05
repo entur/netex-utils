@@ -37,23 +37,6 @@ public class NetexIdNonValidatingBuilderTest {
     }
 
     @Test
-    public void testBuilderFromExistingId() {
-        assertEquals("AAA:Network:123", NetexIdNonValidatingBuilder.newInstance("AAA:Network:123").build());
-    }
-
-    @Test
-    public void testBuilderFromExistingIdWithOverride() {
-        assertEquals("AAA:Network:456", NetexIdNonValidatingBuilder.newInstance("AAA:Network:123").withValue("456").build());
-    }
-
-    @Test
-    public void testBuilderFromNullId() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            NetexIdNonValidatingBuilder.newInstance(null).build();
-        });
-    }
-
-    @Test
     public void testInvalidCodespaceInput() {
         assertThrows(IllegalStateException.class, () -> {
             NetexIdNonValidatingBuilder.newInstance().withType("Network").withValue("123").build();
