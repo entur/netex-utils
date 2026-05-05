@@ -61,6 +61,10 @@ public class NetexIdParserBuilder {
 	 * @return this builder
 	 */
 
+	public NetexIdParserBuilder withStringInterningInitialValues(Set<String> values) {
+		return withStringInterningInitialValues((Collection<String>) values);
+	}
+
 	public NetexIdParserBuilder withStringInterningInitialValues(Collection<String> values) {
 		this.internSeed = values;
 		return this;
