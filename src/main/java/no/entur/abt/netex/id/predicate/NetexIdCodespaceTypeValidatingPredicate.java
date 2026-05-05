@@ -49,20 +49,15 @@ public class NetexIdCodespaceTypeValidatingPredicate extends NetexIdCodespaceTyp
 			// codespace + type is assumed valid
 			// also validate value
 			if(!VALIDATOR.validateValue(t, codespaceColonType.length + 1, t.length())) {
-				throw throwException(t);
+				throw NetexIdValidatingParser.getException(t);
 			}
 			return true;
 		}
 
 		// validate whole id since we do not get at match on the above test
 		if(!VALIDATOR.validate(t)) {
-			throw throwException(t);
+			throw NetexIdValidatingParser.getException(t);
 		}
 		return false;
-	}
-
-	// protected so that override in a subclass is possible
-	protected IllegalNetexIDException throwException(CharSequence t) {
-		return NetexIdValidatingParser.getException(t);
 	}
 }

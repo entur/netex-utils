@@ -128,6 +128,7 @@ public class DefaultNetexIdValidatorTest {
 
 	@Test
 	public void testNull() {
+		assertFalse(defaultNetexIdValidator.validate(null));
 		assertFalse(defaultNetexIdValidator.validateType(null));
 		assertFalse(defaultNetexIdValidator.validateCodespace(null));
 		assertFalse(defaultNetexIdValidator.validateValue(null));
