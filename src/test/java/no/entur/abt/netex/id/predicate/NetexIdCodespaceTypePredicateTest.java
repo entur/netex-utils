@@ -90,6 +90,12 @@ public class NetexIdCodespaceTypePredicateTest {
 		assertFalse(predicate.test(null));
 	}
 
+	@Test
+	public void testCodespacePredicate_nullInput_returnsFalse() {
+		NetexIdCodespacePredicate predicate = new NetexIdCodespacePredicate("AAA");
+		assertFalse(predicate.test(null));
+	}
+
 	// NetexIdTypePredicate — null input returns false (not NPE)
 	@Test
 	public void testTypePredicate_null_returnsFalse() {

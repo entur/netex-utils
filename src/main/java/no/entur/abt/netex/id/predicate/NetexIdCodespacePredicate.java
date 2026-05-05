@@ -40,6 +40,9 @@ public class NetexIdCodespacePredicate implements NetexIdPredicate {
 	}
 
 	public boolean test(CharSequence t) {
+		if(t == null) {
+			return false;
+		}
 		return t.length() > 4 && t.charAt(0) == prefix[0] && t.charAt(1) == prefix[1] && t.charAt(2) == prefix[2] && t.charAt(3) == prefix[3];
 	}
 }
