@@ -59,17 +59,17 @@ public class NetexIdNonValidatingBuilder {
 		return id.substring(0, index + 1) + valuePart;
 	}
 
-	public static String createId(String codespace, String datatype, String value) {
+	public static String createId(String codespace, String type, String value) {
 		if(codespace == null) {
 			throw new IllegalArgumentException("Codespace must not be null");
 		}
-		if(datatype == null) {
-			throw new IllegalArgumentException("Datatype must not be null");
+		if(type == null) {
+			throw new IllegalArgumentException("Type must not be null");
 		}
 		if(value == null) {
 			throw new IllegalArgumentException("Value must not be null");
 		}
-		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + datatype + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
 
 	public static NetexIdNonValidatingBuilder newInstance(String id) {
