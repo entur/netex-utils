@@ -201,7 +201,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 
 	/**
 	 *
-	 * Validate codespace and type, return index useful for creating an id with the same codespace and type and another value.
+	 * Validate id, return index of value part (the character index after the second colon) if valid, otherwise -1.
 	 *
 	 * @param string netex id
 	 * @return -1 if the id is invalid, otherwise the index of the value part within the id (the character index after the second colon).
