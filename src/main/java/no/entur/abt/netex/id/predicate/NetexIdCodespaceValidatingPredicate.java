@@ -25,6 +25,7 @@ package no.entur.abt.netex.id.predicate;
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
 import no.entur.abt.netex.id.NetexIdValidatingParser;
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 public class NetexIdCodespaceValidatingPredicate extends NetexIdCodespacePredicate {
 
@@ -37,14 +38,9 @@ public class NetexIdCodespaceValidatingPredicate extends NetexIdCodespacePredica
     @Override
     public boolean test(CharSequence t) {
         if(!VALIDATOR.validate(t)) {
-            throwException(t);
+            throw NetexIdValidatingParser.getException(t);
         }
         return super.test(t);
-    }
-
-    // protected so that override in a subclass is possible
-    protected void throwException(CharSequence t) {
-        throw NetexIdValidatingParser.getException(t);
     }
 
 }
