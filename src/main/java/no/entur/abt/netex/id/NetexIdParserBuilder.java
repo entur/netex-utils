@@ -42,9 +42,7 @@ public class NetexIdParserBuilder {
 	}
 
 	/**
-	 * Return values as from {@linkplain String#intern()}. <br>
-	 * <br>
-	 * Please also use a seed to prepare the parser during init; the underlying implementation uses synchronization to populate its internal cache (one by one).
+	 * Return values as from {@linkplain String#intern()}.
 	 *
 	 * @param intern true to enable
 	 * @return this builder

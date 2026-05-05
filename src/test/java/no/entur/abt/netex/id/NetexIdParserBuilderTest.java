@@ -30,6 +30,8 @@ import org.junit.jupiter.api.Test;
 
 import no.entur.abt.netex.utils.IllegalNetexIDException;
 
+import java.util.Set;
+
 public class NetexIdParserBuilderTest {
 
 	@Test
@@ -72,5 +74,13 @@ public class NetexIdParserBuilderTest {
 
 		// illegal
 		parser.getType("AA:DEF:CCC");
+	}
+
+	@Test
+	public void testParserWithValidationInternAndSeedSet() {
+		Set<String> seed = java.util.Set.of("AAA", "ENT");
+		NetexIdParser parser = NetexIdParserBuilder.newInstance().withValidation(true).withStringInterning(true).withStringInterningInitialValues(seed).build();
+
+		assertEquals("B", parser.getType("AAA:B:CCC"));
 	}
 }

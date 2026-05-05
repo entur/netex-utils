@@ -116,6 +116,17 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
+	public void testDigitInType() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:B1B:CCC"));
+	}
+
+	@Test
+	public void testLowercaseCodespace() {
+		assertFalse(defaultNetexIdValidator.validate("aaa:Type:Val"));
+		assertFalse(defaultNetexIdValidator.validateCodespace("aaa"));
+	}
+
+	@Test
 	public void testNull() {
 		assertFalse(defaultNetexIdValidator.validate(null));
 		assertFalse(defaultNetexIdValidator.validateType(null));
@@ -126,6 +137,22 @@ public class DefaultNetexIdValidatorTest {
 		assertFalse(defaultNetexIdValidator.validateType(null, 0, 3));
 		assertFalse(defaultNetexIdValidator.validateCodespace(null, 0, 3));
 		assertFalse(defaultNetexIdValidator.validateValue(null, 0, 3));
+	}
+
+	@Test
+	public void testDeprecatedValidateWithOffset() {
+		assertTrue(defaultNetexIdValidator.validate("XAAA:BBB:CCCY", 1, 11));
+		assertFalse(defaultNetexIdValidator.validate("XAAA:BBB:CCC!Y", 1, 12));
+	}
+
+	@Test
+	public void testTypeWithNoSecondSeparator() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:BBBxCCC"));
+	}
+
+	@Test
+	public void testEmptyType() {
+		assertFalse(defaultNetexIdValidator.validate("AAA::XXXXX"));
 	}
 
 }
