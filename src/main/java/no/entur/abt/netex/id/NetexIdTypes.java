@@ -92,7 +92,14 @@ public class NetexIdTypes {
 	public static final String SALES_OFFER_PACKAGE = "SalesOfferPackage";
 	public static final String SALES_OFFER_PACKAGE_ELEMENT = "SalesOfferPackageElement";
 	public static final String SERVICE_LINK = "ServiceLink";
+
+	/**
+	 *
+	 * @deprecated use SERVICE_LINK_IN_JOURNEY_PATTERN instead.
+	 */
+	@Deprecated
 	public static final String SERVICE_LINK_LINK_JOURNEY_PATTERN = "ServiceLinkInJourneyPattern";
+	public static final String SERVICE_LINK_IN_JOURNEY_PATTERN = "ServiceLinkInJourneyPattern";
 	public static final String LINK_SEQUENCE_PROJECTION = "LinkSequenceProjection";
 	public static final String VALIDABLE_ELEMENT = "ValidableElement";
 	public static final String NOD_STOP_PLACE_MAPPING = "NodStopPlaceMapping";
