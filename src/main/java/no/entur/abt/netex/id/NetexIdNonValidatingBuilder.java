@@ -46,29 +46,11 @@ public class NetexIdNonValidatingBuilder {
 	 */
 
 	public static String createIdFrom(String id, String valuePart) {
-		if(id == null) {
-			throw new IllegalArgumentException("Expected id");
-		}
-		if(valuePart == null) {
-			throw new IllegalArgumentException("Expected value");
-		}
 		int index = id.lastIndexOf(DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR);
-		if(index == -1) {
-			throw NetexIdValidatingParser.getException(id);
-		}
 		return id.substring(0, index + 1) + valuePart;
 	}
 
 	public static String createId(String codespace, String type, String value) {
-		if(codespace == null) {
-			throw new IllegalArgumentException("Codespace must not be null");
-		}
-		if(type == null) {
-			throw new IllegalArgumentException("Type must not be null");
-		}
-		if(value == null) {
-			throw new IllegalArgumentException("Value must not be null");
-		}
 		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
 

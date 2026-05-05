@@ -74,34 +74,7 @@ public class NetexIdNonValidatingBuilderTest {
     }
 
     @Test
-    public void testCreateInvalidCodespaceInput() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            NetexIdNonValidatingBuilder.createId(null,"Network", "123");
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            NetexIdNonValidatingBuilder.createId("AAA", null, "123");
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            NetexIdNonValidatingBuilder.createId("AAA", "Network", null);
-        });
-    }
-
-
-    @Test
     public void testCreateFromExistingId() {
         assertEquals("AAA:Network:456", NetexIdNonValidatingBuilder.createIdFrom("AAA:Network:123", "456"));
-    }
-
-    @Test
-    public void testCreateFromExistingIdNull() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            NetexIdNonValidatingBuilder.createIdFrom(null,"123");
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            NetexIdNonValidatingBuilder.createIdFrom("AAA:Network:123",null);
-        });
-        assertThrows(IllegalNetexIDException.class, () -> {
-            NetexIdNonValidatingBuilder.createIdFrom("AAANetwork123","12345");
-        });
     }
 }
