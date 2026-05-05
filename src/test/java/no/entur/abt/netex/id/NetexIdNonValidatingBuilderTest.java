@@ -47,6 +47,13 @@ public class NetexIdNonValidatingBuilderTest {
     }
 
     @Test
+    public void testBuilderFromNullId() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            NetexIdNonValidatingBuilder.newInstance(null).build();
+        });
+    }
+
+    @Test
     public void testInvalidCodespaceInput() {
         assertThrows(IllegalStateException.class, () -> {
             NetexIdNonValidatingBuilder.newInstance().withType("Network").withValue("123").build();
