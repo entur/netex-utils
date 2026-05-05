@@ -30,7 +30,7 @@ package no.entur.abt.netex.id;
 
 public class NetexIdBuilder {
 
-	private static DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
 
 	public static NetexIdBuilder newInstance() {
 		return new NetexIdBuilder();
