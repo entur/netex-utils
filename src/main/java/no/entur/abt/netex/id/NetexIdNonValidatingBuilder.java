@@ -35,6 +35,41 @@ public class NetexIdNonValidatingBuilder {
 		return new NetexIdNonValidatingBuilder();
 	}
 
+	/**
+	 * Create new id from an existing id + value part.
+	 *
+	 * @param id input id. codespace and type will be copied from this id.
+	 * @param valuePart new value part
+	 * @return an id with codespace and type from the id argument, value from the valuePart argument.
+	 */
+
+	public static String createIdFrom(String id, String valuePart) {
+		if(id == null) {
+			throw new IllegalArgumentException("Expected id");
+		}
+		if(valuePart == null) {
+			throw new IllegalArgumentException("Expected value");
+		}
+		int index = id.lastIndexOf(DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR);
+		if(index == -1) {
+			throw NetexIdValidatingParser.getException(id);
+		}
+		return id.substring(0, index + 1) + valuePart;
+	}
+
+	public static String createId(String codespace, String datatype, String value) {
+		if(codespace == null) {
+			throw new IllegalArgumentException("Codespace must not be null");
+		}
+		if(datatype == null) {
+			throw new IllegalArgumentException("Datatype must not be null");
+		}
+		if(value == null) {
+			throw new IllegalArgumentException("Value must not be null");
+		}
+		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + datatype + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+	}
+
 	protected String codespace;
 	protected String type;
 	protected String value;

@@ -49,4 +49,29 @@ public class NetexIdNonValidatingBuilderTest {
         });
     }
 
+    @Test
+    public void testCreateCodespace() {
+        String build = NetexIdNonValidatingBuilder.createId("AAA", "Network", "123");
+        assertEquals("AAA:Network:123", build);
+    }
+
+    @Test
+    public void testCreateInvalidCodespaceInput() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            NetexIdNonValidatingBuilder.createId(null,"Network", "123");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            NetexIdNonValidatingBuilder.createId("AAA", null, "123");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            NetexIdNonValidatingBuilder.createId("AAA", "Network", null);
+        });
+    }
+
+
+    @Test
+    public void testCreateFromExistingId() {
+        assertEquals("AAA:Network:456", NetexIdNonValidatingBuilder.createIdFrom("AAA:Network:123", "456"));
+    }
+
 }

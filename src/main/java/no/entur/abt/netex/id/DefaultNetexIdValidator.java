@@ -199,4 +199,38 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		return true;
 	}
 
+	/**
+	 *
+	 * Validate codespace and type.
+	 *
+	 * @param string netex id
+	 * @return -1 if the id is invalid, otherwise the index of the value part within the id (the character index after the second colon).
+	 */
+
+	protected int validateToValueIndex(CharSequence string) {
+		if (string == null) {
+			return -1;
+		}
+
+		// minimum size is XXX:X:X
+		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
+			return -1;
+		}
+		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
+			return -1;
+		}
+
+		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
+		if (last == -1 || string.charAt(last) != ':' || last <= NETEX_ID_CODESPACE_LENGTH + 1) {
+			return -1;
+		}
+		if (!validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)) {
+			return -1;
+		}
+		last++;
+		if (!validateValue(string, last, string.length())) {
+			return -1;
+		}
+		return last;
+	}
 }
