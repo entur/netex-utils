@@ -40,10 +40,10 @@ Your goal is to help develop high-quality Java code in the `netex-utils` library
 
 ## Benchmarking
 
-- Performance-sensitive code should have **JMH** microbenchmarks in `src/jmh/java`.
+- Performance-sensitive code should have **JMH** microbenchmarks in `src/test/perf`.
 - Annotate benchmark classes with `@BenchmarkMode(Mode.Throughput)` and `@OutputTimeUnit(TimeUnit.MILLISECONDS)` unless a different mode is more appropriate.
 - Use `@State(Scope.Benchmark)` for shared benchmark state.
-- Run benchmarks with `mvn verify -Pbenchmark` (or the equivalent JMH runner).
+- Run benchmarks with `mvn verify -Pjmh` (or the equivalent JMH runner).
 
 ## Javadoc
 
