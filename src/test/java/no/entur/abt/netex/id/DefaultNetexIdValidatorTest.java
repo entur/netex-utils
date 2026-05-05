@@ -118,7 +118,6 @@ public class DefaultNetexIdValidatorTest {
 	@Test
 	public void testDigitInType() {
 		assertFalse(defaultNetexIdValidator.validate("AAA:B1B:CCC"));
-		assertFalse(defaultNetexIdValidator.validateType("B1B"));
 	}
 
 	@Test

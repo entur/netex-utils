@@ -203,6 +203,18 @@ public class NetexIdPredicateBuilderTest {
 	}
 
 	@Test
+	public void testNullOnNonValidatingTypePredicate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withType("Network").withValidate(false).build();
+		assertFalse(predicate.test(null));
+	}
+
+	@Test
+	public void testNullOnNonValidatingCodespaceTypePredicate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withType("Network").withValidate(false).build();
+		assertFalse(predicate.test(null));
+	}
+
+	@Test
 	public void testBuildWithoutCodespaceOrType() {
 		assertThrows(IllegalStateException.class, () -> NetexIdPredicateBuilder.newInstance().build());
 	}
