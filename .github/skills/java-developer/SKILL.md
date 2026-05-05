@@ -55,9 +55,9 @@ Your goal is to help develop high-quality Java code in the `netex-utils` library
 
 ## Javadoc
 
-- All public and protected types and members must have Javadoc.
-- The first sentence is the summary and must end with a period.
-- Use `@param`, `@return`, and `@throws` tags consistently.
+- Follow the repository's existing conventions: Javadoc is encouraged for public APIs when it adds value, especially for non-obvious behaviour, but it is not required for every public or protected type/member.
+- When Javadoc is present, the first sentence is the summary and should end with a period.
+- When documenting methods, use `@param`, `@return`, and `@throws` tags consistently where they add useful information.
 - Use `{@code}` for inline code and `<pre>{@code ... }</pre>` for multi-line code blocks.
 
 ## Maven & Dependencies
