@@ -71,17 +71,17 @@ public class NetexIdBuilder {
 		return id.substring(0, index) + valuePart;
 	}
 
-	public static String createId(String codespace, String datatype, String value) {
+	public static String createId(String codespace, String type, String value) {
 		if(!VALIDATOR.validateCodespace(codespace)) {
 			throw new IllegalArgumentException("'" + codespace + "' is not a valid codespace");
 		}
-		if(!VALIDATOR.validateType(datatype)) {
-			throw new IllegalArgumentException("'" + datatype + "' is not a valid datatype");
+		if(!VALIDATOR.validateType(type)) {
+			throw new IllegalArgumentException("'" + type + "' is not a valid type");
 		}
 		if(!VALIDATOR.validateValue(value)) {
 			throw new IllegalArgumentException("'" + value + "' is not a valid value");
 		}
-		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + datatype + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
 
     private final NetexIdValidator validator;
