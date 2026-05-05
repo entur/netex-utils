@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Test;
 
 import no.entur.abt.netex.utils.IllegalNetexIDException;
 
-import java.util.Collection;
 import java.util.Set;
 
 public class NetexIdParserBuilderTest {

@@ -76,7 +76,6 @@ public class NetexIdCodespaceTypePredicateTest {
 		assertThrows(IllegalNetexIDException.class, () -> predicate.test("AAA:Network:12!3"));
 	}
 
-	// NetexIdCodespacePredicate — short input covers the false branch of the first condition
 	@Test
 	public void testCodespacePredicate_shortInput_returnsFalse() {
 		NetexIdCodespacePredicate predicate = new NetexIdCodespacePredicate("AAA");

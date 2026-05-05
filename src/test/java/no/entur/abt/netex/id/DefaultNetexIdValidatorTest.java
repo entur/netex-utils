@@ -141,20 +141,17 @@ public class DefaultNetexIdValidatorTest {
 
 	@Test
 	public void testDeprecatedValidateWithOffset() {
-		// non-null path: extracts subsequence and validates it
 		assertTrue(defaultNetexIdValidator.validate("XAAA:BBB:CCCY", 1, 11));
 		assertFalse(defaultNetexIdValidator.validate("XAAA:BBB:CCC!Y", 1, 12));
 	}
 
 	@Test
 	public void testTypeWithNoSecondSeparator() {
-		// type scan reaches end of string without finding ':', so last == -1 (condition 1 in line 133)
 		assertFalse(defaultNetexIdValidator.validate("AAA:BBBxCCC"));
 	}
 
 	@Test
 	public void testEmptyType() {
-		// empty type: validateTypeToIndex returns 4 with charAt(4)==':'; last > NETEX_ID_CODESPACE_LENGTH+1 is false (condition 3 in line 133)
 		assertFalse(defaultNetexIdValidator.validate("AAA::XXXXX"));
 	}
 
