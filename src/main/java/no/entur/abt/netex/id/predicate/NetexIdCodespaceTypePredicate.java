@@ -38,10 +38,10 @@ public class NetexIdCodespaceTypePredicate implements NetexIdPredicate {
 	protected final char[] codespaceColonType; // ABC:DEFGH
 
 	public NetexIdCodespaceTypePredicate(CharSequence codespace, CharSequence type) {
-		if (codespace.length() != DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) {
+		if (codespace == null || codespace.length() != DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) {
 			throw new IllegalNetexIDException("'" + codespace + "' is not a valid codespace");
 		}
-		if (type.length() == 0) {
+		if (type == null || type.length() == 0) {
 			throw new IllegalNetexIDException("'" + type + "' is not a valid type");
 		}
 
