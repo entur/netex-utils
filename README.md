@@ -61,7 +61,7 @@ List<String> fareZones = ids.stream()
 
 ## NetexIdBuilder
 
-Build a validated ID from its parts. Throws `IllegalStateException` on invalid input.
+Build a validated ID from its parts. Throws `IllegalNetexIDException` on invalid input.
 
 ```java
 String id = NetexIdBuilder.newInstance()
@@ -80,7 +80,7 @@ NetexIdBuilder.newInstance()
     .withCodespace("AA")    // too short
     .withType("FareZone")
     .withValue("123")
-    .build();               // throws IllegalStateException
+    .build();               // throws IllegalNetexIDException
 ```
 
 ## NetexIdParser
@@ -158,7 +158,7 @@ List<String> result = ids.stream()
     .toList();
 ```
 
-Invalid codespace or type strings throw `IllegalStateException` at build time.
+Invalid codespace or type strings throw `IllegalNetexIDException` at build time.
 
 ## NetexIdValidator
 
@@ -173,9 +173,8 @@ validator.validateType("FareZone");        // true
 validator.validateValue("123");            // true
 ```
 
-## NetexIdUtils (legacy)
-
-> ⚠️ **`NetexIdUtils` is considerably slower than the modern APIs** — benchmarks show parsing and validation to be ~25–33× slower due to regexp-based validation. Prefer `NetexIdParser`, `NetexIdValidator`, and `NetexIdBuilder` for any performance-sensitive code.
+## NetexIdUtils
+One-liner helpers with validation.
 
 ```java
 String id = NetexIdUtils.createId("AAA", "FareZone", "123");
@@ -199,16 +198,3 @@ JMH benchmarks are included. Run them with:
 ```bash
 mvn package && java -jar target/netex-utils-*-perf-tests.jar
 ```
-
-Results from the included benchmark runs (ops/ms, higher is better):
-
-| Operation | Modern API | `NetexIdUtils` | Ratio |
-|---|---|---|---|
-| Get codespace | 6 005 | 236 | ~25× |
-| Get type | 7 615 | 228 | ~33× |
-| Get value | 5 797 | 226 | ~26× |
-| Validate ID | 7 707 | 247 | ~31× |
-| Create ID from existing | 27 496 | 1 575 | ~17× |
-| Create ID from parts | 63 906 | 51 561 | ~1.2× |
-
-Measured on a single machine; results will vary by JVM and hardware.
