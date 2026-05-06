@@ -102,7 +102,7 @@ public class NetexIdNonValidatingBuilder {
 		if (value == null) {
 			throw new IllegalStateException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -)");
 		}
-		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+		return createId(codespace, type, value);
 	}
 
 }
