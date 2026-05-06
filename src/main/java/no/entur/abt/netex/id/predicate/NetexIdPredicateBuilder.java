@@ -25,6 +25,7 @@ package no.entur.abt.netex.id.predicate;
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
 import no.entur.abt.netex.id.NetexIdValidator;
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 /**
  * 
@@ -61,10 +62,10 @@ public class NetexIdPredicateBuilder {
 
 	public NetexIdPredicate build() {
 		if (codespace != null && !validator.validateCodespace(codespace)) {
-			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z), found " + codespace);
+			throw new IllegalNetexIDException("Expected codespace (size 3 with characters A-Z), found " + codespace);
 		}
 		if (type != null && !validator.validateType(type)) {
-			throw new IllegalStateException("Expected type (nonempty with characters A-Z or a-z), found " + type);
+			throw new IllegalNetexIDException("Expected type (nonempty with characters A-Z or a-z), found " + type);
 		}
 
 		if(validate) {
@@ -75,7 +76,7 @@ public class NetexIdPredicateBuilder {
 			} else if (type != null) {
 				return new NetexIdTypeValidatingPredicate(type);
 			} else {
-				throw new IllegalStateException("Expected codespace and/or type");
+				throw new IllegalNetexIDException("Expected codespace and/or type");
 			}
 		}
 
@@ -86,7 +87,7 @@ public class NetexIdPredicateBuilder {
 		} else if (type != null) {
 			return new NetexIdTypePredicate(type);
 		} else {
-			throw new IllegalStateException("Expected codespace and/or type");
+			throw new IllegalNetexIDException("Expected codespace and/or type");
 		}
 
 	}

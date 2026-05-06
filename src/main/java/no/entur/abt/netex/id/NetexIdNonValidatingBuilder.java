@@ -64,7 +64,7 @@ public class NetexIdNonValidatingBuilder {
 
 	public NetexIdNonValidatingBuilder(String id) {
 		if(id == null) {
-			throw new IllegalArgumentException("Expected id");
+			throw new IllegalNetexIDException("Expected id");
 		}
 		// use id as template
 		NetexIdNonvalidatingParser parser = NetexIdNonvalidatingParser.getInstance();
@@ -94,13 +94,13 @@ public class NetexIdNonValidatingBuilder {
 
 	public String build() {
 		if (codespace == null) {
-			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z)");
+			throw new IllegalNetexIDException("Expected codespace (size 3 with characters A-Z)");
 		}
 		if (type == null) {
-			throw new IllegalStateException("Expected type (nonempty with characters A-Z or a-z)");
+			throw new IllegalNetexIDException("Expected type (nonempty with characters A-Z or a-z)");
 		}
 		if (value == null) {
-			throw new IllegalStateException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -)");
+			throw new IllegalNetexIDException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -)");
 		}
 		return createId(codespace, type, value);
 	}

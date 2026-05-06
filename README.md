@@ -39,7 +39,7 @@ String id = NetexIdBuilder.newInstance()
 // Validate
 NetexIdValidator validator = DefaultNetexIdValidator.getInstance();
 if (!validator.validate(id)) {
-    throw new IllegalArgumentException("Invalid NeTEx ID");
+    throw new IllegalNetexIDException("Invalid NeTEx ID");
 }
 
 // Parse

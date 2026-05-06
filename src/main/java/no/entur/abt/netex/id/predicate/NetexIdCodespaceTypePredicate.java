@@ -1,6 +1,7 @@
 package no.entur.abt.netex.id.predicate;
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 /*-
  * #%L
@@ -38,10 +39,10 @@ public class NetexIdCodespaceTypePredicate implements NetexIdPredicate {
 
 	public NetexIdCodespaceTypePredicate(CharSequence codespace, CharSequence type) {
 		if (codespace.length() != DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) {
-			throw new IllegalArgumentException();
+			throw new IllegalNetexIDException("'" + codespace + "' is not a valid codespace");
 		}
 		if (type.length() == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalNetexIDException("'" + type + "' is not a valid type");
 		}
 
 		char[] chars = new char[1 + codespace.length() + type.length()];

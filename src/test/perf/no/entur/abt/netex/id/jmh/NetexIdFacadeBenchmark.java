@@ -186,6 +186,7 @@ public class NetexIdFacadeBenchmark {
         long count = 0;
         for (int i = 0; i < IDS.length; i++) {
             NetexIdUtils.assertValidOfType(IDS[i], IDS_PARTS[i][1]);
+            count++;
         }
         return count;
     }
@@ -195,6 +196,7 @@ public class NetexIdFacadeBenchmark {
         long count = 0;
         for (int i = 0; i < IDS.length; i++) {
             no.entur.abt.netex.id.jmh.legacy.NetexIdUtils.assertValidOfType(IDS[i], IDS_PARTS[i][1]);
+            count++;
         }
         return count;
     }
