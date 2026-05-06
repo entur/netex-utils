@@ -213,7 +213,7 @@ public class NetexIdFacadeBenchmark {
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
                 .include(NetexIdFacadeBenchmark.class.getSimpleName())
-                .result("jmh-result-" + Instant.now().toString() + ".json")
+                .result("jmh-result-" + Instant.now().toEpochMilli() + ".json")
                 .resultFormat(ResultFormatType.JSON)
                 .build();
         new Runner(opt).run();
