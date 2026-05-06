@@ -24,6 +24,7 @@ package no.entur.abt.netex.id.jmh;
  */
 
 import no.entur.abt.netex.id.NetexIdBuilder;
+import no.entur.abt.netex.id.NetexIdNonValidatingBuilder;
 import no.entur.abt.netex.utils.NetexIdUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -62,14 +63,45 @@ public class NetexIdCreateBenchmark {
     }
 
     @Benchmark
-    public String createFromExistingId() {
+    public String createFromExistingIdBuilderValidate() {
         return NetexIdBuilder.newInstance("XXX:SecurityPolicy:æøåÆØÅ").withValue("abc").build();
     }
 
     @Benchmark
-    public String createId() {
+    public String createIdBuilderValidate() {
         return NetexIdBuilder.newInstance().withCodespace("XXX").withType("SecurityPolicy").withValue("æøåÆØÅ").build();
     }
+
+    @Benchmark
+    public String createFromExistingIdOnelinerValidate() {
+        return NetexIdBuilder.createIdFrom("XXX:SecurityPolicy:æøåÆØÅ", "abc");
+    }
+
+    @Benchmark
+    public String createIdOnelinerValidate() {
+        return NetexIdBuilder.createId("XXX", "SecurityPolicy", "æøåÆØÅ");
+    }
+
+    @Benchmark
+    public String createFromExistingIdBuilderNonvalidate() {
+        return NetexIdNonValidatingBuilder.newInstance("XXX:SecurityPolicy:æøåÆØÅ").withValue("abc").build();
+    }
+
+    @Benchmark
+    public String createIdBuilderNonvalidate() {
+        return NetexIdNonValidatingBuilder.newInstance().withCodespace("XXX").withType("SecurityPolicy").withValue("æøåÆØÅ").build();
+    }
+
+    @Benchmark
+    public String createFromExistingIdOnelinerNonvalidate() {
+        return NetexIdNonValidatingBuilder.createIdFrom("XXX:SecurityPolicy:æøåÆØÅ", "abc");
+    }
+
+    @Benchmark
+    public String createIdOnelinerNonvalidate() {
+        return NetexIdNonValidatingBuilder.createId("XXX", "SecurityPolicy", "æøåÆØÅ");
+    }
+
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()

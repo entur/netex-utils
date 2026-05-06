@@ -117,21 +117,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 
 	@Override
 	public boolean validate(CharSequence string) {
-		if (string == null) {
-			return false;
-		}
-
-		// minimum size is XXX:X:X
-		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
-			return false;
-		}
-		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != NETEX_ID_SEPARATOR_CHAR) {
-			return false;
-		}
-
-		int last = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		return last != -1 && string.charAt(last) == NETEX_ID_SEPARATOR_CHAR && last > NETEX_ID_CODESPACE_LENGTH + 1 && validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
-				&& validateValue(string, last + 1, string.length());
+		return validateToValueIndex(string) != -1;
 	}
 
 	protected static int getLastSeperatorIndex(CharSequence string, int startIndex, int endIndex) {
@@ -199,4 +185,49 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		return true;
 	}
 
+	/**
+	 *
+	 * Validate id, return index of value part (the character index after the second colon) if valid, otherwise -1.
+	 *
+	 * @param string netex id
+	 * @return -1 if the id is invalid, otherwise the index of the value part within the id (the character index after the second colon).
+	 */
+
+	protected int validateToValueIndex(CharSequence string) {
+		if (string == null) {
+			return -1;
+		}
+
+		// minimum size is XXX:X:X
+		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
+			return -1;
+		}
+		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != NETEX_ID_SEPARATOR_CHAR) {
+			return -1;
+		}
+
+		// XXX:AB:CDE
+		// 0123456789
+		//
+		// scan from A at index 4.
+		// Outcomes:
+		// Valid id: For a valid id the first non-valid char should be the second colon (at index 6 in example), with at least one char between it and the colon at index 3.
+		// Invalid id: No non-valid char found, or a non-valid char that is not colon.
+		int typeFirstNonValidCharIndex = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
+		if (typeFirstNonValidCharIndex == -1 || string.charAt(typeFirstNonValidCharIndex) != NETEX_ID_SEPARATOR_CHAR || typeFirstNonValidCharIndex <= NETEX_ID_CODESPACE_LENGTH + 1) {
+			return -1;
+		}
+
+		if (!validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)) {
+			return -1;
+		}
+
+		// skip the colon. index is now the first char of the value part.
+		typeFirstNonValidCharIndex++;
+		if (!validateValue(string, typeFirstNonValidCharIndex, string.length())) {
+			return -1;
+		}
+
+		return typeFirstNonValidCharIndex;
+	}
 }
