@@ -34,28 +34,19 @@ public class NetexIdValidatingParser extends DefaultNetexIdValidator implements 
 
 
 	public String getType(CharSequence string) {
-		int last = validateToIndex(string);
-		return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
+		int valueIndex = validateToValueIndex(string);
+		if(valueIndex == -1) {
+			throw getException(string);
+		}
+		return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, valueIndex - 1).toString();
 	}
 
 	public String getValue(CharSequence string) {
-		int last = validateToIndex(string);
-		return string.subSequence(last + 1, string.length()).toString();
-	}
-
-	private int validateToIndex(CharSequence string) {
-		// inline validation
-		if (string == null || string.length() < NETEX_ID_MINIMUM_LENGTH || string.charAt(NETEX_ID_CODESPACE_LENGTH) != ':') {
+		int valueIndex = validateToValueIndex(string);
+		if(valueIndex == -1) {
 			throw getException(string);
 		}
-		int index = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		if(index == -1 || string.charAt(index) != ':' || index <= NETEX_ID_CODESPACE_LENGTH + 1
-				|| !validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)
-				|| !validateValue(string, index + 1, string.length())
-		) {
-			throw getException(string);
-		}
-		return index;
+		return string.subSequence(valueIndex, string.length()).toString();
 	}
 
 	private void assertValid(CharSequence id) {

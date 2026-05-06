@@ -26,6 +26,17 @@ public interface NetexIdValidator {
 
 	boolean validate(CharSequence id);
 
+	/**
+	 * Validate an id.
+	 *
+	 * @param id id
+	 * @param offset offset of the subsequence to validate
+	 * @param length length of the subsequence to validate
+	 * @return true if valid
+	 * @throws IndexOutOfBoundsException if {@code offset} or {@code length} do not define a valid subsequence of {@code id}
+	 * @deprecated Rather validate a full CharSequence.
+	 */
+
 	@Deprecated
 	default boolean validate(CharSequence id, int offset, int length) {
 		if (id == null) {

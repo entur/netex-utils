@@ -23,6 +23,7 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +35,23 @@ public class NetexIdNonValidatingBuilderTest {
     public void testCodespace() {
         String build = NetexIdNonValidatingBuilder.newInstance().withCodespace("AAA").withType("Network").withValue("123").build();
         assertEquals("AAA:Network:123", build);
+    }
+
+    @Test
+    public void testBuilderFromExistingId() {
+        assertEquals("AAA:Network:123", NetexIdNonValidatingBuilder.newInstance("AAA:Network:123").build());
+    }
+
+    @Test
+    public void testBuilderFromExistingIdWithOverride() {
+        assertEquals("AAA:Network:456", NetexIdNonValidatingBuilder.newInstance("AAA:Network:123").withValue("456").build());
+    }
+
+    @Test
+    public void testBuilderFromNullId() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            NetexIdNonValidatingBuilder.newInstance(null).build();
+        });
     }
 
     @Test
@@ -49,4 +67,14 @@ public class NetexIdNonValidatingBuilderTest {
         });
     }
 
+    @Test
+    public void testCreateCodespace() {
+        String build = NetexIdNonValidatingBuilder.createId("AAA", "Network", "123");
+        assertEquals("AAA:Network:123", build);
+    }
+
+    @Test
+    public void testCreateFromExistingId() {
+        assertEquals("AAA:Network:456", NetexIdNonValidatingBuilder.createIdFrom("AAA:Network:123", "456"));
+    }
 }

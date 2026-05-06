@@ -22,6 +22,8 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
+import no.entur.abt.netex.utils.IllegalNetexIDException;
+
 /**
  * 
  * Build a Netex id. Does not validate inputs; the caller is responsible for ensuring that
@@ -35,9 +37,44 @@ public class NetexIdNonValidatingBuilder {
 		return new NetexIdNonValidatingBuilder();
 	}
 
+	/**
+	 * Create new id from an existing id + value part.
+	 *
+	 * @param id input id. codespace and type will be copied from this id.
+	 * @param valuePart new value part
+	 * @return an id with codespace and type from the id argument, value from the valuePart argument.
+	 */
+
+	public static String createIdFrom(String id, String valuePart) {
+		int index = id.lastIndexOf(DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR);
+		return id.substring(0, index + 1) + valuePart;
+	}
+
+	public static String createId(String codespace, String type, String value) {
+		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+	}
+
+	public static NetexIdNonValidatingBuilder newInstance(String id) {
+		return new NetexIdNonValidatingBuilder(id);
+	}
+
 	protected String codespace;
 	protected String type;
 	protected String value;
+
+	public NetexIdNonValidatingBuilder(String id) {
+		if(id == null) {
+			throw new IllegalArgumentException("Expected id");
+		}
+		// use id as template
+		NetexIdNonvalidatingParser parser = NetexIdNonvalidatingParser.getInstance();
+		codespace = parser.getCodespace(id);
+		type = parser.getType(id);
+		value = parser.getValue(id);
+	}
+
+	public NetexIdNonValidatingBuilder() {
+	}
 
 	public NetexIdNonValidatingBuilder withCodespace(String codespace) {
 		this.codespace = codespace;
@@ -65,7 +102,7 @@ public class NetexIdNonValidatingBuilder {
 		if (value == null) {
 			throw new IllegalStateException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -)");
 		}
-		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+		return createId(codespace, type, value);
 	}
 
 }

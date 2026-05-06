@@ -57,6 +57,9 @@ public class NetexIdCodespaceTypePredicate implements NetexIdPredicate {
 	}
 
 	public boolean test(CharSequence t) {
+		if(t == null) {
+			return false;
+		}
 		// must contain all chars, plus an additional colon
 		if (t.length() < codespaceColonType.length + 1) {
 			return false;

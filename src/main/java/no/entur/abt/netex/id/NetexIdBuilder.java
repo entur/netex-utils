@@ -30,6 +30,8 @@ package no.entur.abt.netex.id;
 
 public class NetexIdBuilder {
 
+	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+
 	public static NetexIdBuilder newInstance() {
 		return new NetexIdBuilder();
 	}
@@ -45,6 +47,45 @@ public class NetexIdBuilder {
     public static NetexIdBuilder newInstance(String id) {
         return new NetexIdBuilder(id);
     }
+
+	/**
+	 * Create new id from an existing id + value part.
+	 *
+	 * @param id input id. codespace and type will be copied from this id.
+	 * @param valuePart new value part
+	 * @return an id with codespace and type from the id argument, value from the valuePart argument.
+	 */
+
+	public static String createIdFrom(String id, String valuePart) {
+		if(id == null) {
+			throw new IllegalArgumentException("Expected id");
+		}
+		if(valuePart == null) {
+			throw new IllegalArgumentException("Expected value");
+		}
+		if(!VALIDATOR.validateValue(valuePart)) {
+			throw new IllegalArgumentException("'" + valuePart + "' is not a valid value");
+		}
+
+		int index = VALIDATOR.validateToValueIndex(id);
+		if(index == -1) {
+			throw NetexIdValidatingParser.getException(id);
+		}
+		return id.substring(0, index) + valuePart;
+	}
+
+	public static String createId(String codespace, String type, String value) {
+		if(!VALIDATOR.validateCodespace(codespace)) {
+			throw new IllegalArgumentException("'" + codespace + "' is not a valid codespace");
+		}
+		if(!VALIDATOR.validateType(type)) {
+			throw new IllegalArgumentException("'" + type + "' is not a valid type");
+		}
+		if(!VALIDATOR.validateValue(value)) {
+			throw new IllegalArgumentException("'" + value + "' is not a valid value");
+		}
+		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
+	}
 
     private final NetexIdValidator validator;
 

@@ -116,6 +116,17 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
+	public void testDigitInType() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:B1B:CCC"));
+	}
+
+	@Test
+	public void testLowercaseCodespace() {
+		assertFalse(defaultNetexIdValidator.validate("aaa:Type:Val"));
+		assertFalse(defaultNetexIdValidator.validateCodespace("aaa"));
+	}
+
+	@Test
 	public void testNull() {
 		assertFalse(defaultNetexIdValidator.validate(null));
 		assertFalse(defaultNetexIdValidator.validateType(null));
@@ -129,21 +140,34 @@ public class DefaultNetexIdValidatorTest {
 	}
 
 	@Test
-	public void testValidateToValueIndex_whenValid_thenReturnValueStartIndex() {
-		String id = "AAA:BBB:CCC";
-		assertEquals(8, defaultNetexIdValidator.validateToValueIndex(id));
-
-		String nordic = "AAA:Type:ØÆÅ";
-		assertEquals(9, defaultNetexIdValidator.validateToValueIndex(nordic));
+	public void testDeprecatedValidateWithOffset() {
+		assertTrue(defaultNetexIdValidator.validate("XAAA:BBB:CCCY", 1, 11));
+		assertFalse(defaultNetexIdValidator.validate("XAAA:BBB:CCC!Y", 1, 12));
 	}
 
 	@Test
-	public void testValidateToValueIndex_whenInvalid_thenReturnMinusOne() {
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex(null));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA:BBB"));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA::BBB"));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA:BBB:@"));
-		assertEquals(-1, defaultNetexIdValidator.validateToValueIndex("AAA!:BBB:CCC"));
+	public void testTypeWithNoSecondSeparator() {
+		assertFalse(defaultNetexIdValidator.validate("AAA:BBBxCCC"));
 	}
 
+	@Test
+	public void testEmptyType() {
+		assertFalse(defaultNetexIdValidator.validate("AAA::XXXXX"));
+	}
+
+	@Test
+	public void testValidateToValueIndex() {
+		assertEquals(defaultNetexIdValidator.validateToValueIndex(null), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:GH"), 8);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF!GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC!DEF:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABCD:DEF:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABCD:123:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("123:DEF:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:..."), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC::GH"), -1);
+	}
 }

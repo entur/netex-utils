@@ -155,4 +155,9 @@ public class NetexIdValidatingParserTest {
 		});
 
 	}
+
+	@Test
+	public void testGetType_invalidCodespace_throwsException() {
+		assertThrows(IllegalNetexIDException.class, () -> parser.getType("aaa:Network:123"));
+	}
 }
