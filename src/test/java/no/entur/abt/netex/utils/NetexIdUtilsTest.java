@@ -107,4 +107,11 @@ public class NetexIdUtilsTest {
 	public void createFrom_whenInvalidThenThrowIllegalNetexIDException() {
 		assertThrows(IllegalNetexIDException.class, () -> NetexIdUtils.createFrom("XXX:FareContract", "abc"));
 	}
+
+	@Test
+	public void createId_whenInvalidThenLogMessage() {
+		NetexIdUtils.createId("XXX", "1234", "abc");
+		NetexIdUtils.createId("XX", "ABC", "abc");
+		NetexIdUtils.createId("XXX", "ABC", "...");
+	}
 }
