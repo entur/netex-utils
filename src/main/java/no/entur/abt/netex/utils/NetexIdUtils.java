@@ -23,9 +23,9 @@ package no.entur.abt.netex.utils;
  * #L%
  */
 
-import no.entur.abt.netex.id.NetexIdValidatingParser;
-import no.entur.abt.netex.id.NetexIdNonvalidatingParser;
-import no.entur.abt.netex.id.NetexIdBuilder;
+import no.entur.abt.netex.id.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -33,13 +33,25 @@ public class NetexIdUtils {
 
 	private static final NetexIdValidatingParser PARSER = NetexIdValidatingParser.getInstance();
 	private static final NetexIdNonvalidatingParser NON_VALIDATING_PARSER = NetexIdNonvalidatingParser.getInstance();
+	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetexIdUtils.class);
 
 	private NetexIdUtils() {
 		// utility class
 	}
 
 	public static String createId(String codespace, String datatype, String value) {
-		return NetexIdBuilder.createId(codespace, datatype, value);
+
+		boolean validCodespace = VALIDATOR.validateCodespace(codespace);
+		boolean validType = VALIDATOR.validateType(datatype);
+		boolean validValue = VALIDATOR.validateValue(value);
+
+		if(!validCodespace || !validType || !validValue) {
+			LOGGER.warn("Creating id from one or more invalid parts: Codespace '" + codespace + "', type '" + datatype + "' and value '" + value + "'.");
+		}
+
+		return NetexIdNonValidatingBuilder.createId(codespace, datatype, value);
 	}
 
 	public static String getCodespace(String id) {
