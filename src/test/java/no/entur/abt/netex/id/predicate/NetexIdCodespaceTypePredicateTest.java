@@ -33,10 +33,10 @@ public class NetexIdCodespaceTypePredicateTest {
 
 	@Test
 	public void testConstructor() {
-		assertThrows(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			new NetexIdCodespaceTypePredicate("AB", "x");
 		});
-		assertThrows(IllegalArgumentException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			new NetexIdCodespaceTypePredicate("ABC", "");
 		});
 	}

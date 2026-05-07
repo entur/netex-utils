@@ -39,28 +39,28 @@ public class NetexIdBuilderTest {
 
 	@Test
 	public void testInvalidCodespaceInput() {
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withType("Network").withValue("123").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withValue("123").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withType("Network").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AA").withType("Network").withValue("123").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAAA").withType("Network").withValue("123").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withType("").withValue("123").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withType("Network").withValue("").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withType("Network!").build();
 		});
 	}
@@ -93,28 +93,28 @@ public class NetexIdBuilderTest {
 
     @Test
     public void testCreateInvalidCodespaceInput() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId(null,"Network", "123");
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AAA", null, "123");
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AAA", "Network", null);
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AA", "Network", "123");
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AAAA", "Network", "123");
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AAA", "", "123");
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AAA", "Network", "");
         });
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AAA", "Network!", null);
         });
     }
@@ -131,7 +131,7 @@ public class NetexIdBuilderTest {
 
     @Test
     public void testCreateFromNullId() {
-        assertThrows(IllegalArgumentException.class, () -> NetexIdBuilder.createIdFrom(null, "adf"));
+        assertThrows(IllegalNetexIDException.class, () -> NetexIdBuilder.createIdFrom(null, "adf"));
     }
 
     @Test
@@ -141,12 +141,12 @@ public class NetexIdBuilderTest {
 
     @Test
     public void testCreateFromInvalidValue() {
-        assertThrows(IllegalArgumentException.class, () -> NetexIdBuilder.createIdFrom("AAA:Network:123", ".."));
+        assertThrows(IllegalNetexIDException.class, () -> NetexIdBuilder.createIdFrom("AAA:Network:123", ".."));
     }
 
     @Test
     public void testCreateFromNullValue() {
-        assertThrows(IllegalArgumentException.class, () -> NetexIdBuilder.createIdFrom("AAA:Network:123", null));
+        assertThrows(IllegalNetexIDException.class, () -> NetexIdBuilder.createIdFrom("AAA:Network:123", null));
     }
 
     @Test

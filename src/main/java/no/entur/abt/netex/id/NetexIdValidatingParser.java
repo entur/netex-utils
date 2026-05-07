@@ -26,6 +26,12 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
  */
 public class NetexIdValidatingParser extends DefaultNetexIdValidator implements NetexIdParser {
 
+	private final static NetexIdValidatingParser INSTANCE = new NetexIdValidatingParser();
+
+	public static NetexIdValidatingParser getInstance() {
+		return INSTANCE;
+	}
+
 	public String getCodespace(CharSequence id) {
 		assertValid(id);
 		CharSequence result = id.subSequence(0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH);

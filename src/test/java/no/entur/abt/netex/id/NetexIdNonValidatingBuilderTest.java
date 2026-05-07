@@ -49,20 +49,20 @@ public class NetexIdNonValidatingBuilderTest {
 
     @Test
     public void testBuilderFromNullId() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdNonValidatingBuilder.newInstance(null).build();
         });
     }
 
     @Test
     public void testInvalidCodespaceInput() {
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdNonValidatingBuilder.newInstance().withType("Network").withValue("123").build();
         });
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdNonValidatingBuilder.newInstance().withCodespace("AAA").withValue("123").build();
         });
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdNonValidatingBuilder.newInstance().withCodespace("AAA").withType("Network").build();
         });
     }

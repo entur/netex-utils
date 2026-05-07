@@ -22,6 +22,8 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
+import no.entur.abt.netex.utils.IllegalNetexIDException;
+
 /**
  * 
  * Build a Netex id. Includes validation.
@@ -58,13 +60,13 @@ public class NetexIdBuilder {
 
 	public static String createIdFrom(String id, String valuePart) {
 		if(id == null) {
-			throw new IllegalArgumentException("Expected id");
+			throw new IllegalNetexIDException("Expected id");
 		}
 		if(valuePart == null) {
-			throw new IllegalArgumentException("Expected value");
+			throw new IllegalNetexIDException("Expected value");
 		}
 		if(!VALIDATOR.validateValue(valuePart)) {
-			throw new IllegalArgumentException("'" + valuePart + "' is not a valid value");
+			throw new IllegalNetexIDException("'" + valuePart + "' is not a valid value");
 		}
 
 		int index = VALIDATOR.validateToValueIndex(id);
@@ -76,13 +78,13 @@ public class NetexIdBuilder {
 
 	public static String createId(String codespace, String type, String value) {
 		if(!VALIDATOR.validateCodespace(codespace)) {
-			throw new IllegalArgumentException("'" + codespace + "' is not a valid codespace");
+			throw new IllegalNetexIDException("'" + codespace + "' is not a valid codespace");
 		}
 		if(!VALIDATOR.validateType(type)) {
-			throw new IllegalArgumentException("'" + type + "' is not a valid type");
+			throw new IllegalNetexIDException("'" + type + "' is not a valid type");
 		}
 		if(!VALIDATOR.validateValue(value)) {
-			throw new IllegalArgumentException("'" + value + "' is not a valid value");
+			throw new IllegalNetexIDException("'" + value + "' is not a valid value");
 		}
 		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}
@@ -137,13 +139,13 @@ public class NetexIdBuilder {
 
 	public String build() {
 		if (codespace == null || !validator.validateCodespace(codespace)) {
-			throw new IllegalStateException("Expected codespace (size 3 with characters A-Z), found " + codespace);
+			throw new IllegalNetexIDException("Expected codespace (size 3 with characters A-Z), found " + codespace);
 		}
 		if (type == null || !validator.validateType(type)) {
-			throw new IllegalStateException("Expected type (nonempty with characters A-Z or a-z), found " + type);
+			throw new IllegalNetexIDException("Expected type (nonempty with characters A-Z or a-z), found " + type);
 		}
 		if (value == null || !validator.validateValue(value)) {
-			throw new IllegalStateException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -), found " + value);
+			throw new IllegalNetexIDException("Expected value (nonempty with characters A-Z, a-z, ø, Ø, æ, Æ, å, Å, underscore, \\ and -), found " + value);
 		}
 		return codespace + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + type + DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR + value;
 	}

@@ -154,32 +154,32 @@ public class NetexIdPredicateBuilderTest {
 
 	@Test
 	public void testInvalidCodespaceInput() {
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withCodespace(null).build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withCodespace("").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withCodespace("AA").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withCodespace("AAAA").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withCodespace("aaa").build();
 		});
 	}
 
 	@Test
 	public void testInvalidTypeInput() {
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withType(null).build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withType("").build();
 		});
-		assertThrows(IllegalStateException.class, () -> {
+		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withType("Network!").build();
 		});
 	}
@@ -216,12 +216,12 @@ public class NetexIdPredicateBuilderTest {
 
 	@Test
 	public void testBuildWithoutCodespaceOrType() {
-		assertThrows(IllegalStateException.class, () -> NetexIdPredicateBuilder.newInstance().build());
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdPredicateBuilder.newInstance().build());
 	}
 
 	@Test
 	public void testBuildWithValidateWithoutCodespaceOrType() {
-		assertThrows(IllegalStateException.class, () -> NetexIdPredicateBuilder.newInstance().withValidate(true).build());
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdPredicateBuilder.newInstance().withValidate(true).build());
 	}
 
 	@Test
