@@ -23,7 +23,13 @@ package no.entur.abt.netex.utils;
  * #L%
  */
 
-import no.entur.abt.netex.id.*;
+
+import no.entur.abt.netex.id.NetexIdValidatingParser;
+import no.entur.abt.netex.id.NetexIdNonvalidatingParser;
+import no.entur.abt.netex.id.NetexIdBuilder;
+import no.entur.abt.netex.id.DefaultNetexIdValidator;
+import no.entur.abt.netex.id.NetexIdNonValidatingBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
