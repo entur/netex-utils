@@ -24,7 +24,7 @@ Create, parse, validate, and filter NeTEx IDs. All utilities (excluding builders
 | Extract codespace / type / value | `NetexIdParser` + `NetexIdParserBuilder` |
 | Filter a stream of IDs | `NetexIdPredicate` + `NetexIdPredicateBuilder` |
 | Validate an ID or its parts | `NetexIdValidator` / `DefaultNetexIdValidator` |
-| Legacy one-liner helpers | `NetexIdUtils` _(slower, see below)_ |
+| One-liner helpers | `NetexIdUtils` |
 
 ### Quick example
 
