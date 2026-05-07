@@ -194,7 +194,7 @@
                         <release>
                             <github>
                                 <skipTag>false</skipTag>
-                                <skipRelease>true</skipRelease>
+                                <skipRelease>false</skipRelease>
                             </github>
                         </release>
                     </jreleaser>
