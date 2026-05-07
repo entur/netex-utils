@@ -1,5 +1,12 @@
 [![Maven Central](https://img.shields.io/maven-central/v/no.entur.abt/netex-utils.svg)](https://mvnrepository.com/artifact/no.entur.abt/netex-utils)
 
+# This is the 1.x legacy branch
+For the latest version, see the main branch.
+
+This branch vs later versions:
+
+ * Non-validating `NetexIdUtils.createId(..)`
+
 # netex-utils
 
 Utility classes for working with [NeTEx](https://netex-cen.eu/) IDs on the format `Codespace:Type:Value` (e.g. `AAA:FareZone:123`).
