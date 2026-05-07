@@ -23,7 +23,7 @@ package no.entur.abt.netex.utils;
  * #L%
  */
 
-public class IllegalNetexIDException extends RuntimeException {
+public class IllegalNetexIDException extends IllegalArgumentException {
 
 	private static final long serialVersionUID = 1L;
 
