@@ -6,6 +6,7 @@ For the latest version, see the main branch.
 This branch vs later versions:
 
  * Non-validating `NetexIdUtils.createId(..)`
+ * Logs a warning on invalid inputs to `NetexIdUtils.createId(..)`
 
 # netex-utils
 
