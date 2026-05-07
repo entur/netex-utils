@@ -23,6 +23,10 @@ package no.entur.abt.netex.utils;
  * #L%
  */
 
+import no.entur.abt.netex.id.DefaultNetexIdValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Objects;
 
 public class NetexIdUtils {
@@ -30,7 +34,20 @@ public class NetexIdUtils {
 
 	private static final String ID_PATTERN = "^([A-Z]{3}):([A-Za-z]+):([0-9ÆØÅæøåA-Za-z_\\\\-]+)$";
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(NetexIdUtils.class);
+
+	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+
 	public static String createId(String codespace, String datatype, String value) {
+
+		boolean validCodespace = VALIDATOR.validateCodespace(codespace);
+		boolean validType = VALIDATOR.validateType(datatype);
+		boolean validValue = VALIDATOR.validateValue(value);
+
+		if(!validCodespace || !validType || !validValue) {
+			LOGGER.warn("Creating id from one or more invalid parts: Codespace '" + codespace + "', type '" + datatype + "' and value '" + value + "'.");
+		}
+
 		return String.join(NETEX_ID_SEPARATOR_CHAR, codespace, datatype, value);
 	}
 
