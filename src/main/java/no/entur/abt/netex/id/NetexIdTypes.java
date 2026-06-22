@@ -126,6 +126,7 @@ public class NetexIdTypes {
 	public static final String ROUND_TRIP = "RoundTrip";
 	public static final String TARIFF = "Tariff";
 
+	public static final String PARKING = "Parking";
 	public static final String CANCELLING = "Cancelling";
 	public static final String RESELLING = "Reselling";
 	public static final String REPLACING = "Replacing";
