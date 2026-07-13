@@ -11,6 +11,7 @@ jobs:
     with:
       workflow: deploy-main.yml
       release-branch: main
+      bot-name: skjolber
       trigger-release: false
       channel-id: ${{ vars.ALERT_CHANNEL_ID }}
     secrets: inherit
