@@ -1,4 +1,4 @@
-name: Scheduled Workflow Tasks
+name: Scheduled Workflow Tasks Test
 on:
   workflow_dispatch:
   schedule:
@@ -6,7 +6,7 @@ on:
       timezone: "Europe/Oslo"
 
 jobs:
-  check-last-workflow-run:
+  check-last-workflow-run-test:
     uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-maven.yml@reduceMavenReleases
     with:
       workflow: deploy-main.yml
