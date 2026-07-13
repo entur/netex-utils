@@ -10,7 +10,7 @@ jobs:
     uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-maven.yml@reduceMavenReleases
     with:
       workflow: deploy-main.yml
-      target-ref: main
+      release-branch: main
       trigger-release: false
       channel-id: ${{ vars.ALERT_CHANNEL_ID }}
     secrets: inherit
