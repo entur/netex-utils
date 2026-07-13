@@ -11,7 +11,7 @@ jobs:
     with:
       workflow: deploy-main.yml
       release-branch: reduceMavenReleases-test1
-      bot-name: skjolber
+      bot-name: "Thomas Skjølberg"
       trigger-release: false
       channel-id: ${{ vars.ALERT_CHANNEL_ID }}
     secrets: inherit
