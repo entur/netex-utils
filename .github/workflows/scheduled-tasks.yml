@@ -10,7 +10,7 @@ jobs:
     uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-maven.yml@reduceMavenReleases
     with:
       workflow: deploy-main.yml
-      release-branch: main
+      release-branch: reduceMavenReleases-test1
       bot-name: skjolber
       trigger-release: false
       channel-id: ${{ vars.ALERT_CHANNEL_ID }}
