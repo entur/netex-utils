@@ -7,11 +7,11 @@ on:
 
 jobs:
   check-last-workflow-run:
-    uses: entur/abt-gha-public/.github/workflows/check-last-workflow-run.yml@v1
+    uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-maven.yml@reduceMavenReleases
     with:
       workflow: deploy-main.yml
       target-ref: main
-      trigger-release: true
+      trigger-release: false
       channel-id: ${{ vars.ALERT_CHANNEL_ID }}
     secrets: inherit
     permissions:
