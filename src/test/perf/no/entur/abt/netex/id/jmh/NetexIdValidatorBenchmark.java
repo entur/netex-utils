@@ -27,6 +27,7 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
+import no.entur.abt.netex.id.SimdNetexIdValidator;
 import no.entur.abt.netex.utils.NetexIdUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -69,6 +70,7 @@ public class NetexIdValidatorBenchmark {
     };
 
     private static final DefaultNetexIdValidator validator = new DefaultNetexIdValidator();
+    private static final SimdNetexIdValidator simdValidator = SimdNetexIdValidator.getInstance();
 
     @Benchmark
     public long validateNetexIdUtils() {
@@ -86,6 +88,17 @@ public class NetexIdValidatorBenchmark {
         long count = 0;
         for (String id : IDS) {
             if (validator.validate(id)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Benchmark
+    public long validateSimd() {
+        long count = 0;
+        for (String id : IDS) {
+            if (simdValidator.validate(id)) {
                 count++;
             }
         }

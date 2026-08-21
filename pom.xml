@@ -82,6 +82,10 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <compilerArgs>
+                        <arg>--add-modules</arg>
+                        <arg>jdk.incubator.vector</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.openjdk.jmh</groupId>
@@ -99,6 +103,7 @@
                     <excludes>
                         <exclude></exclude>
                     </excludes>
+                    <argLine>@{argLine} --add-modules jdk.incubator.vector</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -136,6 +141,10 @@
                 <configuration>
                     <source>17</source>
                     <detectJavaApiLink>false</detectJavaApiLink>
+                    <additionalJOptions>
+                        <additionalJOption>--add-modules</additionalJOption>
+                        <additionalJOption>jdk.incubator.vector</additionalJOption>
+                    </additionalJOptions>
                 </configuration>
                 <executions>
                     <execution>

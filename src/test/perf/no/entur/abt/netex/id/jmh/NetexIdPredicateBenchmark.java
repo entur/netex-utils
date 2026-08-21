@@ -27,6 +27,8 @@ import no.entur.abt.netex.id.predicate.NetexIdCodespaceTypePredicate;
 import no.entur.abt.netex.id.predicate.NetexIdCodespaceTypeValidatingPredicate;
 import no.entur.abt.netex.id.predicate.NetexIdTypePredicate;
 import no.entur.abt.netex.id.predicate.NetexIdTypeValidatingPredicate;
+import no.entur.abt.netex.id.predicate.SimdNetexIdCodespaceTypePredicate;
+import no.entur.abt.netex.id.predicate.SimdNetexIdTypePredicate;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Measurement;
@@ -76,6 +78,9 @@ public class NetexIdPredicateBenchmark {
     private static final NetexIdTypePredicate typeNoValidate = new NetexIdTypePredicate("FareZone");
     private static final NetexIdTypeValidatingPredicate typeValidate = new NetexIdTypeValidatingPredicate("FareZone");
 
+    private static final SimdNetexIdCodespaceTypePredicate simdCodespaceType = new SimdNetexIdCodespaceTypePredicate("TST", "FareZone");
+    private static final SimdNetexIdTypePredicate simdType = new SimdNetexIdTypePredicate("FareZone");
+
     @Benchmark
     public long codespaceTypeNonValidate() {
         long count = 0;
@@ -114,6 +119,28 @@ public class NetexIdPredicateBenchmark {
         long count = 0;
         for (String id : IDS) {
             if (typeValidate.test(id)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Benchmark
+    public long simdCodespaceType() {
+        long count = 0;
+        for (String id : IDS) {
+            if (simdCodespaceType.test(id)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Benchmark
+    public long simdType() {
+        long count = 0;
+        for (String id : IDS) {
+            if (simdType.test(id)) {
                 count++;
             }
         }
