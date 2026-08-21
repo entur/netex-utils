@@ -24,6 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <slf4j.version>2.0.18</slf4j.version>
         <spotless.version>2.44.2</spotless.version>
+        <teavm.version>0.15.0</teavm.version>
     </properties>
     <dependencies>
         <!-- Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -427,6 +428,67 @@
                                             <mainClass>no.entur.abt.netex.id.jmh.BenchmarkMain</mainClass>
                                         </manifest>
                                     </archive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>teavm</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.teavm</groupId>
+                    <artifactId>teavm-classlib</artifactId>
+                    <version>${teavm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.teavm</groupId>
+                    <artifactId>teavm-jso</artifactId>
+                    <version>${teavm.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.6.1</version>
+                        <executions>
+                            <execution>
+                                <id>add-teavm-source</id>
+                                <goals>
+                                    <goal>add-source</goal>
+                                </goals>
+                                <phase>generate-sources</phase>
+                                <configuration>
+                                    <sources>
+                                        <source>src/teavm/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.teavm</groupId>
+                        <artifactId>teavm-maven-plugin</artifactId>
+                        <version>${teavm.version}</version>
+                        <executions>
+                            <execution>
+                                <id>compile-to-js</id>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <mainClass>no.entur.abt.netex.id.teavm.NetexValidatorModule</mainClass>
+                                    <targetDirectory>${project.basedir}/docs</targetDirectory>
+                                    <targetFileName>netex-validator.js</targetFileName>
+                                    <jsModuleType>NONE</jsModuleType>
+                                    <optimizationLevel>ADVANCED</optimizationLevel>
                                 </configuration>
                             </execution>
                         </executions>

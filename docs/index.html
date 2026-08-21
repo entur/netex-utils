@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeTEx ID Utils</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+    p.subtitle { color: #555; margin-bottom: 2rem; font-size: 0.95rem; }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 2rem;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+
+    input[type="text"] {
+      width: 100%;
+      font-family: monospace;
+      font-size: 0.95rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input[type="text"]:focus { outline: none; border-color: #0969da; }
+
+    #results { margin-top: 1rem; min-height: 1.5rem; }
+
+    .result-row { padding: 0.6rem 0; font-size: 0.88rem; }
+
+    .result-header { display: flex; align-items: baseline; gap: 0.6rem; }
+
+    .badge {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      border-radius: 3px;
+    }
+    .badge.valid   { background: #d1f0d6; color: #1a6b2c; }
+    .badge.invalid { background: #fde0e0; color: #991b1b; }
+
+    .parts {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.35rem;
+    }
+    .part {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.78rem;
+      background: #f0f4ff;
+      border: 1px solid #c7d5f5;
+      border-radius: 4px;
+      padding: 0.1rem 0.5rem;
+    }
+    .part-label {
+      font-weight: 600;
+      color: #3b5bdb;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      letter-spacing: 0.03em;
+    }
+    .part-value { font-family: monospace; color: #1a1a2e; }
+
+    .warn-msg  { margin-bottom: 0.5rem; color: #92400e; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 4px; padding: 0.35rem 0.6rem; font-size: 0.82rem; }
+    .error-msg { margin-top: 0.3rem; color: #991b1b; font-size: 0.8rem; }
+
+    .rule-table { margin-top: 1.5rem; font-size: 0.82rem; color: #555; border-collapse: collapse; width: 100%; }
+    .rule-table th, .rule-table td { text-align: left; padding: 0.3rem 0.5rem; border-bottom: 1px solid #eee; }
+    .rule-table th { font-weight: 600; color: #333; }
+    code { background: #f0f0f0; padding: 0 3px; border-radius: 3px; font-size: 0.85em; }
+
+    h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    .filter-row { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .filter-field { flex: 1; min-width: 120px; }
+    .filter-field label { margin-bottom: 0.35rem; }
+
+    textarea {
+      width: 100%;
+      height: 110px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+      margin-top: 0.5rem;
+    }
+    textarea:focus { outline: none; border-color: #0969da; }
+
+    .pred-hint { font-size: 0.8rem; color: #777; margin-top: 0.3rem; }
+
+    .pred-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.3rem 0;
+      font-size: 0.88rem;
+      font-family: monospace;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .pred-row:last-child { border-bottom: none; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .dot.match   { background: #1a6b2c; }
+    .dot.no-match { background: #ccc; }
+    .pred-summary { margin-top: 0.6rem; font-size: 0.82rem; color: #444; }
+
+    .gh-link {
+      margin-top: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #555;
+      text-decoration: none;
+      font-size: 0.88rem;
+    }
+    .gh-link:hover { color: #000; }
+  </style>
+</head>
+<body>
+  <h1>NeTEx ID Utils</h1>
+  <p class="subtitle">Utilities for NeTEx IDs on the format <code>Codespace:Type:Value</code> — powered by the <a href="https://github.com/entur/netex-utils">netex-utils</a> Java library compiled to JavaScript via <a href="https://teavm.org">TeaVM</a>.</p>
+
+  <div class="card">
+    <h2>NeTEx ID validator</h2>
+    <label for="input">NeTEx ID</label>
+    <input type="text" id="input" placeholder="AAA:FareZone:123" autocomplete="off" spellcheck="false" />
+
+    <div id="results"></div>
+
+    <table class="rule-table">
+      <tr><th colspan="2">Validation rules</th></tr>
+      <tr><td><strong>Codespace</strong></td><td>Exactly 3 uppercase ASCII letters <code>[A-Z]</code></td></tr>
+      <tr><td><strong>Type</strong></td><td>Non-empty, letters only <code>[A-Za-z]+</code></td></tr>
+      <tr><td><strong>Value</strong></td><td>Non-empty, alphanumeric + <code>ÆØÅæøå _ \ -</code></td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:1.5rem">
+    <h2>NeTEx ID predicate</h2>
+    <div class="filter-row">
+      <div class="filter-field">
+        <label for="filter-codespace">Codespace</label>
+        <input type="text" id="filter-codespace" placeholder="e.g. AAA" maxlength="3" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="filter-field">
+        <label for="filter-type">Type</label>
+        <input type="text" id="filter-type" placeholder="e.g. FareZone" autocomplete="off" spellcheck="false" />
+      </div>
+    </div>
+    <label for="pred-ids">NeTEx IDs to test</label>
+    <textarea id="pred-ids" placeholder="AAA:FareZone:123&#10;BBB:StopPlace:456&#10;AAA:StopPlace:789"></textarea>
+    <p class="pred-hint">One ID per line. At least one filter required.</p>
+    <div id="pred-results"></div>
+  </div>
+
+  <a class="gh-link" href="https://github.com/entur/netex-utils" target="_blank" rel="noopener">
+    <svg height="20" viewBox="0 0 16 16" width="20" aria-hidden="true" fill="currentColor">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+               0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+               -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+               .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+               -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+               .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+               .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+               0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+    entur/netex-utils
+  </a>
+
+  <script src="netex-validator.js"></script>
+  <script>
+    function onInput() {
+      const raw = document.getElementById('input').value;
+      const id  = raw.trim();
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+
+      if (!raw) return;
+
+      if (raw !== id) {
+        const warn = document.createElement('div');
+        warn.className = 'warn-msg';
+        warn.textContent = '⚠ Input contains leading or trailing whitespace.';
+        container.appendChild(warn);
+      }
+
+      if (!id) return;
+
+      const row = document.createElement('div');
+      row.className = 'result-row';
+      const header = document.createElement('div');
+      header.className = 'result-header';
+      const isValid = validate(id);
+      const badge = document.createElement('span');
+      badge.className = `badge ${isValid ? 'valid' : 'invalid'}`;
+      badge.textContent = isValid ? 'VALID' : 'INVALID';
+      header.appendChild(badge);
+      row.appendChild(header);
+
+      if (isValid) {
+        const parts = document.createElement('div');
+        parts.className = 'parts';
+        [['Codespace', getCodespace(id)], ['Type', getType(id)], ['Value', getValue(id)]].forEach(([label, val]) => {
+          const chip = document.createElement('span');
+          chip.className = 'part';
+          chip.innerHTML = `<span class="part-label">${label}</span><span class="part-value">${val}</span>`;
+          parts.appendChild(chip);
+        });
+        row.appendChild(parts);
+      } else {
+        const err = document.createElement('div');
+        err.className = 'error-msg';
+        err.textContent = 'Invalid NeTEx ID — expected format: Codespace:Type:Value (e.g. AAA:FareZone:123)';
+        row.appendChild(err);
+      }
+
+      container.appendChild(row);
+    }
+
+    document.getElementById('input').addEventListener('input', onInput);
+
+    function onPredicate() {
+      const codespace    = document.getElementById('filter-codespace').value.trim();
+      const type         = document.getElementById('filter-type').value.trim();
+      const csInput      = document.getElementById('filter-codespace');
+      const typeInput    = document.getElementById('filter-type');
+      const lines        = document.getElementById('pred-ids').value
+        .split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      const container    = document.getElementById('pred-results');
+      container.innerHTML = '';
+
+      // Validate filter inputs
+      let filterErrors = [];
+      if (codespace && !validateCodespace(codespace)) {
+        filterErrors.push(`Codespace "${codespace}" is invalid — must be exactly 3 uppercase letters [A-Z].`);
+      }
+      if (type && !validateType(type)) {
+        filterErrors.push(`Type "${type}" is invalid — must be non-empty letters only [A-Za-z].`);
+      }
+      filterErrors.forEach(msg => {
+        const el = document.createElement('div');
+        el.className = 'error-msg';
+        el.style.marginBottom = '0.4rem';
+        el.textContent = '⚠ ' + msg;
+        container.appendChild(el);
+      });
+      if (filterErrors.length) return;
+
+      if (!codespace && !type) return;
+      if (lines.length === 0) return;
+
+      // Validate each input ID, then test predicate
+      let anyError = false;
+      const results = lines.map(id => {
+        if (!validate(id)) {
+          anyError = true;
+          return { id, invalidId: true };
+        }
+        return { id, invalidId: false, matches: testPredicate(id, codespace || null, type || null) };
+      });
+
+      const invalidIds   = results.filter(r => r.invalidId);
+      const nonMatching  = results.filter(r => !r.invalidId && !r.matches);
+      const matchCount   = results.filter(r => !r.invalidId && r.matches).length;
+
+      // Show invalid IDs
+      invalidIds.forEach(({ id }) => {
+        const row = document.createElement('div');
+        row.className = 'pred-row';
+        const badge = document.createElement('span');
+        badge.className = 'badge invalid';
+        badge.style.fontSize = '0.7rem';
+        badge.textContent = 'INVALID ID';
+        const text = document.createElement('span');
+        text.textContent = id;
+        row.appendChild(badge);
+        row.appendChild(text);
+        container.appendChild(row);
+      });
+
+      const validLines = results.filter(r => !r.invalidId);
+      if (validLines.length === 0) return;
+
+      if (nonMatching.length === 0) {
+        const ok = document.createElement('div');
+        ok.className = 'pred-row';
+        const dot = document.createElement('span');
+        dot.className = 'dot match';
+        const text = document.createElement('span');
+        text.style.color = '#1a6b2c';
+        text.style.fontSize = '0.82rem';
+        text.textContent = `All ${validLines.length} valid IDs match`;
+        ok.appendChild(dot);
+        ok.appendChild(text);
+        container.appendChild(ok);
+        return;
+      }
+
+      if (nonMatching.length === 1 && invalidIds.length === 0) {
+        const row = document.createElement('div');
+        row.className = 'pred-row';
+        const dot = document.createElement('span');
+        dot.className = 'dot no-match';
+        dot.style.background = '#cc2222';
+        const text = document.createElement('span');
+        text.textContent = nonMatching[0].id;
+        row.appendChild(dot);
+        row.appendChild(text);
+        container.appendChild(row);
+        return;
+      }
+
+      nonMatching.forEach(({ id }) => {
+        const row = document.createElement('div');
+        row.className = 'pred-row';
+        const dot = document.createElement('span');
+        dot.className = 'dot no-match';
+        dot.style.background = '#cc2222';
+        const text = document.createElement('span');
+        text.textContent = id;
+        row.appendChild(dot);
+        row.appendChild(text);
+        container.appendChild(row);
+      });
+
+      const summary = document.createElement('p');
+      summary.className = 'pred-summary';
+      summary.textContent = `${nonMatching.length} of ${validLines.length} valid IDs do not match`;
+      container.appendChild(summary);
+    }
+
+    ['filter-codespace', 'filter-type', 'pred-ids'].forEach(id =>
+      document.getElementById(id).addEventListener('input', onPredicate)
+    );
+  </script>
+</body>
+</html>
