@@ -31,6 +31,7 @@ import no.entur.abt.netex.id.predicate.SimdNetexIdCodespaceTypePredicate;
 import no.entur.abt.netex.id.predicate.SimdNetexIdTypePredicate;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
@@ -53,6 +54,7 @@ import java.util.concurrent.TimeUnit;
 @Warmup(time = 3, timeUnit = TimeUnit.SECONDS, iterations = 1)
 @Measurement(time = 3, timeUnit = TimeUnit.SECONDS, iterations = 1)
 @Timeout(timeUnit = TimeUnit.SECONDS, time = 10)
+@Fork(value = 1, jvmArgs = {"--add-modules", "jdk.incubator.vector"})
 public class NetexIdPredicateBenchmark {
 
     private static String[] IDS = {

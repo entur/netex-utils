@@ -31,6 +31,7 @@ import no.entur.abt.netex.id.SimdNetexIdValidator;
 import no.entur.abt.netex.utils.NetexIdUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
@@ -50,6 +51,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @Warmup(time = 3, timeUnit = TimeUnit.SECONDS, iterations = 1)
 @Measurement(time = 3, timeUnit = TimeUnit.SECONDS, iterations = 1)
 @Timeout(timeUnit = TimeUnit.SECONDS, time = 10)
+@Fork(value = 1, jvmArgs = {"--add-modules", "jdk.incubator.vector"})
 public class NetexIdValidatorBenchmark {
 
     private static String[] IDS = {
