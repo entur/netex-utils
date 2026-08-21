@@ -1,0 +1,49 @@
+package no.entur.abt.netex.id.predicate;
+
+/*-
+ * #%L
+ * Netex utils
+ * %%
+ * Copyright (C) 2019 - 2025 Entur
+ * %%
+ * Licensed under the EUPL, Version 1.1 or – as soon they will be
+ * approved by the European Commission - subsequent versions of the
+ * EUPL (the "Licence");
+ * 
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ * 
+ * http://ec.europa.eu/idabc/eupl5
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ * #L%
+ */
+
+import no.entur.abt.netex.id.DefaultNetexIdValidator;
+
+/**
+ * Predicate for type that also validates the full id, but returns {@code false} instead of throwing
+ * on invalid input. Replaces {@code NetexIdUtils.isValid(id) && TYPE.equals(NetexIdUtils.getType(id))}.
+ */
+public class NetexIdTypeValidatingNonThrowingPredicate extends NetexIdTypePredicate {
+
+    private final static DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+
+    public NetexIdTypeValidatingNonThrowingPredicate(CharSequence type) {
+        super(type);
+    }
+
+    @Override
+    public boolean test(CharSequence t) {
+        if (super.test(t)) {
+            // type matched; also validate codespace and value
+            return VALIDATOR.validateCodespace(t, 0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH)
+                    && VALIDATOR.validateValue(t, type.length + 1, t.length());
+        }
+        return false;
+    }
+}
