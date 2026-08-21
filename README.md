@@ -4,6 +4,8 @@
 
 Utility classes for working with [NeTEx](https://netex-cen.eu/) IDs on the format `Codespace:Type:Value` (e.g. `AAA:FareZone:123`).
 
+Try the [live utility](https://entur.github.io/netex-utils/) for a quick demo (running JVM bytecode -> WebAssembly by [TeaVM](https://teavm.org/)).
+
 ## Installation
 
 ```xml
