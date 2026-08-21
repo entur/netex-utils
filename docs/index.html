@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeTEx ID Validator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+    p.subtitle { color: #555; margin-bottom: 2rem; font-size: 0.95rem; }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 2rem;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+
+    input[type="text"] {
+      width: 100%;
+      font-family: monospace;
+      font-size: 0.95rem;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="text"]:focus { outline: none; border-color: #0969da; }
+
+    #results { margin-top: 1rem; min-height: 1.5rem; }
+
+    .result-row {
+      padding: 0.6rem 0;
+      font-size: 0.88rem;
+    }
+
+    .result-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+
+    .badge {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      border-radius: 3px;
+    }
+    .badge.valid   { background: #d1f0d6; color: #1a6b2c; }
+    .badge.invalid { background: #fde0e0; color: #991b1b; }
+
+    .id-text { font-family: monospace; word-break: break-all; flex: 1; }
+
+    .parts {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.35rem;
+      padding-left: 0.1rem;
+    }
+
+    .part {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.78rem;
+      background: #f0f4ff;
+      border: 1px solid #c7d5f5;
+      border-radius: 4px;
+      padding: 0.1rem 0.5rem;
+    }
+    .part-label {
+      font-weight: 600;
+      color: #3b5bdb;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      letter-spacing: 0.03em;
+    }
+    .part-value { font-family: monospace; color: #1a1a2e; }
+
+    .warn-msg  { margin-bottom: 0.5rem; color: #92400e; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 4px; padding: 0.35rem 0.6rem; font-size: 0.82rem; }
+    .error-msg { margin-top: 0.3rem; color: #991b1b; font-size: 0.8rem; }
+
+    .summary {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: #444;
+    }
+
+    .rule-table { margin-top: 1.5rem; font-size: 0.82rem; color: #555; border-collapse: collapse; width: 100%; }
+    .rule-table th, .rule-table td { text-align: left; padding: 0.3rem 0.5rem; border-bottom: 1px solid #eee; }
+    .rule-table th { font-weight: 600; color: #333; }
+    code { background: #f0f0f0; padding: 0 3px; border-radius: 3px; font-size: 0.85em; }
+    .gh-link {
+      margin-top: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #555;
+      text-decoration: none;
+      font-size: 0.88rem;
+    }
+    .gh-link:hover { color: #000; }
+  </style>
+</head>
+<body>
+  <h1>NeTEx ID Validator</h1>
+  <p class="subtitle">Validates IDs on the format <code>Codespace:Type:Value</code> — e.g. <code>AAA:FareZone:123</code></p>
+
+  <div class="card">
+    <label for="input">NeTEx ID</label>
+    <input type="text" id="input" placeholder="AAA:FareZone:123" autocomplete="off" spellcheck="false" />
+
+    <div id="results"></div>
+
+    <table class="rule-table">
+      <tr><th colspan="2">Validation rules</th></tr>
+      <tr><td><strong>Codespace</strong></td><td>Exactly 3 uppercase ASCII letters <code>[A-Z]</code></td></tr>
+      <tr><td><strong>Type</strong></td><td>Non-empty, letters only <code>[A-Za-z]+</code></td></tr>
+      <tr><td><strong>Value</strong></td><td>Non-empty, alphanumeric + <code>ÆØÅæøå _ \ -</code></td></tr>
+    </table>
+  </div>
+
+  <a class="gh-link" href="https://github.com/entur/netex-utils" target="_blank" rel="noopener">
+    <svg height="20" viewBox="0 0 16 16" width="20" aria-hidden="true" fill="currentColor">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+               0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+               -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66
+               .07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15
+               -.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27
+               .68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12
+               .51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48
+               0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+    entur/netex-utils
+  </a>
+
+  <script>
+    // ---------------------------------------------------------------
+    // NeTEx ID validation — mirrors DefaultNetexIdValidator.java
+    // ---------------------------------------------------------------
+
+    const SEPARATOR = ':';
+    const CODESPACE_LENGTH = 3;
+    const MIN_LENGTH = 7; // XXX:X:X
+
+    function isUpperAscii(c) {
+      return c >= 'A' && c <= 'Z';
+    }
+
+    function isTypeChar(c) {
+      return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    }
+
+    const VALUE_EXTRA = new Set(['Æ','æ','Å','å','Ø','ø','_','\\','-']);
+
+    function isValueChar(c) {
+      return isTypeChar(c)
+        || (c >= '0' && c <= '9')
+        || VALUE_EXTRA.has(c);
+    }
+
+    function validateCodespace(s) {
+      if (s.length !== CODESPACE_LENGTH) return false;
+      for (const c of s) if (!isUpperAscii(c)) return false;
+      return true;
+    }
+
+    function validateType(s) {
+      if (!s) return false;
+      for (const c of s) if (!isTypeChar(c)) return false;
+      return true;
+    }
+
+    function validateValue(s) {
+      if (!s) return false;
+      for (const c of s) {
+        if (!isValueChar(c)) return false;
+      }
+      return true;
+    }
+
+    /**
+     * Returns { valid, codespace, type, value, error }
+     */
+    function validateId(id) {
+      if (!id || id.length < MIN_LENGTH) {
+        return { valid: false, error: `Too short (min ${MIN_LENGTH} chars)` };
+      }
+
+      if (id[CODESPACE_LENGTH] !== SEPARATOR) {
+        return { valid: false, error: `Missing ':' after codespace (position ${CODESPACE_LENGTH})` };
+      }
+
+      const codespace = id.slice(0, CODESPACE_LENGTH);
+      if (!validateCodespace(codespace)) {
+        return { valid: false, error: `Codespace "${codespace}" must be exactly 3 uppercase letters [A-Z]` };
+      }
+
+      // Find second colon (start of value) — first non-type char after codespace separator
+      const rest = id.slice(CODESPACE_LENGTH + 1);
+      let typeEnd = -1;
+      for (let i = 0; i < rest.length; i++) {
+        if (!isTypeChar(rest[i])) {
+          typeEnd = i;
+          break;
+        }
+      }
+
+      if (typeEnd === -1 || rest[typeEnd] !== SEPARATOR || typeEnd === 0) {
+        return { valid: false, error: 'Missing second \':\' separating type and value' };
+      }
+
+      const type = rest.slice(0, typeEnd);
+      if (!validateType(type)) {
+        return { valid: false, error: `Type "${type}" must only contain letters [A-Za-z]` };
+      }
+
+      const value = rest.slice(typeEnd + 1);
+      if (!validateValue(value)) {
+        return { valid: false, error: `Value "${value}" contains invalid characters` };
+      }
+      if (!value) {
+        return { valid: false, error: 'Value must not be empty' };
+      }
+
+      return { valid: true, codespace, type, value };
+    }
+
+    // ---------------------------------------------------------------
+
+    function validate() {
+      const raw = document.getElementById('input').value;
+      const id = raw.trim();
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+
+      if (!raw) return;
+
+      if (raw !== id) {
+        const warn = document.createElement('div');
+        warn.className = 'warn-msg';
+        warn.textContent = '⚠ Input contains leading or trailing whitespace.';
+        container.appendChild(warn);
+      }
+
+      if (!id) return;
+
+      const result = validateId(id);
+
+      const row = document.createElement('div');
+      row.className = 'result-row';
+
+      const header = document.createElement('div');
+      header.className = 'result-header';
+
+      const badge = document.createElement('span');
+      badge.className = `badge ${result.valid ? 'valid' : 'invalid'}`;
+      badge.textContent = result.valid ? 'VALID' : 'INVALID';
+
+      header.appendChild(badge);
+      row.appendChild(header);
+
+      if (result.valid) {
+        const parts = document.createElement('div');
+        parts.className = 'parts';
+        [['Codespace', result.codespace], ['Type', result.type], ['Value', result.value]].forEach(([label, val]) => {
+          const chip = document.createElement('span');
+          chip.className = 'part';
+          chip.innerHTML = `<span class="part-label">${label}</span><span class="part-value">${val}</span>`;
+          parts.appendChild(chip);
+        });
+        row.appendChild(parts);
+      } else {
+        const err = document.createElement('div');
+        err.className = 'error-msg';
+        err.textContent = result.error;
+        row.appendChild(err);
+      }
+
+      container.appendChild(row);
+    }
+
+    document.getElementById('input').addEventListener('input', validate);
+  </script>
+</body>
+</html>
