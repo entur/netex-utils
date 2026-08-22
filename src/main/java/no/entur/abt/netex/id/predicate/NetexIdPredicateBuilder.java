@@ -63,9 +63,9 @@ public class NetexIdPredicateBuilder {
 
 	/**
 	 * Controls behaviour when {@link #withValidate(boolean)} is active and an invalid id is encountered.
-	 * Defaults to {@code true}: returns {@code false} instead of throwing, replacing patterns like
+	 * Defaults to {@code false}, preserving the throwing behaviour.
+	 * Set to {@code true} to return {@code false} instead of throwing, replacing patterns like
 	 * {@code NetexIdUtils.isValid(id) && TYPE.equals(NetexIdUtils.getType(id))}.
-	 * Set to {@code false} to restore the throwing behaviour.
 	 */
 	public NetexIdPredicateBuilder withReturnFalseInsteadOfThrowingExceptionForInvalidIds(boolean returnFalseInsteadOfThrowingExceptionForInvalidIds) {
 		this.returnFalseInsteadOfThrowingExceptionForInvalidIds = returnFalseInsteadOfThrowingExceptionForInvalidIds;
