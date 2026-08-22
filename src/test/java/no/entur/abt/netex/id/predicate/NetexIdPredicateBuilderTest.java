@@ -226,12 +226,12 @@ public class NetexIdPredicateBuilderTest {
 
 	@Test
 	public void testBuildWithNonThrowingValidateWithoutCodespaceOrType() {
-		assertThrows(IllegalNetexIDException.class, () -> NetexIdPredicateBuilder.newInstance().withValidate(true).withReturnFalseForInvalidIds(true).build());
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdPredicateBuilder.newInstance().withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build());
 	}
 
 	@Test
 	public void testTypeNonThrowingValidate() {
-		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withType("Network").withValidate(true).withReturnFalseForInvalidIds(true).build();
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withType("Network").withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build();
 
 		assertTrue(predicate.test("AAA:Network:123"));
 		assertTrue(predicate.test(charSequence("AAA:Network:123")));
@@ -247,7 +247,7 @@ public class NetexIdPredicateBuilderTest {
 
 	@Test
 	public void testCodespaceNonThrowingValidate() {
-		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withValidate(true).withReturnFalseForInvalidIds(true).build();
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build();
 
 		assertTrue(predicate.test("AAA:Network:123"));
 		assertFalse(predicate.test("BBB:Network:123"));
@@ -260,7 +260,7 @@ public class NetexIdPredicateBuilderTest {
 
 	@Test
 	public void testCodespaceAndTypeNonThrowingValidate() {
-		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withType("Network").withValidate(true).withReturnFalseForInvalidIds(true).build();
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withType("Network").withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build();
 
 		assertTrue(predicate.test("AAA:Network:123"));
 		assertFalse(predicate.test("BBB:Network:123"));

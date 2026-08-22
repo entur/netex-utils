@@ -44,7 +44,7 @@ public class NetexIdPredicateBuilder {
 	protected String codespace;
 	protected String type;
 	protected boolean validate = false;
-	protected boolean returnFalseForInvalidIds = false;
+	protected boolean returnFalseInsteadOfThrowingExceptionForInvalidIds = false;
 
 	public NetexIdPredicateBuilder withCodespace(String codespace) {
 		this.codespace = codespace;
@@ -67,8 +67,8 @@ public class NetexIdPredicateBuilder {
 	 * {@code NetexIdUtils.isValid(id) && TYPE.equals(NetexIdUtils.getType(id))}.
 	 * Set to {@code false} to restore the throwing behaviour.
 	 */
-	public NetexIdPredicateBuilder withReturnFalseForInvalidIds(boolean returnFalseForInvalidIds) {
-		this.returnFalseForInvalidIds = returnFalseForInvalidIds;
+	public NetexIdPredicateBuilder withReturnFalseInsteadOfThrowingExceptionForInvalidIds(boolean returnFalseInsteadOfThrowingExceptionForInvalidIds) {
+		this.returnFalseInsteadOfThrowingExceptionForInvalidIds = returnFalseInsteadOfThrowingExceptionForInvalidIds;
 		return this;
 	}
 
@@ -81,7 +81,7 @@ public class NetexIdPredicateBuilder {
 		}
 
 		if(validate) {
-			if(returnFalseForInvalidIds) {
+			if(returnFalseInsteadOfThrowingExceptionForInvalidIds) {
 				if (codespace != null && type != null) {
 					return new NetexIdCodespaceTypeValidatingNonThrowingPredicate(codespace, type);
 				} else if (codespace != null) {
