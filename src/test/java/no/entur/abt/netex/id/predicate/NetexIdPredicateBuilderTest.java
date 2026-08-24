@@ -225,6 +225,54 @@ public class NetexIdPredicateBuilderTest {
 	}
 
 	@Test
+	public void testBuildWithNonThrowingValidateWithoutCodespaceOrType() {
+		assertThrows(IllegalNetexIDException.class, () -> NetexIdPredicateBuilder.newInstance().withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build());
+	}
+
+	@Test
+	public void testTypeNonThrowingValidate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withType("Network").withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build();
+
+		assertTrue(predicate.test("AAA:Network:123"));
+		assertTrue(predicate.test(charSequence("AAA:Network:123")));
+		assertTrue(predicate.test("BBB:Network:123"));
+
+		assertFalse(predicate.test("AAA:xyz:123"));
+		assertFalse(predicate.test(null));
+
+		// invalid ids return false instead of throwing
+		assertFalse(predicate.test("AAA:Network:1!23"));
+		assertFalse(predicate.test("A!A:Network:123"));
+	}
+
+	@Test
+	public void testCodespaceNonThrowingValidate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build();
+
+		assertTrue(predicate.test("AAA:Network:123"));
+		assertFalse(predicate.test("BBB:Network:123"));
+
+		// invalid ids return false instead of throwing
+		assertFalse(predicate.test("AAA:Netw!ork:123"));
+		assertFalse(predicate.test("AAA:Network:1!23"));
+		assertFalse(predicate.test(null));
+	}
+
+	@Test
+	public void testCodespaceAndTypeNonThrowingValidate() {
+		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").withType("Network").withValidate(true).withReturnFalseInsteadOfThrowingExceptionForInvalidIds(true).build();
+
+		assertTrue(predicate.test("AAA:Network:123"));
+		assertFalse(predicate.test("BBB:Network:123"));
+		assertFalse(predicate.test("AAA:xyz:123"));
+
+		// invalid ids return false instead of throwing
+		assertFalse(predicate.test("AAA:Network:12!3"));
+		assertFalse(predicate.test("AAA:Network:"));
+		assertFalse(predicate.test(null));
+	}
+
+	@Test
 	public void testStream() {
 		NetexIdPredicate predicate = NetexIdPredicateBuilder.newInstance().withCodespace("AAA").build();
 
