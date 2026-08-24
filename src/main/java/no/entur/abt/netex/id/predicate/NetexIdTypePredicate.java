@@ -1,6 +1,7 @@
 package no.entur.abt.netex.id.predicate;
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 /*-
  * #%L
@@ -37,6 +38,9 @@ public class NetexIdTypePredicate implements NetexIdPredicate {
 	protected final char[] type; // XXX:TYPE
 
 	public NetexIdTypePredicate(CharSequence type) {
+		if (type == null || type.length() == 0) {
+			throw new IllegalNetexIDException("'" + type + "' is not a valid type");
+		}
 		// add 4 padding so that we can directly compare
 		// indexes
 		char[] chars = new char[DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + type.length()];

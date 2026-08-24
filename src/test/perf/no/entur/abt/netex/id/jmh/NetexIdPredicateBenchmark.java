@@ -24,8 +24,11 @@ package no.entur.abt.netex.id.jmh;
  */
 
 import no.entur.abt.netex.id.predicate.NetexIdCodespaceTypePredicate;
+import no.entur.abt.netex.id.predicate.NetexIdCodespaceTypeValidatingNonThrowingPredicate;
 import no.entur.abt.netex.id.predicate.NetexIdCodespaceTypeValidatingPredicate;
+import no.entur.abt.netex.id.predicate.NetexIdCodespaceValidatingNonThrowingPredicate;
 import no.entur.abt.netex.id.predicate.NetexIdTypePredicate;
+import no.entur.abt.netex.id.predicate.NetexIdTypeValidatingNonThrowingPredicate;
 import no.entur.abt.netex.id.predicate.NetexIdTypeValidatingPredicate;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -72,9 +75,13 @@ public class NetexIdPredicateBenchmark {
 
     private static final NetexIdCodespaceTypePredicate codespaceTypeNoValidate = new NetexIdCodespaceTypePredicate("TST", "FareZone");
     private static final NetexIdCodespaceTypePredicate codespaceTypeValidate = new NetexIdCodespaceTypeValidatingPredicate("TST", "FareZone");
+    private static final NetexIdCodespaceTypePredicate codespaceTypeValidateNonThrowing = new NetexIdCodespaceTypeValidatingNonThrowingPredicate("TST", "FareZone");
+
+    private static final NetexIdCodespaceValidatingNonThrowingPredicate codespaceValidateNonThrowing = new NetexIdCodespaceValidatingNonThrowingPredicate("TST");
 
     private static final NetexIdTypePredicate typeNoValidate = new NetexIdTypePredicate("FareZone");
     private static final NetexIdTypeValidatingPredicate typeValidate = new NetexIdTypeValidatingPredicate("FareZone");
+    private static final NetexIdTypeValidatingNonThrowingPredicate typeValidateNonThrowing = new NetexIdTypeValidatingNonThrowingPredicate("FareZone");
 
     @Benchmark
     public long codespaceTypeNonValidate() {
@@ -114,6 +121,39 @@ public class NetexIdPredicateBenchmark {
         long count = 0;
         for (String id : IDS) {
             if (typeValidate.test(id)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Benchmark
+    public long codespaceTypeValidateNonThrowing() {
+        long count = 0;
+        for (String id : IDS) {
+            if (codespaceTypeValidateNonThrowing.test(id)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Benchmark
+    public long codespaceValidateNonThrowing() {
+        long count = 0;
+        for (String id : IDS) {
+            if (codespaceValidateNonThrowing.test(id)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Benchmark
+    public long typeValidateNonThrowing() {
+        long count = 0;
+        for (String id : IDS) {
+            if (typeValidateNonThrowing.test(id)) {
                 count++;
             }
         }

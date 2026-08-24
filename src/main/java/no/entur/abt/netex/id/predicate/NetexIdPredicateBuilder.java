@@ -44,6 +44,7 @@ public class NetexIdPredicateBuilder {
 	protected String codespace;
 	protected String type;
 	protected boolean validate = false;
+	protected boolean returnFalseInsteadOfThrowingExceptionForInvalidIds = false;
 
 	public NetexIdPredicateBuilder withCodespace(String codespace) {
 		this.codespace = codespace;
@@ -60,6 +61,17 @@ public class NetexIdPredicateBuilder {
 		return this;
 	}
 
+	/**
+	 * Controls behaviour when {@link #withValidate(boolean)} is active and an invalid id is encountered.
+	 * Defaults to {@code false}, preserving the throwing behaviour.
+	 * Set to {@code true} to return {@code false} instead of throwing, replacing patterns like
+	 * {@code NetexIdUtils.isValid(id) && TYPE.equals(NetexIdUtils.getType(id))}.
+	 */
+	public NetexIdPredicateBuilder withReturnFalseInsteadOfThrowingExceptionForInvalidIds(boolean returnFalseInsteadOfThrowingExceptionForInvalidIds) {
+		this.returnFalseInsteadOfThrowingExceptionForInvalidIds = returnFalseInsteadOfThrowingExceptionForInvalidIds;
+		return this;
+	}
+
 	public NetexIdPredicate build() {
 		if (codespace != null && !validator.validateCodespace(codespace)) {
 			throw new IllegalNetexIDException("Expected codespace (size 3 with characters A-Z), found " + codespace);
@@ -69,14 +81,26 @@ public class NetexIdPredicateBuilder {
 		}
 
 		if(validate) {
-			if (codespace != null && type != null) {
-				return new NetexIdCodespaceTypeValidatingPredicate(codespace, type);
-			} else if (codespace != null) {
-				return new NetexIdCodespaceValidatingPredicate(codespace);
-			} else if (type != null) {
-				return new NetexIdTypeValidatingPredicate(type);
+			if(returnFalseInsteadOfThrowingExceptionForInvalidIds) {
+				if (codespace != null && type != null) {
+					return new NetexIdCodespaceTypeValidatingNonThrowingPredicate(codespace, type);
+				} else if (codespace != null) {
+					return new NetexIdCodespaceValidatingNonThrowingPredicate(codespace);
+				} else if (type != null) {
+					return new NetexIdTypeValidatingNonThrowingPredicate(type);
+				} else {
+					throw new IllegalNetexIDException("Expected codespace and/or type");
+				}
 			} else {
-				throw new IllegalNetexIDException("Expected codespace and/or type");
+				if (codespace != null && type != null) {
+					return new NetexIdCodespaceTypeValidatingPredicate(codespace, type);
+				} else if (codespace != null) {
+					return new NetexIdCodespaceValidatingPredicate(codespace);
+				} else if (type != null) {
+					return new NetexIdTypeValidatingPredicate(type);
+				} else {
+					throw new IllegalNetexIDException("Expected codespace and/or type");
+				}
 			}
 		}
 
@@ -89,7 +113,6 @@ public class NetexIdPredicateBuilder {
 		} else {
 			throw new IllegalNetexIDException("Expected codespace and/or type");
 		}
-
 	}
 
 }

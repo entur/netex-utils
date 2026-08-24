@@ -24,6 +24,7 @@ package no.entur.abt.netex.id.predicate;
  */
 
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
+import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 /**
  *
@@ -36,6 +37,9 @@ public class NetexIdCodespacePredicate implements NetexIdPredicate {
 	private final char[] prefix;
 
 	public NetexIdCodespacePredicate(CharSequence codespace) {
+		if (codespace == null || codespace.length() != DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) {
+			throw new IllegalNetexIDException("'" + codespace + "' is not a valid codespace");
+		}
 		prefix = new char[] { codespace.charAt(0), codespace.charAt(1), codespace.charAt(2), DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR };
 	}
 
