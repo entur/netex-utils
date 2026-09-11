@@ -8,3 +8,4 @@ target/
 jmh-result*.json
 .terraform.lock.hcl
 docs/netex-validator.js
+dependency-reduced-pom.xml
