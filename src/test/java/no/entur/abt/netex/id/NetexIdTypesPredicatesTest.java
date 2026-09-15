@@ -34,7 +34,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -145,28 +144,112 @@ public class NetexIdTypesPredicatesTest {
 
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("types")
-	public void testAsMapContainsTypeWithMatchingPredicate(Arguments args) throws Exception {
-		Map<String, Predicate<CharSequence>> byType = NetexIdTypes.Predicates.asMap();
-
-		assertTrue(byType.containsKey(args.typeValue), () -> "Expected asMap() to contain key " + args.typeValue);
-
-		Predicate<CharSequence> predicate = byType.get(args.typeValue);
-		assertNotNull(predicate);
-
+	public void testIsTypeWithMatchingId(Arguments args) {
 		String matchingId = CODESPACE + ":" + args.typeValue + ":123";
-		String nonMatchingId = CODESPACE + ":SomeOtherTypeNotInList:123";
+		assertTrue(NetexIdTypes.isType(matchingId, args.typeValue), () -> "Expected isType(" + matchingId + ", " + args.typeValue + ") to be true");
+	}
 
-		assertTrue(predicate.test(matchingId), () -> "Expected asMap() predicate for " + args.typeValue + " to match " + matchingId);
-		assertFalse(predicate.test(nonMatchingId), () -> "Expected asMap() predicate for " + args.typeValue + " to not match " + nonMatchingId);
-		assertFalse(predicate.test(null), () -> "Expected asMap() predicate for " + args.typeValue + " to return false, not throw, for null");
+	@ParameterizedTest(name = "{0}")
+	@MethodSource("types")
+	public void testIsTypeWithNonMatchingId(Arguments args) {
+		String nonMatchingId = CODESPACE + ":SomeOtherTypeNotInList:123";
+		assertFalse(NetexIdTypes.isType(nonMatchingId, args.typeValue), () -> "Expected isType(" + nonMatchingId + ", " + args.typeValue + ") to be false");
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@MethodSource("types")
+	public void testIsTypeWithMatchingIdAsNonStringCharSequence(Arguments args) {
+		StringBuilder matchingId = new StringBuilder(CODESPACE).append(':').append(args.typeValue).append(":123");
+		assertTrue(NetexIdTypes.isType(matchingId, args.typeValue), () -> "Expected isType(" + matchingId + ", " + args.typeValue + ") to be true");
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@MethodSource("types")
+	public void testIsTypeWithNonMatchingIdAsNonStringCharSequence(Arguments args) {
+		StringBuilder nonMatchingId = new StringBuilder(CODESPACE).append(":SomeOtherTypeNotInList:123");
+		assertFalse(NetexIdTypes.isType(nonMatchingId, args.typeValue), () -> "Expected isType(" + nonMatchingId + ", " + args.typeValue + ") to be false");
 	}
 
 	@Test
-	public void testAsMapHasOneEntryPerType() {
-		Map<String, Predicate<CharSequence>> byType = NetexIdTypes.Predicates.asMap();
+	public void testIsTypeWithInvalidId() {
+		assertFalse(NetexIdTypes.isType("not-a-valid-id", NetexIdTypes.AUTHORITY));
+	}
 
-		long typeCount = types().count();
-		assertEquals(typeCount, byType.size(), "Expected one asMap() entry per NetexIdTypes constant");
+	@Test
+	public void testIsTypeWithNullId() {
+		assertFalse(NetexIdTypes.isType(null, NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithNullType() {
+		assertFalse(NetexIdTypes.isType(CODESPACE + ":" + NetexIdTypes.AUTHORITY + ":123", null));
+	}
+
+	@Test
+	public void testIsTypeWithEmptyId() {
+		assertFalse(NetexIdTypes.isType("", NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithEmptyType() {
+		assertFalse(NetexIdTypes.isType(CODESPACE + ":" + NetexIdTypes.AUTHORITY + ":123", ""));
+	}
+
+	@Test
+	public void testIsTypeWithEmptyTypeAndEmptyTypePartInId() {
+		// "AAA::123" has an empty type part, which is never a valid NeTEx id, even against an empty type argument.
+		assertFalse(NetexIdTypes.isType(CODESPACE + "::123", ""));
+	}
+
+	@Test
+	public void testIsTypeWithInvalidCodespace() {
+		// lowercase codespace is invalid, even though the type part matches exactly.
+		assertFalse(NetexIdTypes.isType("aaa:" + NetexIdTypes.AUTHORITY + ":123", NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithInvalidCodespaceAsNonStringCharSequence() {
+		StringBuilder id = new StringBuilder("aaa:").append(NetexIdTypes.AUTHORITY).append(":123");
+		assertFalse(NetexIdTypes.isType(id, NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithInvalidValueCharacters() {
+		// space is not a valid value character, even though the type part matches exactly.
+		assertFalse(NetexIdTypes.isType(CODESPACE + ":" + NetexIdTypes.AUTHORITY + ": ", NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithInvalidValueCharactersAsNonStringCharSequence() {
+		StringBuilder id = new StringBuilder(CODESPACE).append(':').append(NetexIdTypes.AUTHORITY).append(": ");
+		assertFalse(NetexIdTypes.isType(id, NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithEmptyValue() {
+		assertFalse(NetexIdTypes.isType(CODESPACE + ":" + NetexIdTypes.AUTHORITY + ":", NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithActualTypeAsProperPrefixOfExpectedType() {
+		// actual type "Author" is shorter than, and a prefix of, the expected type "Authority".
+		assertFalse(NetexIdTypes.isType(CODESPACE + ":Author:123", NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithExpectedTypeAsProperPrefixOfActualType() {
+		// actual type "AuthorityX" is longer than, and has the expected type "Authority" as a prefix.
+		assertFalse(NetexIdTypes.isType(CODESPACE + ":AuthorityX:123", NetexIdTypes.AUTHORITY));
+	}
+
+	@Test
+	public void testIsTypeWithMinimumLengthValidId() {
+		assertTrue(NetexIdTypes.isType(CODESPACE + ":X:1", "X"));
+	}
+
+	@Test
+	public void testIsTypeIsCaseSensitive() {
+		assertFalse(NetexIdTypes.isType(CODESPACE + ":" + NetexIdTypes.AUTHORITY.toLowerCase() + ":123", NetexIdTypes.AUTHORITY));
 	}
 
 	/**
