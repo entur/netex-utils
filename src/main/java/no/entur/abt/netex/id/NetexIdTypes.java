@@ -23,6 +23,7 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import no.entur.abt.netex.id.predicate.NetexIdTypeValidatingNonThrowingPredicate;
@@ -157,6 +158,23 @@ public class NetexIdTypes {
 	public static final String RESPONSIBILITY_ROLE_ASSIGNMENT = "ResponsibilityRoleAssignment";
 
 	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+	private static final NetexIdValidatingParser PARSER = NetexIdValidatingParser.getInstance();
+
+	/**
+	 * Checks whether {@code id} is a valid NeTEx id and returns the type, without throwing on invalid
+	 * input.
+	 *
+	 * @return the type of the id, or {@code null} if the id is invalid
+	 */
+
+	public static String getType(CharSequence id) {
+		int valueIndex = PARSER.validateToValueIndex(id);
+		if(valueIndex == -1) {
+			return null;
+		}
+
+		return id.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, valueIndex - 1).toString();
+	}
 
 	/**
 	 * Checks whether {@code id} is a valid NeTEx id of the given {@code type}, without throwing on invalid

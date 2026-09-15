@@ -26,6 +26,7 @@ package no.entur.abt.netex.id;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -250,6 +251,87 @@ public class NetexIdTypesPredicatesTest {
 	@Test
 	public void testIsTypeIsCaseSensitive() {
 		assertFalse(NetexIdTypes.isType(CODESPACE + ":" + NetexIdTypes.AUTHORITY.toLowerCase() + ":123", NetexIdTypes.AUTHORITY));
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@MethodSource("types")
+	public void testGetTypeWithValidId(Arguments args) {
+		String id = CODESPACE + ":" + args.typeValue + ":123";
+		assertEquals(args.typeValue, NetexIdTypes.getType(id), () -> "Expected getType(" + id + ") to return " + args.typeValue);
+	}
+
+	@ParameterizedTest(name = "{0}")
+	@MethodSource("types")
+	public void testGetTypeWithValidIdAsNonStringCharSequence(Arguments args) {
+		StringBuilder id = new StringBuilder(CODESPACE).append(':').append(args.typeValue).append(":123");
+		assertEquals(args.typeValue, NetexIdTypes.getType(id), () -> "Expected getType(" + id + ") to return " + args.typeValue);
+	}
+
+	@Test
+	public void testGetTypeWithNullId() {
+		assertNull(NetexIdTypes.getType(null));
+	}
+
+	@Test
+	public void testGetTypeWithEmptyId() {
+		assertNull(NetexIdTypes.getType(""));
+	}
+
+	@Test
+	public void testGetTypeWithInvalidId() {
+		assertNull(NetexIdTypes.getType("not-a-valid-id"));
+	}
+
+	@Test
+	public void testGetTypeWithInvalidCodespace() {
+		// lowercase codespace is invalid, even though the rest of the id is otherwise well-formed.
+		assertNull(NetexIdTypes.getType("aaa:" + NetexIdTypes.AUTHORITY + ":123"));
+	}
+
+	@Test
+	public void testGetTypeWithInvalidCodespaceAsNonStringCharSequence() {
+		StringBuilder id = new StringBuilder("aaa:").append(NetexIdTypes.AUTHORITY).append(":123");
+		assertNull(NetexIdTypes.getType(id));
+	}
+
+	@Test
+	public void testGetTypeWithInvalidValueCharacters() {
+		// space is not a valid value character.
+		assertNull(NetexIdTypes.getType(CODESPACE + ":" + NetexIdTypes.AUTHORITY + ": "));
+	}
+
+	@Test
+	public void testGetTypeWithInvalidValueCharactersAsNonStringCharSequence() {
+		StringBuilder id = new StringBuilder(CODESPACE).append(':').append(NetexIdTypes.AUTHORITY).append(": ");
+		assertNull(NetexIdTypes.getType(id));
+	}
+
+	@Test
+	public void testGetTypeWithEmptyValue() {
+		assertNull(NetexIdTypes.getType(CODESPACE + ":" + NetexIdTypes.AUTHORITY + ":"));
+	}
+
+	@Test
+	public void testGetTypeWithEmptyTypePart() {
+		assertNull(NetexIdTypes.getType(CODESPACE + "::123"));
+	}
+
+	@Test
+	public void testGetTypeWithMinimumLengthValidId() {
+		assertEquals("X", NetexIdTypes.getType(CODESPACE + ":X:1"));
+	}
+
+	@Test
+	public void testGetTypeWithTypeNotInList() {
+		// getType does not restrict the type to a known NetexIdTypes constant; it returns whatever
+		// well-formed type part is present in the id.
+		assertEquals("SomeOtherTypeNotInList", NetexIdTypes.getType(CODESPACE + ":SomeOtherTypeNotInList:123"));
+	}
+
+	@Test
+	public void testGetTypePreservesCase() {
+		String id = CODESPACE + ":" + NetexIdTypes.AUTHORITY.toLowerCase() + ":123";
+		assertEquals(NetexIdTypes.AUTHORITY.toLowerCase(), NetexIdTypes.getType(id));
 	}
 
 	/**
