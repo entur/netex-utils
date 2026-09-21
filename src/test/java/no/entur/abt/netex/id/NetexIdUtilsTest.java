@@ -38,7 +38,6 @@ import no.entur.abt.netex.id.predicate.NetexIdPredicate;
 import no.entur.abt.netex.id.predicate.NetexIdTypePredicate;
 import no.entur.abt.netex.utils.IllegalNetexIDException;
 
-import java.util.function.Function;
 
 /**
  *
