@@ -193,7 +193,7 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	 * @return -1 if the id is invalid, otherwise the index of the value part within the id (the character index after the second colon).
 	 */
 
-protected int validateToValueIndex(CharSequence string) {
+	protected int validateToValueIndex(CharSequence string) {
 		if (string == null) {
 			return -1;
 		}
