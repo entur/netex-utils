@@ -23,7 +23,6 @@ package no.entur.abt.netex.id;
  * #L%
  */
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import no.entur.abt.netex.id.predicate.NetexIdTypeValidatingNonThrowingPredicate;
