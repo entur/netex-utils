@@ -1196,7 +1196,7 @@ public class NetexIdTypes {
 	 * Backing {@link no.entur.abt.netex.id.predicate.NetexIdTypeValidatingNonThrowingPredicate} instances for
 	 * every NeTEx id type, shared by the {@code isXxx(CharSequence)} and no-arg {@code isXxx()} methods above.
 	 */
-	public static class Predicates {
+private static class Predicates {
 
 		private static final NetexIdTypeValidatingNonThrowingPredicate AVAILABILITY_CONDITION_PREDICATE = new NetexIdTypeValidatingNonThrowingPredicate(AVAILABILITY_CONDITION);
 		private static final NetexIdTypeValidatingNonThrowingPredicate TARIFF_ZONE_PREDICATE = new NetexIdTypeValidatingNonThrowingPredicate(TARIFF_ZONE);
