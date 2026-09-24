@@ -38,6 +38,7 @@ import no.entur.abt.netex.id.predicate.NetexIdPredicate;
 import no.entur.abt.netex.id.predicate.NetexIdTypePredicate;
 import no.entur.abt.netex.utils.IllegalNetexIDException;
 
+
 /**
  *
  * Put the new validators/parsers through the same tests as the legacy netex utils.

@@ -39,6 +39,7 @@ public class BenchmarkMain {
                 .include(NetexIdCreateBenchmark.class.getSimpleName())
                 .include(NetexIdPredicateBenchmark.class.getSimpleName())
                 .include(NetexIdParserBenchmark.class.getSimpleName())
+                .include(NetexIdTypesIsTypeBenchmark.class.getSimpleName())
                 .result("jmh-result-" + Instant.now().toString() + ".json")
                 .resultFormat(ResultFormatType.JSON)
                 .build();

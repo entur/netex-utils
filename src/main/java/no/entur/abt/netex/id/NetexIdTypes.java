@@ -148,6 +148,62 @@ public class NetexIdTypes {
 	public static final String RESPONSIBILITY_SET = "ResponsibilitySet";
 	public static final String RESPONSIBILITY_ROLE_ASSIGNMENT = "ResponsibilityRoleAssignment";
 
+	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
+	private static final NetexIdValidatingParser PARSER = NetexIdValidatingParser.getInstance();
+
+	/**
+	 * Checks whether {@code id} is a valid NeTEx id and returns the type, without throwing on invalid
+	 * input.
+	 *
+	 * @return the type of the id, or {@code null} if the id is invalid
+	 */
+
+	public static String getType(CharSequence id) {
+		int valueIndex = PARSER.validateToValueIndex(id);
+		if(valueIndex == -1) {
+			return null;
+		}
+
+		return id.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, valueIndex - 1).toString();
+	}
+
+	/**
+	 * Checks whether {@code id} is a valid NeTEx id of the given {@code type}, without throwing on invalid
+	 * input.
+	 */
+	public static boolean isType(CharSequence id, String type) {
+		if (id == null || type == null) {
+			return false;
+		}
+
+		// minimum size is XXX:type:X
+		if (id.length() < DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + type.length() + 2) {
+			// not valid or type too short
+			return false;
+		}
+
+		if (id.charAt(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + type.length() ) != DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR) {
+			// not valid or type too long
+			return false;
+		}
+
+		// so type length matches
+		boolean typeMatches;
+		if (id instanceof String) {
+			typeMatches = type.regionMatches(0, (String) id, 4, type.length());
+		} else {
+			typeMatches = true;
+			for (int i = 0; i < type.length(); i++) {
+				if (type.charAt(i) != id.charAt(4 + i)) {
+					typeMatches = false;
+					break;
+				}
+			}
+		}
+
+		return typeMatches && VALIDATOR.validate(id);
+	}
+
 	private NetexIdTypes() {
 	}
 
