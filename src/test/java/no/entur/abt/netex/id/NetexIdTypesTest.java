@@ -31,24 +31,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * Verifies, for every {@linkplain NetexIdTypes} constant, that {@link NetexIdTypes}
- * exposes both a matching {@code isXxx(CharSequence)} method and a matching no-arg
- * {@code isXxx()} method returning a usable {@link Predicate}.
- */
-public class NetexIdTypesPredicatesTest {
+public class NetexIdTypesTest {
 
 	private static final String CODESPACE = "AAA";
 
