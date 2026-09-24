@@ -27,6 +27,7 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 import no.entur.abt.netex.id.NetexIdTypes;
+import no.entur.abt.netex.utils.NetexIdUtils;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
@@ -43,12 +44,6 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-/**
- * Compares the dedicated, per-type {@link NetexIdTypes#isAuthority(CharSequence)} method (backed by a
- * pre-built {@link no.entur.abt.netex.id.predicate.NetexIdTypeValidatingNonThrowingPredicate}) against the
- * generic {@link NetexIdTypes#isType(CharSequence, String)} (which validates and locates the type part on
- * every call), for both matching and non-matching ids.
- */
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.Throughput)
@@ -71,7 +66,7 @@ public class NetexIdTypesIsTypeBenchmark {
 	public long isAuthorityMatching() {
 		long count = 0;
 		for (String id : MATCHING_IDS) {
-			count += NetexIdTypes.isAuthority(id) ? 1 : 0;
+			count += NetexIdUtils.isValid(id) && NetexIdUtils.getType(id).equals(NetexIdTypes.AUTHORITY) ? 1 : 0;
 		}
 		return count;
 	}
@@ -89,7 +84,7 @@ public class NetexIdTypesIsTypeBenchmark {
 	public long isAuthorityNonMatching() {
 		long count = 0;
 		for (String id : NON_MATCHING_IDS) {
-			count += NetexIdTypes.isAuthority(id) ? 1 : 0;
+			count += NetexIdUtils.isValid(id) && NetexIdUtils.getType(id).equals(NetexIdTypes.AUTHORITY) ? 1 : 0;
 		}
 		return count;
 	}
