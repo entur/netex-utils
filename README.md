@@ -195,24 +195,16 @@ NetexIdUtils.assertValidOfType(id, "FareZone");
 
 ## NetexIdTypes
 
-`NetexIdTypes` declares a `String` constant for every NeTEx id type (e.g. `NetexIdTypes.AUTHORITY`), plus a
-non-throwing, type-validating `isXxx(CharSequence)` method and a matching no-arg `isXxx()` method (returning a
-reusable `Predicate<CharSequence>`) for each type. Unlike `NetexIdPredicate`, these never throw — they simply
-return `false` for `null`, blank, or otherwise invalid input.
+`NetexIdTypes` declares a `String` constant for every NeTEx id type (e.g. `NetexIdTypes.AUTHORITY`), plus a few utility methods:
 
 ```java
-NetexIdTypes.isAuthority("AAA:Authority:1"); // true
-NetexIdTypes.isAuthority("AAA:Network:1");   // false
-NetexIdTypes.isAuthority(null);              // false, never throws
+NetexIdTypes.isType("AAA:Authority:1", NetexIdTypes.AUTHORITY); // true
 ```
 
-Use the no-arg overload to filter a stream (works for `Stream<String>` too, since `filter` accepts
-`Predicate<? super String>`):
+and
 
 ```java
-List<String> authorityIds = ids.stream()
-    .filter(NetexIdTypes.isAuthority())
-    .toList();
+NetexIdTypes.getType("AAA:Authority:1"); // Authority
 ```
 
 ## Performance
