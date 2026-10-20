@@ -41,8 +41,8 @@ public class NetexIdCodespaceValidatingNonThrowingPredicate extends NetexIdCodes
     public boolean test(CharSequence t) {
         if (super.test(t)) {
             // codespace matched; also validate type and value
-            int typeEnd = DefaultNetexIdValidator.validateTypeToIndex(t, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1);
-            return typeEnd > DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1
+            int typeEnd = DefaultNetexIdValidator.validateTypeToIndex(t, prefix.length);
+            return typeEnd > prefix.length
                     && typeEnd < t.length()
                     && t.charAt(typeEnd) == DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR
                     && VALIDATOR.validateValue(t, typeEnd + 1, t.length());

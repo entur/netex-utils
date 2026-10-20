@@ -49,10 +49,7 @@ public class NetexIdBuilderTest {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withType("Network").build();
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
-			NetexIdBuilder.newInstance().withCodespace("AA").withType("Network").withValue("123").build();
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			NetexIdBuilder.newInstance().withCodespace("AAAA").withType("Network").withValue("123").build();
+			NetexIdBuilder.newInstance().withCodespace("aaa").withType("Network").withValue("123").build();
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdBuilder.newInstance().withCodespace("AAA").withType("").withValue("123").build();
@@ -86,6 +83,12 @@ public class NetexIdBuilderTest {
     }
 
     @Test
+    public void testCreateCodespaceOfAnyLength() {
+        assertEquals("A:Network:123", NetexIdBuilder.createId("A", "Network", "123"));
+        assertEquals("AAAAAA:Network:123", NetexIdBuilder.createId("AAAAAA", "Network", "123"));
+    }
+
+    @Test
     public void testCreateCodespace() {
         String build = NetexIdBuilder.createId("AAA", "Network", "123");
         assertEquals("AAA:Network:123", build);
@@ -103,10 +106,7 @@ public class NetexIdBuilderTest {
             NetexIdBuilder.createId("AAA", "Network", null);
         });
         assertThrows(IllegalNetexIDException.class, () -> {
-            NetexIdBuilder.createId("AA", "Network", "123");
-        });
-        assertThrows(IllegalNetexIDException.class, () -> {
-            NetexIdBuilder.createId("AAAA", "Network", "123");
+            NetexIdBuilder.createId("aaa", "Network", "123");
         });
         assertThrows(IllegalNetexIDException.class, () -> {
             NetexIdBuilder.createId("AAA", "", "123");

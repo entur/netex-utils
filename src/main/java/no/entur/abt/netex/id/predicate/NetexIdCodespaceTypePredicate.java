@@ -38,7 +38,7 @@ public class NetexIdCodespaceTypePredicate implements NetexIdPredicate {
 	protected final char[] codespaceColonType; // ABC:DEFGH
 
 	public NetexIdCodespaceTypePredicate(CharSequence codespace, CharSequence type) {
-		if (codespace == null || codespace.length() != DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) {
+		if (codespace == null || codespace.length() == 0) {
 			throw new IllegalNetexIDException("'" + codespace + "' is not a valid codespace");
 		}
 		if (type == null || type.length() == 0) {
@@ -50,9 +50,9 @@ public class NetexIdCodespaceTypePredicate implements NetexIdPredicate {
 		for (int i = 0; i < codespace.length(); i++) {
 			chars[i] = codespace.charAt(i);
 		}
-		chars[DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH] = DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR;
+		chars[codespace.length()] = DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR;
 		for (int i = 0; i < type.length(); i++) {
-			chars[DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + i] = type.charAt(i);
+			chars[codespace.length() + 1 + i] = type.charAt(i);
 		}
 		this.codespaceColonType = chars;
 	}

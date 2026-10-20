@@ -2,7 +2,7 @@
 
 # netex-utils
 
-Utility classes for working with [NeTEx](https://netex-cen.eu/) IDs on the format `Codespace:Type:Value` (e.g. `AAA:FareZone:123`).
+Utility classes for working with [NeTEx](https://netex-cen.eu/) IDs on the format `Codespace:Type:Value` (e.g. `AAA:FareZone:123`). The codespace may be any non-empty string of uppercase letters (`A`, `AB`, `ABCDE`, ...).
 
 Try the [live utility](https://entur.github.io/netex-utils/) for a quick demo (running JVM bytecode -> WebAssembly by [TeaVM](https://teavm.org/)).
 
@@ -67,7 +67,7 @@ Build a validated ID from its parts. Throws `IllegalNetexIDException` on invalid
 
 ```java
 String id = NetexIdBuilder.newInstance()
-    .withCodespace("AAA")   // exactly 3 uppercase letters
+    .withCodespace("AAA")   // one or more uppercase letters (A-Z)
     .withType("FareZone")   // non-empty, letters only
     .withValue("123")       // non-empty, alphanumeric + - _ \ and Nordic letters
     .build();
@@ -79,7 +79,7 @@ Invalid input fails fast:
 
 ```java
 NetexIdBuilder.newInstance()
-    .withCodespace("AA")    // too short
+    .withCodespace("aa")    // lowercase not allowed
     .withType("FareZone")
     .withValue("123")
     .build();               // throws IllegalNetexIDException

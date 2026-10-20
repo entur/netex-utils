@@ -164,7 +164,7 @@ public class NetexIdTypes {
 			return null;
 		}
 
-		return id.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, valueIndex - 1).toString();
+		return id.subSequence(DefaultNetexIdValidator.getCodespaceEndIndex(id) + 1, valueIndex - 1).toString();
 	}
 
 	/**
@@ -176,13 +176,19 @@ public class NetexIdTypes {
 			return false;
 		}
 
-		// minimum size is XXX:type:X
-		if (id.length() < DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + type.length() + 2) {
+		int typeStart = DefaultNetexIdValidator.getCodespaceEndIndex(id) + 1;
+		if (typeStart < 2) {
+			// no or empty codespace
+			return false;
+		}
+
+		// minimum size is X:type:X
+		if (id.length() < typeStart + type.length() + 2) {
 			// not valid or type too short
 			return false;
 		}
 
-		if (id.charAt(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + type.length() ) != DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR) {
+		if (id.charAt(typeStart + type.length()) != DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR) {
 			// not valid or type too long
 			return false;
 		}
@@ -190,11 +196,11 @@ public class NetexIdTypes {
 		// so type length matches
 		boolean typeMatches;
 		if (id instanceof String) {
-			typeMatches = type.regionMatches(0, (String) id, 4, type.length());
+			typeMatches = type.regionMatches(0, (String) id, typeStart, type.length());
 		} else {
 			typeMatches = true;
 			for (int i = 0; i < type.length(); i++) {
-				if (type.charAt(i) != id.charAt(4 + i)) {
+				if (type.charAt(i) != id.charAt(typeStart + i)) {
 					typeMatches = false;
 					break;
 				}

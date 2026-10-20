@@ -25,8 +25,8 @@ package no.entur.abt.netex.id;
 public class DefaultNetexIdValidator implements NetexIdValidator {
 
 	public static final char NETEX_ID_SEPARATOR_CHAR = ':';
-	public static final int NETEX_ID_CODESPACE_LENGTH = 3;
-	public static final int NETEX_ID_MINIMUM_LENGTH = 7;
+	/** Shortest possible id, i.e. {@code X:Y:Z}: one character each for codespace, type and value. */
+	public static final int NETEX_ID_MINIMUM_LENGTH = 5;
 
 	protected static final boolean[] TYPE_CHARACTERS;
 	protected static final boolean[] VALUE_CHARACTERS;
@@ -91,6 +91,21 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 
 
 	/**
+	 * Find the end of the codespace part of an id.
+	 *
+	 * @param id netex id
+	 * @return index of the first separator, i.e. the length of the codespace, or -1 if there is none
+	 */
+	public static int getCodespaceEndIndex(CharSequence id) {
+		for (int i = 0; i < id.length(); i++) {
+			if (id.charAt(i) == NETEX_ID_SEPARATOR_CHAR) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
 	 * Validate netex id type part, return index of first non-valid character
 	 *
 	 * @param type netex id
@@ -134,18 +149,18 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 			return false;
 		}
 
-		// length 3
+		// not empty, any length
 		// A-Z
-		if (endIndex - startIndex == NETEX_ID_CODESPACE_LENGTH) {
-			for (int i = startIndex; i < endIndex; i++) {
-				char c = codespace.charAt(i);
-				if (c < 'A' || c > 'Z') {
-					return false;
-				}
-			}
-			return true;
+		if (endIndex <= startIndex) {
+			return false;
 		}
-		return false;
+		for (int i = startIndex; i < endIndex; i++) {
+			char c = codespace.charAt(i);
+			if (c < 'A' || c > 'Z') {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public boolean validateType(CharSequence type, int startIndex, int endIndex) {
@@ -198,27 +213,23 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 			return -1;
 		}
 
-		// minimum size is XXX:X:X
+		// minimum size is X:X:X
 		if (string.length() < NETEX_ID_MINIMUM_LENGTH) {
 			return -1;
 		}
-		if (string.charAt(NETEX_ID_CODESPACE_LENGTH) != NETEX_ID_SEPARATOR_CHAR) {
+
+		// X:AB:CDE or XXXX:AB:CDE
+		// the codespace is any non-empty A-Z string ending at the first colon
+		int codespaceEnd = getCodespaceEndIndex(string);
+		if (codespaceEnd < 1 || !validateCodespace(string, 0, codespaceEnd)) {
 			return -1;
 		}
 
-		// XXX:AB:CDE
-		// 0123456789
-		//
-		// scan from A at index 4.
-		// Outcomes:
-		// Valid id: For a valid id the first non-valid char should be the second colon (at index 6 in example), with at least one char between it and the colon at index 3.
-		// Invalid id: No non-valid char found, or a non-valid char that is not colon.
-		int typeFirstNonValidCharIndex = validateTypeToIndex(string, NETEX_ID_CODESPACE_LENGTH + 1);
-		if (typeFirstNonValidCharIndex == -1 || string.charAt(typeFirstNonValidCharIndex) != NETEX_ID_SEPARATOR_CHAR || typeFirstNonValidCharIndex <= NETEX_ID_CODESPACE_LENGTH + 1) {
-			return -1;
-		}
-
-		if (!validateCodespace(string, 0, NETEX_ID_CODESPACE_LENGTH)) {
+		// scan from the first type char.
+		// Valid id: the first non-valid char is the second colon, with at least one char between it and the first colon.
+		// Invalid id: no non-valid char found, or a non-valid char that is not colon.
+		int typeFirstNonValidCharIndex = validateTypeToIndex(string, codespaceEnd + 1);
+		if (typeFirstNonValidCharIndex == -1 || string.charAt(typeFirstNonValidCharIndex) != NETEX_ID_SEPARATOR_CHAR || typeFirstNonValidCharIndex <= codespaceEnd + 1) {
 			return -1;
 		}
 

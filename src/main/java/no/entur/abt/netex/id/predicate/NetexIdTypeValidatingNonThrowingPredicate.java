@@ -39,10 +39,11 @@ public class NetexIdTypeValidatingNonThrowingPredicate extends NetexIdTypePredic
 
     @Override
     public boolean test(CharSequence t) {
-        if (super.test(t)) {
+        int valueIndex = valueIndexIfTypeMatches(t);
+        if (valueIndex != -1) {
             // type matched; also validate codespace and value
-            return VALIDATOR.validateCodespace(t, 0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH)
-                    && VALIDATOR.validateValue(t, type.length + 1, t.length());
+            return VALIDATOR.validateCodespace(t, 0, valueIndex - type.length - 2)
+                    && VALIDATOR.validateValue(t, valueIndex, t.length());
         }
         return false;
     }
