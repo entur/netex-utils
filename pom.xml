@@ -234,6 +234,11 @@
             <organization>Entur</organization>
             <organizationUrl>https://www.entur.org</organizationUrl>
         </developer>
+        <developer>
+            <name>Waltti</name>
+            <organization>Waltti</organization>
+            <organizationUrl>https://waltti.fi</organizationUrl>
+        </developer>
     </developers>
     <scm>
         <connection>scm:git:ssh://git@github.com/entur/netex-utils.git</connection>
