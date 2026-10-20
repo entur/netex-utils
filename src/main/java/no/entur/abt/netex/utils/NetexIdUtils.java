@@ -25,7 +25,6 @@ package no.entur.abt.netex.utils;
 
 
 import no.entur.abt.netex.id.NetexIdValidatingParser;
-import no.entur.abt.netex.id.NetexIdNonvalidatingParser;
 import no.entur.abt.netex.id.NetexIdBuilder;
 import no.entur.abt.netex.id.DefaultNetexIdValidator;
 import no.entur.abt.netex.id.NetexIdNonValidatingBuilder;
@@ -33,12 +32,10 @@ import no.entur.abt.netex.id.NetexIdNonValidatingBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
 
 public class NetexIdUtils {
 
 	private static final NetexIdValidatingParser PARSER = NetexIdValidatingParser.getInstance();
-	private static final NetexIdNonvalidatingParser NON_VALIDATING_PARSER = NetexIdNonvalidatingParser.getInstance();
 	private static final DefaultNetexIdValidator VALIDATOR = DefaultNetexIdValidator.getInstance();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NetexIdUtils.class);
@@ -78,7 +75,10 @@ public class NetexIdUtils {
 
 	public static void assertValidOfType(String id, String expectedType) {
 		assertValid(id);
-		if (!Objects.equals(NON_VALIDATING_PARSER.getType(id), expectedType)) {
+		// id is valid here, so the type ends at the last separator. Compare in place to avoid allocating the type substring.
+		int typeStart = DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1;
+		int typeEnd = id.lastIndexOf(DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR);
+		if (expectedType == null || expectedType.length() != typeEnd - typeStart || !id.startsWith(expectedType, typeStart)) {
 			throw new IllegalNetexIDException(String.format("Value '%s' is not of expected type '%s'", id, expectedType));
 		}
 	}
