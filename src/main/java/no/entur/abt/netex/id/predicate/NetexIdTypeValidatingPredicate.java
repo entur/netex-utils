@@ -37,10 +37,11 @@ public class NetexIdTypeValidatingPredicate extends NetexIdTypePredicate {
 
     @Override
     public boolean test(CharSequence t) {
-        if(super.test(t)) {
+        int valueIndex = valueIndexIfTypeMatches(t);
+        if(valueIndex != -1) {
             // type is assumed valid
             // also validate codespace and value
-            if(!VALIDATOR.validateCodespace(t, 0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) || !VALIDATOR.validateValue(t, type.length + 1, t.length())) {
+            if(!VALIDATOR.validateCodespace(t, 0, valueIndex - type.length - 2) || !VALIDATOR.validateValue(t, valueIndex, t.length())) {
                 throw NetexIdValidatingParser.getException(t);
             }
             return true;

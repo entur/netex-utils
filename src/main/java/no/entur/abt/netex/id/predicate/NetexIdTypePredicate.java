@@ -34,44 +34,49 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 public class NetexIdTypePredicate implements NetexIdPredicate {
 
-	// type, padded with 4 chars
-	protected final char[] type; // XXX:TYPE
+	protected final char[] type;
 
 	public NetexIdTypePredicate(CharSequence type) {
 		if (type == null || type.length() == 0) {
 			throw new IllegalNetexIDException("'" + type + "' is not a valid type");
 		}
-		// add 4 padding so that we can directly compare
-		// indexes
-		char[] chars = new char[DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + type.length()];
+
+		char[] chars = new char[type.length()];
 		for (int i = 0; i < type.length(); i++) {
-			chars[DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1 + i] = type.charAt(i);
+			chars[i] = type.charAt(i);
 		}
 		this.type = chars;
 	}
 
 	public boolean test(CharSequence t) {
-		if(t == null) {
-			return false;
-		}
-		if (t.length() < type.length + 1) {
-			return false;
-		}
-		if (t.charAt(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) != DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR) {
-			return false;
-		}
+		return valueIndexIfTypeMatches(t) != -1;
+	}
 
+	/**
+	 * Match the type part of an id, whatever the length of the codespace.
+	 *
+	 * @param t id
+	 * @return the index of the value part (after the second colon) if the type matches, otherwise -1.
+	 */
+	protected int valueIndexIfTypeMatches(CharSequence t) {
+		if (t == null) {
+			return -1;
+		}
+		int typeStart = DefaultNetexIdValidator.getCodespaceEndIndex(t) + 1;
+		if (typeStart < 2) {
+			// no or empty codespace
+			return -1;
+		}
+		int typeEnd = typeStart + type.length;
 		// AAA:TYPE:
-		if (t.charAt(type.length) != DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR) {
-			return false;
+		if (t.length() <= typeEnd || t.charAt(typeEnd) != DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR) {
+			return -1;
 		}
-
-		for (int i = DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1; i < type.length; i++) {
-			if (type[i] != t.charAt(i)) {
-				return false;
+		for (int i = 0; i < type.length; i++) {
+			if (type[i] != t.charAt(typeStart + i)) {
+				return -1;
 			}
 		}
-
-		return true;
+		return typeEnd + 1;
 	}
 }

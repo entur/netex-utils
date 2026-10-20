@@ -105,14 +105,25 @@ public class DefaultNetexIdValidatorTest {
 
 	@Test
 	public void testMinimumLengthValid() {
-		// minimum valid NeTEx ID is XXX:X:X (length 7)
-		assertTrue(defaultNetexIdValidator.validate("AAA:B:C"));
+		// minimum valid NeTEx ID is X:X:X (length 5)
+		assertTrue(defaultNetexIdValidator.validate("A:B:C"));
 	}
 
 	@Test
 	public void testMinimumLengthInvalid() {
-		// length 6 (one short of minimum) should be invalid
-		assertFalse(defaultNetexIdValidator.validate("AA:B:C"));
+		// length 4 (one short of minimum) should be invalid
+		assertFalse(defaultNetexIdValidator.validate("A:B:"));
+		assertFalse(defaultNetexIdValidator.validate("::B:"));
+	}
+
+	@Test
+	public void testCodespaceOfAnyLength() {
+		assertTrue(defaultNetexIdValidator.validate("A:Quay:1"));
+		assertTrue(defaultNetexIdValidator.validate("AB:Quay:1"));
+		assertTrue(defaultNetexIdValidator.validate("ABCDEFGHIJ:Quay:1"));
+		assertFalse(defaultNetexIdValidator.validate(":Quay:1"));
+		assertFalse(defaultNetexIdValidator.validate("Ab:Quay:1"));
+		assertFalse(defaultNetexIdValidator.validate("A1:Quay:1"));
 	}
 
 	@Test
@@ -163,7 +174,9 @@ public class DefaultNetexIdValidatorTest {
 		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:GH"), 8);
 		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF!GH"), -1);
 		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC!DEF:GH"), -1);
-		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABCD:DEF:GH"), -1);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABCD:DEF:GH"), 9);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex("A:DEF:GH"), 6);
+		assertEquals(defaultNetexIdValidator.validateToValueIndex(":DEF:GH"), -1);
 		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABCD:123:GH"), -1);
 		assertEquals(defaultNetexIdValidator.validateToValueIndex("123:DEF:GH"), -1);
 		assertEquals(defaultNetexIdValidator.validateToValueIndex("ABC:DEF:"), -1);
