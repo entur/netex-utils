@@ -36,6 +36,15 @@ public class NetexIdCodespaceTypePredicateTest {
 		assertThrows(IllegalNetexIDException.class, () -> {
 			new NetexIdCodespaceTypePredicate("ABC", "");
 		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			new NetexIdCodespaceTypePredicate("", "x");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			new NetexIdCodespacePredicate("");
+		});
+		assertThrows(IllegalNetexIDException.class, () -> {
+			new NetexIdTypePredicate("");
+		});
 	}
 
 	// NetexIdCodespaceTypeValidatingPredicate — matching codespace+type with an invalid value
