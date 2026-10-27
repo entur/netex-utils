@@ -28,7 +28,6 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 	public static final int NETEX_ID_CODESPACE_LENGTH = 3;
 	public static final int NETEX_ID_MINIMUM_LENGTH = 7;
 
-	protected static final boolean[] TYPE_CHARACTERS;
 	protected static final boolean[] VALUE_CHARACTERS;
 
 	static {
@@ -38,18 +37,6 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 
 		int lowercaseStart = 'a';
 		int lowercaseEnd = 'z';
-
-		// from regexp [A-Za-z]
-		boolean[] types = new boolean[lowercaseEnd + 1];
-
-		for (int i = uppercaseStart; i <= uppercaseEnd; i++) {
-			types[i] = true;
-		}
-		for (int i = lowercaseStart; i <= lowercaseEnd; i++) {
-			types[i] = true;
-		}
-
-		TYPE_CHARACTERS = types;
 
 		int digitStart = '0';
 		int digitEnd = '9';
@@ -91,11 +78,22 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 
 
 	/**
-	 * Validate netex id type part, return index of first non-valid character
+	 * Scans from {@code startIndex} to the end for the first character outside
+	 * {@code A-Z} and {@code a-z}. A colon therefore ends the scan when this
+	 * method is used to locate the separator after an ID's type part.
 	 *
-	 * @param type netex id
+	 * <p>The check {@code (c | 0x20)} sets the ASCII case bit: uppercase letters
+	 * become lowercase (for example, {@code 'A'} becomes {@code 'a'}), while
+	 * lowercase letters stay unchanged. Testing the result against {@code a-z}
+	 * accepts exactly the ASCII letters without a lookup-table access. Other
+	 * ASCII characters remain outside that range, and non-ASCII characters retain
+	 * their higher bits, so they cannot become ASCII letters. This is not a
+	 * general Unicode case conversion.
+	 *
+	 * @param type character sequence containing the type or complete ID
 	 * @param startIndex start index (inclusive)
-	 * @return index of first non-valid character, otherwise -1
+	 * @return index of the first non-letter, or {@code -1} if the remaining
+	 *         sequence contains only ASCII letters or is empty
 	 */
 
 	public static int validateTypeToIndex(CharSequence type, int startIndex) {
@@ -105,10 +103,12 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		for (int i = startIndex; i < type.length(); i++) {
 			int c = type.charAt(i);
 
-			if (c >= TYPE_CHARACTERS.length) {
-				return i;
-			}
-			if (!TYPE_CHARACTERS[c]) {
+			// ASCII uppercase and lowercase letters differ only by the 0x20 bit:
+			// 'A' (0100 0001) | 0x20 (0010 0000) = 'a' (0110 0001).
+			// OR sets that bit, leaving lowercase letters unchanged. Only A-Z/a-z
+			// map into a-z; non-ASCII characters retain their higher bits.
+			// This accepts either case without a lookup-table access.
+			if ((c | 0x20) < 'a' || (c | 0x20) > 'z') {
 				return i;
 			}
 		}
@@ -148,6 +148,17 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		return false;
 	}
 
+	/**
+	 * Validates a non-empty range containing only ASCII letters {@code A-Z}
+	 * and {@code a-z}, using the case-bit check described in
+	 * {@link #validateTypeToIndex(CharSequence, int)}.
+	 *
+	 * @param type character sequence containing the type
+	 * @param startIndex start index (inclusive)
+	 * @param endIndex end index (exclusive)
+	 * @return {@code true} if the range contains only ASCII letters;
+	 *         {@code false} for null input, an empty or reversed range, or a non-letter
+	 */
 	public boolean validateType(CharSequence type, int startIndex, int endIndex) {
 		if (type == null || endIndex <= startIndex) {
 			return false;
@@ -159,10 +170,12 @@ public class DefaultNetexIdValidator implements NetexIdValidator {
 		for (int i = startIndex; i < endIndex; i++) {
 			int c = type.charAt(i);
 
-			if (c >= TYPE_CHARACTERS.length) {
-				return false;
-			}
-			if (!TYPE_CHARACTERS[c]) {
+			// ASCII uppercase and lowercase letters differ only by the 0x20 bit:
+			// 'A' (0100 0001) | 0x20 (0010 0000) = 'a' (0110 0001).
+			// OR sets that bit, leaving lowercase letters unchanged. Only A-Z/a-z
+			// map into a-z; non-ASCII characters retain their higher bits.
+			// This accepts either case without a lookup-table access.
+			if ((c | 0x20) < 'a' || (c | 0x20) > 'z') {
 				return false;
 			}
 		}

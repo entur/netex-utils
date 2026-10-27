@@ -32,6 +32,18 @@ public class DefaultNetexIdValidatorTest {
 	private DefaultNetexIdValidator defaultNetexIdValidator = DefaultNetexIdValidator.getInstance();
 
 	@Test
+	public void testEveryTypeCharacter() {
+		for (int c = Character.MIN_VALUE; c <= Character.MAX_VALUE; c++) {
+			String type = String.valueOf((char) c);
+			boolean valid = c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z';
+			assertEquals(valid, defaultNetexIdValidator.validateType(type), "character " + c);
+			assertEquals(valid, defaultNetexIdValidator.validateType(new StringBuilder(type)), "character " + c);
+			assertEquals(valid ? -1 : 0, DefaultNetexIdValidator.validateTypeToIndex(type, 0), "character " + c);
+			assertEquals(valid, defaultNetexIdValidator.validate("AAA:" + type + ":1"), "character " + c);
+		}
+	}
+
+	@Test
 	public void testEnglishValueCharacters() {
 		assertTrue(defaultNetexIdValidator.validate("AAA:BBB:ABZabz"));
 	}
