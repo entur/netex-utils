@@ -6,7 +6,7 @@ on:
       timezone: "Europe/Oslo"
 
 jobs:
-  check-last-workflow-run-test:
+  check-last-workflow-run:
     uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-maven.yml@v2
     with:
       workflow: deploy-main.yml
