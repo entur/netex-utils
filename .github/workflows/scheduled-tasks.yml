@@ -1,16 +1,16 @@
-name: Scheduled Workflow Tasks
+name: Scheduled Workflow Tasks Test
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 05 * * 1-5'
+    - cron: '0 04 * * 1-5'
       timezone: "Europe/Oslo"
 
 jobs:
-  check-last-workflow-run:
-    uses: entur/abt-gha-public/.github/workflows/check-last-workflow-run.yml@v2
+  check-last-workflow-run-test:
+    uses: entur/abt-gha-public/.github/workflows/maybe-release-bot-updates-maven.yml@v2
     with:
       workflow: deploy-main.yml
-      target-ref: main
+      release-branch: main
       trigger-release: true
       channel-id: ${{ vars.ALERT_CHANNEL_ID }}
     secrets: inherit
