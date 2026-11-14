@@ -53,8 +53,6 @@ public class NetexIdUtilsTest {
 	@Test
 	public void isValid_whenNotValid_thenReturnFalse() {
 		assertFalse(validator.validate(""));
-		assertFalse(validator.validate("X:Customer:1"));
-		assertFalse(validator.validate("XX:Customer:1"));
 		assertFalse(validator.validate("XXX:CustomerAccount"));
 		assertFalse(validator.validate("XXX:Customer:@"));
 		assertFalse(validator.validate("XXX:Customer:"));

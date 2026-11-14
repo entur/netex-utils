@@ -94,7 +94,7 @@ public class NetexIdNonValidatingBuilder {
 
 	public String build() {
 		if (codespace == null) {
-			throw new IllegalNetexIDException("Expected codespace (size 3 with characters A-Z)");
+			throw new IllegalNetexIDException("Expected codespace (one or more characters A-Z)");
 		}
 		if (type == null) {
 			throw new IllegalNetexIDException("Expected type (nonempty with characters A-Z or a-z)");

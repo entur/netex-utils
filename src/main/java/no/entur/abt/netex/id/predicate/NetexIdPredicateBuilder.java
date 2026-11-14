@@ -74,7 +74,7 @@ public class NetexIdPredicateBuilder {
 
 	public NetexIdPredicate build() {
 		if (codespace != null && !validator.validateCodespace(codespace)) {
-			throw new IllegalNetexIDException("Expected codespace (size 3 with characters A-Z), found " + codespace);
+			throw new IllegalNetexIDException("Expected codespace (one or more characters A-Z), found " + codespace);
 		}
 		if (type != null && !validator.validateType(type)) {
 			throw new IllegalNetexIDException("Expected type (nonempty with characters A-Z or a-z), found " + type);

@@ -41,8 +41,6 @@ public class NetexIdUtilsTest {
 	@Test
 	public void isValid_whenNotValid_thenReturnFalse() {
 		assertFalse(NetexIdUtils.isValid(""));
-		assertFalse(NetexIdUtils.isValid("X:Customer:1"));
-		assertFalse(NetexIdUtils.isValid("XX:Customer:1"));
 		assertFalse(NetexIdUtils.isValid("XXX:CustomerAccount"));
 		assertFalse(NetexIdUtils.isValid("XXX:Customer:@"));
 		assertFalse(NetexIdUtils.isValid("XXX:Customer:"));

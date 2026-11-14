@@ -40,9 +40,6 @@ public class NetexIdParserBuilderTest {
 
 		assertEquals("B", parser.getType("AAA:B:CCC"));
 
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getType("AA:DEF:CCC");
-		});
 	}
 
 	@Test
@@ -61,9 +58,6 @@ public class NetexIdParserBuilderTest {
 
 		assertEquals("B", parser.getType("AAA:B:CCC"));
 
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getType("AA:DEF:CCC");
-		});
 	}
 
 	@Test

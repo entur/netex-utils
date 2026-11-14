@@ -31,16 +31,18 @@ public class NetexIdNonvalidatingParser implements NetexIdParser {
     }
 
     public String getCodespace(CharSequence id) {
-		return id.subSequence(0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH).toString();
+		return id.subSequence(0, DefaultNetexIdValidator.getCodespaceEndIndex(id)).toString();
 	}
 
 	public String getType(CharSequence id) {
-		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 2, id.length());
-		return id.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, last).toString();
+		int first = DefaultNetexIdValidator.getCodespaceEndIndex(id);
+		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, first + 2, id.length());
+		return id.subSequence(first + 1, last).toString();
 	}
 
 	public String getValue(CharSequence id) {
-		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 2, id.length());
+		int first = DefaultNetexIdValidator.getCodespaceEndIndex(id);
+		int last = DefaultNetexIdValidator.getLastSeperatorIndex(id, first + 2, id.length());
 		return id.subSequence(last + 1, id.length()).toString();
 	}
 }

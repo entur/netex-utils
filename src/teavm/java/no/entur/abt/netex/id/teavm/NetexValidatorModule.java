@@ -44,7 +44,7 @@ public class NetexValidatorModule {
 
 	@JSExport
 	public static String getCodespace(String id) {
-		return id.substring(0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH);
+		return id.substring(0, DefaultNetexIdValidator.getCodespaceEndIndex(id));
 	}
 
 	@JSExport

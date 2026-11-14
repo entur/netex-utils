@@ -94,11 +94,21 @@ public class NetexIdPredicateBuilderTest {
 
 		if(!validate) {
 			// partical validation
-			assertFalse(predicate.test("AA:Network:123"));
 			assertFalse(predicate.test(":Network:123"));
 		}
 	}
 
+
+	@ParameterizedTest
+	@ValueSource(booleans = {false, true})
+	public void testCodespaceOfAnyLength(boolean validate) {
+		assertTrue(NetexIdPredicateBuilder.newInstance().withType("Network").withValidate(validate).build().test("A:Network:1"));
+		assertTrue(NetexIdPredicateBuilder.newInstance().withType("Network").withValidate(validate).build().test("ABCDE:Network:1"));
+		assertTrue(NetexIdPredicateBuilder.newInstance().withCodespace("AB").withValidate(validate).build().test("AB:Network:1"));
+		assertFalse(NetexIdPredicateBuilder.newInstance().withCodespace("AB").withValidate(validate).build().test("ABC:Network:1"));
+		assertTrue(NetexIdPredicateBuilder.newInstance().withCodespace("ABCDE").withType("Network").withValidate(validate).build().test("ABCDE:Network:1"));
+		assertFalse(NetexIdPredicateBuilder.newInstance().withCodespace("ABCDE").withType("Network").withValidate(validate).build().test("ABCD:Network:1"));
+	}
 
 	@Test
 	public void testTypeValidate() {
@@ -130,7 +140,6 @@ public class NetexIdPredicateBuilderTest {
 
 		if(!validate) {
 			// partical validation
-			assertFalse(predicate.test("AA:Network:123"));
 			assertFalse(predicate.test(":Network:123"));
 		}
 	}
@@ -159,12 +168,6 @@ public class NetexIdPredicateBuilderTest {
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withCodespace("").build();
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			NetexIdPredicateBuilder.newInstance().withCodespace("AA").build();
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			NetexIdPredicateBuilder.newInstance().withCodespace("AAAA").build();
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			NetexIdPredicateBuilder.newInstance().withCodespace("aaa").build();

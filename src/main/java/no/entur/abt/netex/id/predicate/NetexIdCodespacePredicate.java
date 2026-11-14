@@ -34,19 +34,31 @@ import no.entur.abt.netex.utils.IllegalNetexIDException;
 
 public class NetexIdCodespacePredicate implements NetexIdPredicate {
 
-	private final char[] prefix;
+	protected final char[] prefix; // ABC:
 
 	public NetexIdCodespacePredicate(CharSequence codespace) {
-		if (codespace == null || codespace.length() != DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH) {
+		if (codespace == null || codespace.length() == 0) {
 			throw new IllegalNetexIDException("'" + codespace + "' is not a valid codespace");
 		}
-		prefix = new char[] { codespace.charAt(0), codespace.charAt(1), codespace.charAt(2), DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR };
+		prefix = new char[codespace.length() + 1];
+		for (int i = 0; i < codespace.length(); i++) {
+			prefix[i] = codespace.charAt(i);
+		}
+		prefix[codespace.length()] = DefaultNetexIdValidator.NETEX_ID_SEPARATOR_CHAR;
 	}
 
 	public boolean test(CharSequence t) {
 		if(t == null) {
 			return false;
 		}
-		return t.length() > 4 && t.charAt(0) == prefix[0] && t.charAt(1) == prefix[1] && t.charAt(2) == prefix[2] && t.charAt(3) == prefix[3];
+		if (t.length() <= prefix.length) {
+			return false;
+		}
+		for (int i = 0; i < prefix.length; i++) {
+			if (t.charAt(i) != prefix[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

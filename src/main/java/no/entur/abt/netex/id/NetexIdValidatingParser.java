@@ -34,8 +34,7 @@ public class NetexIdValidatingParser extends DefaultNetexIdValidator implements 
 
 	public String getCodespace(CharSequence id) {
 		assertValid(id);
-		CharSequence result = id.subSequence(0, DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH);
-		return result.toString();
+		return id.subSequence(0, DefaultNetexIdValidator.getCodespaceEndIndex(id)).toString();
 	}
 
 
@@ -44,7 +43,7 @@ public class NetexIdValidatingParser extends DefaultNetexIdValidator implements 
 		if(valueIndex == -1) {
 			throw getException(string);
 		}
-		return string.subSequence(DefaultNetexIdValidator.NETEX_ID_CODESPACE_LENGTH + 1, valueIndex - 1).toString();
+		return string.subSequence(DefaultNetexIdValidator.getCodespaceEndIndex(string) + 1, valueIndex - 1).toString();
 	}
 
 	public String getValue(CharSequence string) {

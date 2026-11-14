@@ -36,18 +36,21 @@ public class NetexIdValidatingParserTest {
 	private NetexIdValidatingParser parser = new NetexIdValidatingParser();
 
 	@Test
+	public void testCodespaceOfAnyLength() {
+		assertEquals("A", parser.getCodespace("A:BBB:CCC"));
+		assertEquals("AB", parser.getCodespace("AB:BBB:CCC"));
+		assertEquals("ABCDE", parser.getCodespace("ABCDE:BBB:CCC"));
+		assertEquals("BBB", parser.getType("ABCDE:BBB:CCC"));
+		assertEquals("CCC", parser.getValue("ABCDE:BBB:CCC"));
+		assertEquals("BBB", new NetexIdNonvalidatingParser().getType("ABCDE:BBB:CCC"));
+		assertEquals("CCC", new NetexIdNonvalidatingParser().getValue("A:BBB:CCC"));
+		assertEquals("ABCDE", new NetexIdNonvalidatingParser().getCodespace("ABCDE:BBB:CCC"));
+	}
+
+	@Test
 	public void testCodespace() {
 		assertEquals("AAA", parser.getCodespace("AAA:BBB:CCC"));
 
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getCodespace("AA:BBB:CCC");
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getCodespace("AAAA:BBB:CCC");
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getCodespace("AAAA:BBB:CCC");
-		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getCodespace("AAA:ABC:CCC!!");
 		});
@@ -72,12 +75,6 @@ public class NetexIdValidatingParserTest {
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getType("AAA:ABC!!:CCC");
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getType("AA:DEF:CCC");
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getType("AAAA:DEF:CCC");
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getType("AAA:ABC:CCC!!");
@@ -116,12 +113,6 @@ public class NetexIdValidatingParserTest {
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getValue("AAA:BBB:CCC!");
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getValue("AA:DEF:CCC");
-		});
-		assertThrows(IllegalNetexIDException.class, () -> {
-			parser.getValue("AAAA:DEF:CCC");
 		});
 		assertThrows(IllegalNetexIDException.class, () -> {
 			parser.getValue("AAA:DEF:CCC:DDD");
